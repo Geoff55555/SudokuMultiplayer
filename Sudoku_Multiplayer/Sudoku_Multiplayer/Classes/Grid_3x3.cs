@@ -9,9 +9,13 @@ namespace Sudoku_Multiplayer.Classes
     class Grid_3x3 : TableLayoutPanel
     {
 
-        public Grid_3x3(int labelColumn, int labelRow, int side_length) {
+        public Grid_3x3(int labelColumn, int labelRow, int side_length, int tag)
+        {
             //Set Name
             this.Name = "tableLayoutPanel_Grid_3x3_" + labelColumn + "_" + labelRow; // + i; to do in Sudoku_Grid
+
+            //set tag for future and easier identification
+            this.Tag = tag;
 
             //Set Style
             this.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.OutsetPartial;
@@ -40,6 +44,27 @@ namespace Sudoku_Multiplayer.Classes
                 {
                     Sudoku_Numb_Label labelN = new Sudoku_Numb_Label(row, column);
                     this.Controls.Add(labelN, row, column);
+                }
+            }
+        }
+
+        public void Fill(int[,] Grid_3x3)
+        {
+            for (int row = 0; row < 3; row++)
+            {
+                for (int column = 0; column < 3; column++)
+                {
+                    foreach (Label numberCase in this.Controls)
+                    {
+                        int[] coordinates = new int[2];
+                        coordinates[0] = row;
+                        coordinates[1] = column;
+                        if (((int[])numberCase.Tag).SequenceEqual(coordinates)) //SequenceEqual checks if the content of both tabs are equals and in the same order
+                        {
+                            numberCase.Text = Grid_3x3[row, column].ToString();
+                            break;
+                        }
+                    }
                 }
             }
         }

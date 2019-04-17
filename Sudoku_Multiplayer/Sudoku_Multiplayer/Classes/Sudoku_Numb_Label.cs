@@ -9,18 +9,25 @@ namespace Sudoku_Multiplayer.Classes
 {
     class Sudoku_Numb_Label : Label
     {
+        public int[] casePos = new int[2];
         //Constructor for generated Grid
-        public Sudoku_Numb_Label(int xPos, int yPos)
+        public Sudoku_Numb_Label(int row, int column)
         {
-            //Make it fill its container
-            this.Dock = System.Windows.Forms.DockStyle.Fill;
-
+            //Set tag for future identification
+            casePos[0] = row;
+            casePos[1] = column;
+            this.Tag = casePos;
             //Set font size
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             //this.Size = new System.Drawing.Size(this.Parent.Width, this.Parent.Height);
 
-            //Set Location and Alignment
-            this.Location = new System.Drawing.Point(xPos, yPos);
+            //Make it fill its container
+            this.Dock = System.Windows.Forms.DockStyle.Fill;
+
+            //Set Location
+            //this.Location = new System.Drawing.Point(0, 0); //if i fills the container, location has no more sense
+
+            //Set alignment
             this.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 
             //Set Text : Random Number
