@@ -9,19 +9,45 @@ namespace Sudoku_Multiplayer.Classes
 {
     class Complete_Sudoku_Grid_Generator : TableLayoutPanel
     {
+        public int side_length = 540;
 
         public Complete_Sudoku_Grid_Generator()
         {
-            this.ColumnCount = 3;
-            this.RowCount = 3;
+            //whole grid style
+            this.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Inset;
+            this.Margin = new System.Windows.Forms.Padding(0);
 
-            for (int row = 0; row < 3; row++)
+            this.Size = new System.Drawing.Size(side_length, side_length);
+            this.Location = new System.Drawing.Point(0, 0);
+
+            //Columns set
+            this.ColumnCount = 3;
+            this.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+
+            //Rows set
+            this.RowCount = 3;
+            this.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+
+            //fill with grid_3x3
+            int gridNbr=1;
+            for (int row = 0; row < RowCount; row++)
             {
-                for (int column = 0; column < 3; column++)
+                for (int column = 0; column < ColumnCount; column++)
                 {
-                    this.Controls.Add(new Grid_3x3(column, row), column, row);
+                    this.Controls.Add(new Grid_3x3(column, row, (side_length-20)/3, gridNbr), column, row);
+                    gridNbr++;
                 }
             }
+        }
+
+        public void FillTheGrid()
+        {
+            int[,] generatedGrid = new Sudoku_Grid().grid;
+            Control [] allGrids = this.Controls.Find("tableLayoutPanel_Grid_3x3_",true);
         }
     }
 }

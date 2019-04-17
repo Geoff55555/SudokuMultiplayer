@@ -8,3 +8,13 @@ C:\Users\delta\Desktop\Sudoku_Multiplayer_Project\Sudoku_Multiplayer\Sudoku_Mult
 C:\Users\delta\Desktop\Sudoku_Multiplayer_Project\Sudoku_Multiplayer\Sudoku_Multiplayer\obj\Debug\Sudoku_Multiplayer.csproj.CoreCompileInputs.cache
 C:\Users\delta\Desktop\Sudoku_Multiplayer_Project\Sudoku_Multiplayer\Sudoku_Multiplayer\obj\Debug\Sudoku_Multiplayer.exe
 C:\Users\delta\Desktop\Sudoku_Multiplayer_Project\Sudoku_Multiplayer\Sudoku_Multiplayer\obj\Debug\Sudoku_Multiplayer.pdb
+C:\Users\delta\Documents\GitHub\SudokuMultiplayer\Sudoku_Multiplayer\Sudoku_Multiplayer\bin\Debug\Sudoku_Multiplayer.exe.config
+C:\Users\delta\Documents\GitHub\SudokuMultiplayer\Sudoku_Multiplayer\Sudoku_Multiplayer\bin\Debug\Sudoku_Multiplayer.exe
+C:\Users\delta\Documents\GitHub\SudokuMultiplayer\Sudoku_Multiplayer\Sudoku_Multiplayer\bin\Debug\Sudoku_Multiplayer.pdb
+C:\Users\delta\Documents\GitHub\SudokuMultiplayer\Sudoku_Multiplayer\Sudoku_Multiplayer\obj\Debug\Sudoku_Multiplayer.csprojAssemblyReference.cache
+C:\Users\delta\Documents\GitHub\SudokuMultiplayer\Sudoku_Multiplayer\Sudoku_Multiplayer\obj\Debug\Sudoku_Multiplayer.Game_Window.resources
+C:\Users\delta\Documents\GitHub\SudokuMultiplayer\Sudoku_Multiplayer\Sudoku_Multiplayer\obj\Debug\Sudoku_Multiplayer.Properties.Resources.resources
+C:\Users\delta\Documents\GitHub\SudokuMultiplayer\Sudoku_Multiplayer\Sudoku_Multiplayer\obj\Debug\Sudoku_Multiplayer.csproj.GenerateResource.cache
+C:\Users\delta\Documents\GitHub\SudokuMultiplayer\Sudoku_Multiplayer\Sudoku_Multiplayer\obj\Debug\Sudoku_Multiplayer.csproj.CoreCompileInputs.cache
+C:\Users\delta\Documents\GitHub\SudokuMultiplayer\Sudoku_Multiplayer\Sudoku_Multiplayer\obj\Debug\Sudoku_Multiplayer.exe
+C:\Users\delta\Documents\GitHub\SudokuMultiplayer\Sudoku_Multiplayer\Sudoku_Multiplayer\obj\Debug\Sudoku_Multiplayer.pdb

@@ -18,6 +18,14 @@ namespace Sudoku_Multiplayer
             InitializeComponent();
             Complete_Sudoku_Grid_Generator grid = new Complete_Sudoku_Grid_Generator();
             this.Controls.Add(grid);
+
+
+
+            //for test purposes
+            //this.Controls.Add(new Grid_3x3(3, 3));
+            //Grid_3x3 sdGrid = new Grid_3x3(3, 3);
+            //sdGrid.Location = new System.Drawing.Point(sdGrid.side_length,0);
+            //Controls.Add(sdGrid);
         }
     }
 }
