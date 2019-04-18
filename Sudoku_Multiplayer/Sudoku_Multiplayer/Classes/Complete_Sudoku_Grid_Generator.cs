@@ -38,7 +38,7 @@ namespace Sudoku_Multiplayer.Classes
             {
                 for (int column = 0; column < ColumnCount; column++)
                 {
-                    this.Controls.Add(new Grid_3x3(column, row, (side_length - 20) / 3, gridNbr), column, row);
+                    this.Controls.Add(new Grid_3x3(row, column, (side_length - 20) / 3, gridNbr), column, row);// Attention ! column first and then row
                     gridNbr++;
                 }
             }
@@ -47,61 +47,62 @@ namespace Sudoku_Multiplayer.Classes
         public void Fill(int[,] generatedGrid)
         {
             //Control[] allGrids = this.Controls.Find("tableLayoutPanel_Grid_3x3_", true);
+            List<Grid_3x3> gridList = new List<Grid_3x3>();
+            foreach (Grid_3x3 grid_3x3 in this.Controls) //go through all grids
+            {
+                gridList.Add(grid_3x3);
+            }
+
             for (int tag = 1; tag <= 9; tag++) //to go through all tags
             {
-                foreach (Grid_3x3 grid_3x3 in this.Controls) //go through all grids
+                int[,] reducedTo3x3_Grid = new int[3, 3];
+                switch (tag) //depending on the tag (grid number), the part of the whole 9x9 grid to reduce will be determined
                 {
-                    if (((int)grid_3x3.Tag) == tag) //target only one grid
-                    {
-                        int[,] reducedTo3x3_Grid = new int[3, 3];
-                        switch (tag)//depending on the tag, the little grid to add will be determined
-                        {
-                            case 1:
-                                reducedTo3x3_Grid = reduceGrid(generatedGrid, 0, 0);
-                                break;
-                            case 2:
-                                reducedTo3x3_Grid = reduceGrid(generatedGrid, 0, 3);
-                                break;
-                            case 3:
-                                reducedTo3x3_Grid = reduceGrid(generatedGrid, 0, 6);
-                                break;
-                            case 4:
-                                reducedTo3x3_Grid = reduceGrid(generatedGrid, 3, 0);
-                                break;
-                            case 5:
-                                reducedTo3x3_Grid = reduceGrid(generatedGrid, 3, 3);
-                                break;
-                            case 6:
-                                reducedTo3x3_Grid = reduceGrid(generatedGrid, 3, 6);
-                                break;
-                            case 7:
-                                reducedTo3x3_Grid = reduceGrid(generatedGrid, 6, 0);
-                                break;
-                            case 8:
-                                reducedTo3x3_Grid = reduceGrid(generatedGrid, 6, 3);
-                                break;
-                            case 9:
-                                reducedTo3x3_Grid = reduceGrid(generatedGrid, 6, 6);
-                                break;
-                        }
-                        grid_3x3.Fill(reducedTo3x3_Grid);
-                    }
+                    case 1:
+                        reducedTo3x3_Grid = reduceGrid(generatedGrid, 0, 0);
+                        break;
+                    case 2:
+                        reducedTo3x3_Grid = reduceGrid(generatedGrid, 0, 3);
+                        break;
+                    case 3:
+                        reducedTo3x3_Grid = reduceGrid(generatedGrid, 0, 6);
+                        break;
+                    case 4:
+                        reducedTo3x3_Grid = reduceGrid(generatedGrid, 1, 0);
+                        break;
+                    case 5:
+                        reducedTo3x3_Grid = reduceGrid(generatedGrid, 1, 3);
+                        break;
+                    case 6:
+                        reducedTo3x3_Grid = reduceGrid(generatedGrid, 1, 6);
+                        break;
+                    case 7:
+                        reducedTo3x3_Grid = reduceGrid(generatedGrid, 2, 0);
+                        break;
+                    case 8:
+                        reducedTo3x3_Grid = reduceGrid(generatedGrid, 2, 3);
+                        break;
+                    case 9:
+                        reducedTo3x3_Grid = reduceGrid(generatedGrid, 2, 6);
+                        break;
                 }
+                gridList[tag - 1].Fill(reducedTo3x3_Grid);
             }
         }
 
-        int[,] reduceGrid(int[,] bigGrid, int firstRow, int firstColumn)
+        //method that reduces the big 9x9 generated grid into a smaller 3x3 grid
+        int[,] reduceGrid(int[,] Grid9x9, int firstRow9x9, int firstColumn9x9)
         {
             int[,] reducedGrid = new int[3, 3];
-            for (int rowBigG = firstRow; rowBigG < firstRow + 3; rowBigG++)
+            for (int rowG9x9 = firstRow9x9; rowG9x9 < firstRow9x9 + 3; rowG9x9++)
             {
-                for (int columnBigG = firstColumn; columnBigG < firstColumn + 3; columnBigG++)
+                for (int columnG9x9 = firstColumn9x9; columnG9x9 < firstColumn9x9 + 3; columnG9x9++)
                 {
                     //simplify coordinated in reduced grid
-                    int rowReduG = rowBigG - firstRow;
-                    int columnReduG = columnBigG - firstColumn;
+                    int rowG3x3 = rowG9x9 - firstRow9x9;
+                    int columnG3x3 = columnG9x9 - firstColumn9x9;
 
-                    reducedGrid[rowReduG, columnReduG] = bigGrid[rowBigG, columnBigG];
+                    reducedGrid[rowG3x3, columnG3x3] = Grid9x9[rowG9x9, columnG9x9];
                 }
             }
             return reducedGrid;

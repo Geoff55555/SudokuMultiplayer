@@ -19,7 +19,9 @@ namespace Sudoku_Multiplayer
             Complete_Sudoku_Grid_Generator grid = new Complete_Sudoku_Grid_Generator();
             this.Controls.Add(grid);
 
-            int[,] generatedGrid = new Sudoku_Grid().grid;
+            Sudoku_Grid g = new Sudoku_Grid();
+            int[,] generatedGrid = g.grid;
+            g.ShowInConsole();
             grid.Fill(generatedGrid);
 
             //for test purposes
@@ -28,5 +30,11 @@ namespace Sudoku_Multiplayer
             //sdGrid.Location = new System.Drawing.Point(sdGrid.side_length,0);
             //Controls.Add(sdGrid);
         }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+            label1.BackColor = Color.Teal;
+        }
+
     }
 }
