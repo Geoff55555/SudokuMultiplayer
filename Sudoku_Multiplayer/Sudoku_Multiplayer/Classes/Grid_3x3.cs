@@ -51,6 +51,7 @@ namespace Sudoku_Multiplayer.Classes
 
         public void Fill(int[,] Grid_3x3)
         {
+            //get all the labels in this grid and place them in a list
             List<Label> labelsList = new List<Label>();
             foreach (Label numberLabel in this.Controls)
             {
@@ -67,12 +68,12 @@ namespace Sudoku_Multiplayer.Classes
                     if (coordinates.SequenceEqual(((int[])labelsList[0].Tag))) //just to check if the simplified references with labelsList works
                     {
                         labelsList[0].Text = Grid_3x3[row, column].ToString();
+                        Console.WriteLine("Coordinates "+ row +" " + column +" of Grid 3x3 nbr " + this.Tag + " filled correctly with " + labelsList[0].Text);
                         labelsList.Remove(labelsList[0]);
-                        Console.WriteLine("Coordinates "+ row +" " + column +" of Grid 3x3 nbr " + this.Tag + " filled correctly");
                     }
                     else
                     {
-                        Console.WriteLine("there has been a problem with Grid 3x3 fill");
+                        Console.WriteLine("There has been a problem with Grid 3x3 fill");
                     }
                 }
             }

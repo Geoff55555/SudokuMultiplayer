@@ -19,9 +19,8 @@ namespace Sudoku_Multiplayer
             Complete_Sudoku_Grid_Generator grid = new Complete_Sudoku_Grid_Generator();
             this.Controls.Add(grid);
 
-            Sudoku_Grid g = new Sudoku_Grid();
-            int[,] generatedGrid = g.grid;
-            g.ShowInConsole();
+            Sudoku_Grid generatedGrid = new Sudoku_Grid();
+            generatedGrid.ShowInConsole();
             grid.Fill(generatedGrid);
 
             //for test purposes

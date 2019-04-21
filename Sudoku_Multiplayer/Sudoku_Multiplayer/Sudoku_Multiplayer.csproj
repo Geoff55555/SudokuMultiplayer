@@ -55,6 +55,7 @@
     <Compile Include="Classes\Sudoku_Numb_Label.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="DuplicateException.cs" />
     <Compile Include="Game_Window.cs">
       <SubType>Form</SubType>
     </Compile>

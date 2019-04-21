@@ -44,7 +44,7 @@ namespace Sudoku_Multiplayer.Classes
             }
         }
 
-        public void Fill(int[,] generatedGrid)
+        public void Fill(Sudoku_Grid generatedGrid)
         {
             //Control[] allGrids = this.Controls.Find("tableLayoutPanel_Grid_3x3_", true);
             List<Grid_3x3> gridList = new List<Grid_3x3>();
@@ -59,53 +59,35 @@ namespace Sudoku_Multiplayer.Classes
                 switch (tag) //depending on the tag (grid number), the part of the whole 9x9 grid to reduce will be determined
                 {
                     case 1:
-                        reducedTo3x3_Grid = reduceGrid(generatedGrid, 0, 0);
+                        reducedTo3x3_Grid = generatedGrid.reduceGrid(0, 0);
                         break;
                     case 2:
-                        reducedTo3x3_Grid = reduceGrid(generatedGrid, 0, 3);
+                        reducedTo3x3_Grid = generatedGrid.reduceGrid(0, 3);
                         break;
                     case 3:
-                        reducedTo3x3_Grid = reduceGrid(generatedGrid, 0, 6);
+                        reducedTo3x3_Grid = generatedGrid.reduceGrid(0, 6);
                         break;
                     case 4:
-                        reducedTo3x3_Grid = reduceGrid(generatedGrid, 1, 0);
+                        reducedTo3x3_Grid = generatedGrid.reduceGrid(3, 0);
                         break;
                     case 5:
-                        reducedTo3x3_Grid = reduceGrid(generatedGrid, 1, 3);
+                        reducedTo3x3_Grid = generatedGrid.reduceGrid(3, 3);
                         break;
                     case 6:
-                        reducedTo3x3_Grid = reduceGrid(generatedGrid, 1, 6);
+                        reducedTo3x3_Grid = generatedGrid.reduceGrid(3, 6);
                         break;
                     case 7:
-                        reducedTo3x3_Grid = reduceGrid(generatedGrid, 2, 0);
+                        reducedTo3x3_Grid = generatedGrid.reduceGrid(6, 0);
                         break;
                     case 8:
-                        reducedTo3x3_Grid = reduceGrid(generatedGrid, 2, 3);
+                        reducedTo3x3_Grid = generatedGrid.reduceGrid(6, 3);
                         break;
                     case 9:
-                        reducedTo3x3_Grid = reduceGrid(generatedGrid, 2, 6);
+                        reducedTo3x3_Grid = generatedGrid.reduceGrid(6, 6);
                         break;
                 }
                 gridList[tag - 1].Fill(reducedTo3x3_Grid);
             }
-        }
-
-        //method that reduces the big 9x9 generated grid into a smaller 3x3 grid
-        int[,] reduceGrid(int[,] Grid9x9, int firstRow9x9, int firstColumn9x9)
-        {
-            int[,] reducedGrid = new int[3, 3];
-            for (int rowG9x9 = firstRow9x9; rowG9x9 < firstRow9x9 + 3; rowG9x9++)
-            {
-                for (int columnG9x9 = firstColumn9x9; columnG9x9 < firstColumn9x9 + 3; columnG9x9++)
-                {
-                    //simplify coordinated in reduced grid
-                    int rowG3x3 = rowG9x9 - firstRow9x9;
-                    int columnG3x3 = columnG9x9 - firstColumn9x9;
-
-                    reducedGrid[rowG3x3, columnG3x3] = Grid9x9[rowG9x9, columnG9x9];
-                }
-            }
-            return reducedGrid;
         }
     }
 }
