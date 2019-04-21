@@ -28,8 +28,9 @@ namespace Sudoku_Multiplayer.Classes
             //Set Location
             //this.Location = new System.Drawing.Point(0, 0); //if it fills the container, location has no more sense
 
-            //Set alignment
+            //Set alignment and margin
             this.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.Margin = new System.Windows.Forms.Padding(0);
 
             //Set event on click
             this.Click += new System.EventHandler(this.labelClick);

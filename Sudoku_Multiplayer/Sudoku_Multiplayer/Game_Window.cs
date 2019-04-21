@@ -31,10 +31,12 @@ namespace Sudoku_Multiplayer
             //Controls.Add(sdGrid);
         }
 
-        private void label1_Click(object sender, EventArgs e)
+        private void tableLayoutPanel1_CellPaint(object sender, TableLayoutCellPaintEventArgs e)
         {
-            label1.BackColor = Color.Teal;
-        }
 
+            if (e.Column == 1 && e.Row == 0)
+                e.Graphics.DrawRectangle(new Pen(Color.Green), e.CellBounds);
+
+        }
     }
 }
