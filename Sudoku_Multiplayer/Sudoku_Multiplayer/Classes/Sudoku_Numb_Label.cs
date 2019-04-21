@@ -33,6 +33,8 @@ namespace Sudoku_Multiplayer.Classes
 
             //Set event on click
             this.Click += new System.EventHandler(this.labelClick);
+            //Set the margins
+            this.Margin = new Padding(0);
         }
 
         //Constructor for notes
