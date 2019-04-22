@@ -22,6 +22,7 @@ namespace Sudoku_Multiplayer
         public Sudoku_Grid()
         {
             DateTime = DateTime.Now;
+            //for the 8 first rows
             for (int row = 0; row < 8; row++)
             {
                 availableRowList.AddRange(staticFullList);
@@ -64,6 +65,24 @@ namespace Sudoku_Multiplayer
                 }
             }
 
+            //fill the last (determined) row
+            for (int column = 0; column < 9; column++)
+            {
+                int lastNumberPossible = detLastNumberInColumn(column);
+                grid[8, column] = lastNumberPossible;
+            }
+        }
+
+        private int detLastNumberInColumn(int column)
+        {
+            List<int> numberListInTheColumn = new List<int>();
+            numberListInTheColumn.AddRange(staticFullList);
+            for (int row = 0; row < 8; row++)
+            {
+                numberListInTheColumn.Remove(grid[row, column]);
+            }
+            int lastInTheList = numberListInTheColumn[0];
+            return lastInTheList;
         }
 
         private void addRandomNumber(int row, int column)
