@@ -86,9 +86,13 @@ namespace Sudoku_Multiplayer.Classes
         {
             foreach (Label label in this.Parent.Controls)
             {
-                if (((int[])label.Tag)[0] == this.Coordinates[0] || ((int[])label.Tag)[1] == this.Coordinates[1])
+                if ((((int[])label.Tag)[0] == this.Coordinates[0] && ((int[])label.Tag)[1] != this.Coordinates[1]) || (((int[])label.Tag)[0] != this.Coordinates[0] && ((int[])label.Tag)[1] == this.Coordinates[1]))
                 {
-                    label.BackColor = Color.LightBlue;
+                    label.BackColor = Color.Teal;
+                }
+                else if (((int[])label.Tag)[0] == this.Coordinates[0] && ((int[])label.Tag)[1] == this.Coordinates[1])
+                {
+                    label.BackColor = Color.LightSeaGreen;
                 }
             }
         }
@@ -119,7 +123,7 @@ namespace Sudoku_Multiplayer.Classes
                 {
                     if (((int[])label.Tag).SequenceEqual(listCoordToHighlight[0]) || ((int[])label.Tag).SequenceEqual(listCoordToHighlight[1]) || ((int[])label.Tag).SequenceEqual(listCoordToHighlight[2]))
                     {
-                        label.BackColor = Color.LightBlue;
+                        label.BackColor = Color.Teal;
                     }
                     else
                     {
@@ -145,7 +149,7 @@ namespace Sudoku_Multiplayer.Classes
                 {
                     if (((int[])label.Tag).SequenceEqual(listCoordToHighlight[0]) || ((int[])label.Tag).SequenceEqual(listCoordToHighlight[1]) || ((int[])label.Tag).SequenceEqual(listCoordToHighlight[2]))
                     {
-                        label.BackColor = Color.LightBlue;
+                        label.BackColor = Color.Teal;
                     }
                 }
             }

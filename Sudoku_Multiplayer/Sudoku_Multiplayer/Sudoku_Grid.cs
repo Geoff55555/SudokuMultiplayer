@@ -41,6 +41,7 @@ namespace Sudoku_Multiplayer
                             column = -1;
                             availableRowList.Clear();
                             availableRowList.AddRange(staticFullList);//re-add in available row list 
+                            DateTime = DateTime.Now;
                         }
                     }
                     catch (DuplicateException)

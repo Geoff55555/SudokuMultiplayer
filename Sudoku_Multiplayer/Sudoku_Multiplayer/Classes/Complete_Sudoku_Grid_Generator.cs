@@ -89,5 +89,11 @@ namespace Sudoku_Multiplayer.Classes
                 gridList[tag - 1].Fill(reducedTo3x3_Grid);
             }
         }
+
+        //Hide method --> Random 2-3 cases hidden in each 3x3 grid
+
+        //Test if UNIQUE SOLUTION -->recup en 1 SudokuGrid et écrire une méthode de test dedans --> Semblable au CheckDupliactes mais plus de random, on test tous les nombres des cases vides(établir un max pour que ça prenne pas 5jours)
+
+        //Write method
     }
 }

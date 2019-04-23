@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label1
@@ -42,12 +43,24 @@
             this.label1.Text = "label1";
             this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.BackColor = System.Drawing.Color.LightSeaGreen;
+            this.label2.Location = new System.Drawing.Point(1042, 176);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(46, 17);
+            this.label2.TabIndex = 0;
+            this.label2.Text = "label1";
+            this.label2.Click += new System.EventHandler(this.label1_Click);
+            // 
             // Game_Window
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             this.ClientSize = new System.Drawing.Size(1406, 1055);
+            this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Name = "Game_Window";
             this.Text = "Sudoku Multiplayer";
@@ -59,6 +72,7 @@
         #endregion
 
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
     }
 }
 
