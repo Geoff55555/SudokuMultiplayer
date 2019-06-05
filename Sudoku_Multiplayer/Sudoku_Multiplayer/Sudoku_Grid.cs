@@ -88,10 +88,10 @@ namespace Sudoku_Multiplayer
 
         private void addRandomNumber(int row, int column)
         {
-            newRdm = rdm.Next(0, 8);
+            newRdm = rdm.Next(0, 9); //it is [min; max[ !
             while (newRdm > (8 - column))//random number using the INDICE of the list to get only remaining available numbers for that row :D
             {
-                newRdm = rdm.Next(0, 8);
+                newRdm = rdm.Next(0, 9);//it is [min; max[ !
             }
             grid[row, column] = availableRowList[newRdm];
             CheckForDuplicates(row, column);

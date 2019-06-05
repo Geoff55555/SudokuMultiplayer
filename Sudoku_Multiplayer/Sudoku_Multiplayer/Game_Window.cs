@@ -13,15 +13,15 @@ namespace Sudoku_Multiplayer
 {
     public partial class Game_Window : Form
     {
+        Sudoku_Grid generatedGrid = new Sudoku_Grid();
+        Complete_Sudoku_Grid_Generator visualGrid = new Complete_Sudoku_Grid_Generator();
+
         public Game_Window()
         {
             InitializeComponent();
-            Complete_Sudoku_Grid_Generator grid = new Complete_Sudoku_Grid_Generator();
-            this.Controls.Add(grid);
+            this.Controls.Add(visualGrid);
 
-            Sudoku_Grid generatedGrid = new Sudoku_Grid();
             generatedGrid.ShowInConsole();
-            grid.Fill(generatedGrid);
 
             //for test purposes
             //this.Controls.Add(new Grid_3x3(3, 3));
@@ -30,10 +30,14 @@ namespace Sudoku_Multiplayer
             //Controls.Add(sdGrid);
         }
 
-        private void label1_Click(object sender, EventArgs e)
+        private void buttonFill_Click(object sender, EventArgs e)
         {
-            label1.BackColor = Color.Teal;
+            visualGrid.Fill(generatedGrid);
         }
 
+        private void buttonHide_Click(object sender, EventArgs e)
+        {
+            visualGrid.HideRandom(3);
+        }
     }
 }

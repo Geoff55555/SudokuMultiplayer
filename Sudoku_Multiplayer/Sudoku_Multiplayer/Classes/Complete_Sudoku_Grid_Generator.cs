@@ -10,6 +10,7 @@ namespace Sudoku_Multiplayer.Classes
     class Complete_Sudoku_Grid_Generator : TableLayoutPanel
     {
         public int side_length = 540;
+        Random rdm = new Random();
 
         public Complete_Sudoku_Grid_Generator()
         {
@@ -91,6 +92,46 @@ namespace Sudoku_Multiplayer.Classes
         }
 
         //Hide method --> Random 2-3 cases hidden in each 3x3 grid
+        public void HideRandom(int Difficulty)
+        {
+            foreach (Control control in this.Controls)
+            {
+                if (control is Grid_3x3)
+                {
+                    int hideRdm = rdm.Next(1,Difficulty+1); //it is [min; max[ !
+                    //int hideRdm = 3;
+                    List<int> casesToHide = new List<int>();
+                    List<int> availableToBeHidden = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+                    for (int i = 0; i < hideRdm; i++)
+                    {
+                        int caseToHide = rdm.Next(0, availableToBeHidden.Count);//it is [min; max[ !
+                        casesToHide.Add(availableToBeHidden[caseToHide]);
+                        availableToBeHidden.Remove(availableToBeHidden[caseToHide]);
+                    }
+                    //all the cases we want to hide are in the array
+                    //Now we'll remove the corresponding labels in the grid
+                    foreach (Control LabelControl in control.Controls)
+                    {
+                        if (LabelControl is Sudoku_Numb_Label)
+                        {
+                            for (int i = 0; i < casesToHide.Count; i++)
+                            {
+                                if (LabelControl.Text != "" && int.Parse(LabelControl.Text) == casesToHide[i])
+                                {
+                                    LabelControl.Text = "";
+                                    casesToHide.Remove(casesToHide[i]);
+                                    break; //look directly for the next label
+                                }
+                                else if(casesToHide.Count == 0)
+                                {
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
 
         //Test if UNIQUE SOLUTION -->recup en 1 SudokuGrid et écrire une méthode de test dedans --> Semblable au CheckDupliactes mais plus de random, on test tous les nombres des cases vides(établir un max pour que ça prenne pas 5jours)
 

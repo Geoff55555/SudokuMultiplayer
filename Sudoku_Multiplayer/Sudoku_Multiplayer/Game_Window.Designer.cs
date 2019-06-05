@@ -28,51 +28,49 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
+            this.buttonFill = new System.Windows.Forms.Button();
+            this.buttonHide = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
-            // label1
+            // buttonFill
             // 
-            this.label1.AutoSize = true;
-            this.label1.BackColor = System.Drawing.Color.Teal;
-            this.label1.Location = new System.Drawing.Point(1051, 129);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(46, 17);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "label1";
-            this.label1.Click += new System.EventHandler(this.label1_Click);
+            this.buttonFill.Location = new System.Drawing.Point(763, 153);
+            this.buttonFill.Name = "buttonFill";
+            this.buttonFill.Size = new System.Drawing.Size(133, 43);
+            this.buttonFill.TabIndex = 0;
+            this.buttonFill.Text = "Fill that grid";
+            this.buttonFill.UseVisualStyleBackColor = true;
+            this.buttonFill.Click += new System.EventHandler(this.buttonFill_Click);
             // 
-            // label2
+            // buttonHide
             // 
-            this.label2.AutoSize = true;
-            this.label2.BackColor = System.Drawing.Color.LightSeaGreen;
-            this.label2.Location = new System.Drawing.Point(1042, 176);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(46, 17);
-            this.label2.TabIndex = 0;
-            this.label2.Text = "label1";
-            this.label2.Click += new System.EventHandler(this.label1_Click);
+            this.buttonHide.Location = new System.Drawing.Point(763, 225);
+            this.buttonHide.Name = "buttonHide";
+            this.buttonHide.Size = new System.Drawing.Size(133, 43);
+            this.buttonHide.TabIndex = 0;
+            this.buttonHide.Text = "Hide Randomly";
+            this.buttonHide.UseVisualStyleBackColor = true;
+            this.buttonHide.Click += new System.EventHandler(this.buttonHide_Click);
             // 
             // Game_Window
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.ClientSize = new System.Drawing.Size(1406, 1055);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.label1);
+            this.ClientSize = new System.Drawing.Size(1054, 857);
+            this.Controls.Add(this.buttonHide);
+            this.Controls.Add(this.buttonFill);
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Name = "Game_Window";
             this.Text = "Sudoku Multiplayer";
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
 
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Button buttonFill;
+        private System.Windows.Forms.Button buttonHide;
     }
 }
 

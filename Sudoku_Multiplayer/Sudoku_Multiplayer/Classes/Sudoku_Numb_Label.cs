@@ -56,6 +56,7 @@ namespace Sudoku_Multiplayer.Classes
         }
 
         //methods
+        //for HIGHLIGHTS
         private void labelClick(object sender, EventArgs e)
         {
             this.BackColor = Color.Teal;
@@ -155,6 +156,7 @@ namespace Sudoku_Multiplayer.Classes
             }
         }
 
+        //Find all adjacent grids
         private List<Grid_3x3> adjacentGrids()
         {
             List<Grid_3x3> gridList = new List<Grid_3x3>();
@@ -191,6 +193,7 @@ namespace Sudoku_Multiplayer.Classes
             return gridList;
         }
 
+        //Add the adjacent grids to a list of adj grids
         private void add4Grids_3x3(List<Grid_3x3> gridList, int adjGh1, int adjGh2, int adjGv1, int adjGv2)
         {
             //to add in correct order
@@ -200,6 +203,7 @@ namespace Sudoku_Multiplayer.Classes
             gridList.Add(add1Grid_3x3(adjGv2));
         }
 
+        //to simplify the add4Grids
         private Grid_3x3 add1Grid_3x3(int adjG)
         {
             Grid_3x3 _1grid = new Grid_3x3();
