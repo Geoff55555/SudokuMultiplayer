@@ -23,3 +23,6 @@ ExportedObj/
 *.svd
 *.pdb
 *.opendb
+Sudoku_Multiplayer/.vs/Sudoku_Multiplayer/v15/Server/sqlite3/storage.ide
+Sudoku_Multiplayer/.vs/Sudoku_Multiplayer/v15/Server/sqlite3/storage.ide-shm
+Sudoku_Multiplayer/.vs/Sudoku_Multiplayer/v15/Server/sqlite3/storage.ide-wal
