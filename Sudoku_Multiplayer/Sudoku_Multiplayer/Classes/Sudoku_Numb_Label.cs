@@ -56,6 +56,7 @@ namespace Sudoku_Multiplayer.Classes
         }
 
         //methods
+        //for HIGHLIGHTS
         private void labelClick(object sender, EventArgs e)
         {
             this.BackColor = Color.Teal;
@@ -86,9 +87,13 @@ namespace Sudoku_Multiplayer.Classes
         {
             foreach (Label label in this.Parent.Controls)
             {
-                if (((int[])label.Tag)[0] == this.Coordinates[0] || ((int[])label.Tag)[1] == this.Coordinates[1])
+                if ((((int[])label.Tag)[0] == this.Coordinates[0] && ((int[])label.Tag)[1] != this.Coordinates[1]) || (((int[])label.Tag)[0] != this.Coordinates[0] && ((int[])label.Tag)[1] == this.Coordinates[1]))
                 {
-                    label.BackColor = Color.LightBlue;
+                    label.BackColor = Color.Teal;
+                }
+                else if (((int[])label.Tag)[0] == this.Coordinates[0] && ((int[])label.Tag)[1] == this.Coordinates[1])
+                {
+                    label.BackColor = Color.LightSeaGreen;
                 }
             }
         }
@@ -119,7 +124,7 @@ namespace Sudoku_Multiplayer.Classes
                 {
                     if (((int[])label.Tag).SequenceEqual(listCoordToHighlight[0]) || ((int[])label.Tag).SequenceEqual(listCoordToHighlight[1]) || ((int[])label.Tag).SequenceEqual(listCoordToHighlight[2]))
                     {
-                        label.BackColor = Color.LightBlue;
+                        label.BackColor = Color.Teal;
                     }
                     else
                     {
@@ -145,12 +150,13 @@ namespace Sudoku_Multiplayer.Classes
                 {
                     if (((int[])label.Tag).SequenceEqual(listCoordToHighlight[0]) || ((int[])label.Tag).SequenceEqual(listCoordToHighlight[1]) || ((int[])label.Tag).SequenceEqual(listCoordToHighlight[2]))
                     {
-                        label.BackColor = Color.LightBlue;
+                        label.BackColor = Color.Teal;
                     }
                 }
             }
         }
 
+        //Find all adjacent grids
         private List<Grid_3x3> adjacentGrids()
         {
             List<Grid_3x3> gridList = new List<Grid_3x3>();
@@ -187,6 +193,7 @@ namespace Sudoku_Multiplayer.Classes
             return gridList;
         }
 
+        //Add the adjacent grids to a list of adj grids
         private void add4Grids_3x3(List<Grid_3x3> gridList, int adjGh1, int adjGh2, int adjGv1, int adjGv2)
         {
             //to add in correct order
@@ -196,6 +203,7 @@ namespace Sudoku_Multiplayer.Classes
             gridList.Add(add1Grid_3x3(adjGv2));
         }
 
+        //to simplify the add4Grids
         private Grid_3x3 add1Grid_3x3(int adjG)
         {
             Grid_3x3 _1grid = new Grid_3x3();

@@ -10,6 +10,7 @@ namespace Sudoku_Multiplayer.Classes
     class Complete_Sudoku_Grid_Generator : TableLayoutPanel
     {
         public int side_length = 540;
+        Random rdm = new Random();
 
         public Complete_Sudoku_Grid_Generator()
         {
@@ -44,7 +45,7 @@ namespace Sudoku_Multiplayer.Classes
             }
         }
 
-        public void Fill(int[,] generatedGrid)
+        public void Fill(Sudoku_Grid generatedGrid)
         {
             //Control[] allGrids = this.Controls.Find("tableLayoutPanel_Grid_3x3_", true);
             List<Grid_3x3> gridList = new List<Grid_3x3>();
@@ -59,53 +60,81 @@ namespace Sudoku_Multiplayer.Classes
                 switch (tag) //depending on the tag (grid number), the part of the whole 9x9 grid to reduce will be determined
                 {
                     case 1:
-                        reducedTo3x3_Grid = reduceGrid(generatedGrid, 0, 0);
+                        reducedTo3x3_Grid = generatedGrid.reduceGrid(0, 0);
                         break;
                     case 2:
-                        reducedTo3x3_Grid = reduceGrid(generatedGrid, 0, 3);
+                        reducedTo3x3_Grid = generatedGrid.reduceGrid(0, 3);
                         break;
                     case 3:
-                        reducedTo3x3_Grid = reduceGrid(generatedGrid, 0, 6);
+                        reducedTo3x3_Grid = generatedGrid.reduceGrid(0, 6);
                         break;
                     case 4:
-                        reducedTo3x3_Grid = reduceGrid(generatedGrid, 1, 0);
+                        reducedTo3x3_Grid = generatedGrid.reduceGrid(3, 0);
                         break;
                     case 5:
-                        reducedTo3x3_Grid = reduceGrid(generatedGrid, 1, 3);
+                        reducedTo3x3_Grid = generatedGrid.reduceGrid(3, 3);
                         break;
                     case 6:
-                        reducedTo3x3_Grid = reduceGrid(generatedGrid, 1, 6);
+                        reducedTo3x3_Grid = generatedGrid.reduceGrid(3, 6);
                         break;
                     case 7:
-                        reducedTo3x3_Grid = reduceGrid(generatedGrid, 2, 0);
+                        reducedTo3x3_Grid = generatedGrid.reduceGrid(6, 0);
                         break;
                     case 8:
-                        reducedTo3x3_Grid = reduceGrid(generatedGrid, 2, 3);
+                        reducedTo3x3_Grid = generatedGrid.reduceGrid(6, 3);
                         break;
                     case 9:
-                        reducedTo3x3_Grid = reduceGrid(generatedGrid, 2, 6);
+                        reducedTo3x3_Grid = generatedGrid.reduceGrid(6, 6);
                         break;
                 }
                 gridList[tag - 1].Fill(reducedTo3x3_Grid);
             }
         }
 
-        //method that reduces the big 9x9 generated grid into a smaller 3x3 grid
-        int[,] reduceGrid(int[,] Grid9x9, int firstRow9x9, int firstColumn9x9)
+        //Hide method --> Random 2-3 cases hidden in each 3x3 grid
+        public void HideRandom(int Difficulty)
         {
-            int[,] reducedGrid = new int[3, 3];
-            for (int rowG9x9 = firstRow9x9; rowG9x9 < firstRow9x9 + 3; rowG9x9++)
+            foreach (Control control in this.Controls)
             {
-                for (int columnG9x9 = firstColumn9x9; columnG9x9 < firstColumn9x9 + 3; columnG9x9++)
+                if (control is Grid_3x3)
                 {
-                    //simplify coordinated in reduced grid
-                    int rowG3x3 = rowG9x9 - firstRow9x9;
-                    int columnG3x3 = columnG9x9 - firstColumn9x9;
-
-                    reducedGrid[rowG3x3, columnG3x3] = Grid9x9[rowG9x9, columnG9x9];
+                    int hideRdm = rdm.Next(1,Difficulty+1); //it is [min; max[ !
+                    //int hideRdm = 3;
+                    List<int> casesToHide = new List<int>();
+                    List<int> availableToBeHidden = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+                    for (int i = 0; i < hideRdm; i++)
+                    {
+                        int caseToHide = rdm.Next(0, availableToBeHidden.Count);//it is [min; max[ !
+                        casesToHide.Add(availableToBeHidden[caseToHide]);
+                        availableToBeHidden.Remove(availableToBeHidden[caseToHide]);
+                    }
+                    //all the cases we want to hide are in the array
+                    //Now we'll remove the corresponding labels in the grid
+                    foreach (Control LabelControl in control.Controls)
+                    {
+                        if (LabelControl is Sudoku_Numb_Label)
+                        {
+                            for (int i = 0; i < casesToHide.Count; i++)
+                            {
+                                if (LabelControl.Text != "" && int.Parse(LabelControl.Text) == casesToHide[i])
+                                {
+                                    LabelControl.Text = "";
+                                    casesToHide.Remove(casesToHide[i]);
+                                    break; //look directly for the next label
+                                }
+                                else if(casesToHide.Count == 0)
+                                {
+                                    break;
+                                }
+                            }
+                        }
+                    }
                 }
             }
-            return reducedGrid;
         }
+
+        //Test if UNIQUE SOLUTION -->recup en 1 SudokuGrid et écrire une méthode de test dedans --> Semblable au CheckDupliactes mais plus de random, on test tous les nombres des cases vides(établir un max pour que ça prenne pas 5jours)
+
+        //Write method
     }
 }
