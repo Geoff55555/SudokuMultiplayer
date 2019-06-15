@@ -34,7 +34,7 @@ namespace Sudoku_Multiplayer.Classes
             this.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
 
             //fill with grid_3x3
-            int gridNbr = 1;
+            int gridNbr = 1; //grid nbr from 1 to 9
             for (int row = 0; row < RowCount; row++)
             {
                 for (int column = 0; column < ColumnCount; column++)
@@ -98,8 +98,8 @@ namespace Sudoku_Multiplayer.Classes
             {
                 if (control is Grid_3x3)
                 {
-                    int hideRdm = rdm.Next(1,Difficulty+1); //it is [min; max[ !
-                    //int hideRdm = 3;
+                    int hideRdm = rdm.Next(1, Difficulty + 1); //it is [min; max[ !
+                    //int hideRdm = 8;
                     List<int> casesToHide = new List<int>();
                     List<int> availableToBeHidden = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
                     for (int i = 0; i < hideRdm; i++)
@@ -114,27 +114,23 @@ namespace Sudoku_Multiplayer.Classes
                     {
                         if (LabelControl is Sudoku_Numb_Label)
                         {
-                            for (int i = 0; i < casesToHide.Count; i++)
+                            if (LabelControl.Text != "" && casesToHide.Contains(int.Parse(LabelControl.Text)))
                             {
-                                if (LabelControl.Text != "" && int.Parse(LabelControl.Text) == casesToHide[i])
-                                {
-                                    LabelControl.Text = "";
-                                    casesToHide.Remove(casesToHide[i]);
-                                    break; //look directly for the next label
-                                }
-                                else if(casesToHide.Count == 0)
-                                {
-                                    break;
-                                }
+                                casesToHide.Remove(int.Parse(LabelControl.Text));
+                                LabelControl.Text = "";
+                                //break; //look directly for the next label
+                            }
+                            else if (casesToHide.Count == 0)
+                            {
+                                break;
                             }
                         }
                     }
                 }
             }
         }
-
-        //Test if UNIQUE SOLUTION -->recup en 1 SudokuGrid et écrire une méthode de test dedans --> Semblable au CheckDupliactes mais plus de random, on test tous les nombres des cases vides(établir un max pour que ça prenne pas 5jours)
-
-        //Write method
     }
+
+    //Test if UNIQUE SOLUTION -->recup en 1 SudokuGrid et écrire une méthode de test dedans --> Semblable au CheckDupliactes mais plus de random, on test tous les nombres des cases vides(établir un max pour que ça prenne pas 5jours)
 }
+

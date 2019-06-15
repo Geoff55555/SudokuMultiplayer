@@ -10,8 +10,10 @@ namespace Sudoku_Multiplayer.Classes
 {
     class Sudoku_Numb_Label : Label
     {
-        int[] Coordinates = new int[2];
-        //Constructor for generated Grid
+        public int[] Coordinates = new int[2];
+        public event EventHandler<CaseClick> CaseClick;
+
+        //Constructor to fill Grid_3x3
         public Sudoku_Numb_Label(int row, int column)
         {
             //Set tag for future identification : they are the coordinates
@@ -31,10 +33,11 @@ namespace Sudoku_Multiplayer.Classes
             //Set alignment
             this.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 
-            //Set event on click
-            this.Click += new System.EventHandler(this.labelClick);
             //Set the margins
             this.Margin = new Padding(0);
+
+            //Set event on click
+            this.Click += new System.EventHandler(this.labelClick);
         }
 
         //Constructor for notes
@@ -56,14 +59,29 @@ namespace Sudoku_Multiplayer.Classes
         }
 
         //methods
+        //when the case is clicked
+        void OnCaseClick(object sender, CaseClick c)
+        {
+            if (CaseClick != null)
+            {
+                CaseClick(sender, c);
+            }
+        }
+
         //for HIGHLIGHTS
         private void labelClick(object sender, EventArgs e)
         {
             this.BackColor = Color.Teal;
-            Console.WriteLine("Label clicked is :" + this.Coordinates[0] + this.Coordinates[1]);
+            string message = "Label clicked is : [ " + this.Coordinates[0] + " , " + this.Coordinates[1] + " ]";
+            CaseClick c = new CaseClick();
+            c.message = message;
+            Console.WriteLine(message);
+
             noHighlight();//before higlighting, reset to no highlight so the past highlight is removed
             highlightThisLabelGrid();
             highlightNextColAndRow();
+
+            OnCaseClick(this, c);
         }
 
         private void noHighlight()
@@ -115,7 +133,7 @@ namespace Sudoku_Multiplayer.Classes
                 for (int col = 0; col < 3; col++)
                 {
                     int thisRow = this.Coordinates[0];
-                    int[] coordTemp = new int[] { thisRow, col };
+                    int[] coordTemp = new int[] { thisRow, col + gridList[gridIndex].colCorr};
                     listCoordToHighlight.Add(coordTemp);
                 }
 
@@ -141,7 +159,7 @@ namespace Sudoku_Multiplayer.Classes
                 for (int row = 0; row < 3; row++)
                 {
                     int thisCol = this.Coordinates[1];
-                    int[] coordTemp = new int[] { row, thisCol };
+                    int[] coordTemp = new int[] { row + gridList[gridIndex].rowCorr, thisCol };
                     listCoordToHighlight.Add(coordTemp);
                 }
 
@@ -218,6 +236,7 @@ namespace Sudoku_Multiplayer.Classes
             }
             return _1grid;
         }
+
 
     }
 }
