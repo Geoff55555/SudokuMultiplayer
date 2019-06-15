@@ -19,6 +19,7 @@ namespace Sudoku_Multiplayer
         List<int> nbrsAdmittedStaticList = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
         Sudoku_Numb_Label clickedCaseTemp;
 
+        //initialisation of the game window
         public Game_Window()
         {
             InitializeComponent();
@@ -45,6 +46,7 @@ namespace Sudoku_Multiplayer
             //Controls.Add(sdGrid);
         }
 
+        //event when a case of the grid is clicked
         private void caseIsClicked(object sender, CaseClick e)
         {
             clickedCaseTemp = (Sudoku_Numb_Label)sender;
@@ -54,6 +56,10 @@ namespace Sudoku_Multiplayer
         //Event on Key pressing
         private void keyIsUp(object sender, KeyEventArgs e) //keydown and keypress don't works: only KeyUp works, idk why...
         {
+            //we don't want the button to get focus after our click
+            visualGrid.Focus();
+
+            //ENTER KEY
             if (e.KeyData == Keys.Enter)
             {
                 try
@@ -69,7 +75,52 @@ namespace Sudoku_Multiplayer
                     //do nothing
                 }
             }
+            //ARROW KEYS for cool navigation in the grid
+            else if (e.KeyData == Keys.Up || e.KeyData == Keys.Down || e.KeyData == Keys.Right || e.KeyData == Keys.Left)
+            {
+                if (clickedCaseTemp != null)
+                {
+                    //Determine the movement of clicked case according to the e.KeyData
+                    int rowMove = 0;
+                    int colMove = 0;
+                    switch (e.KeyData)
+                    {
+                        case Keys.Up:
+                            rowMove = -1;
+                            break;
+                        case Keys.Down:
+                            rowMove = 1;
+                            break;
+                        case Keys.Right:
+                            colMove = 1;
+                            break;
+                        case Keys.Left:
+                            colMove = -1;
+                            break;
+                    }
+                    //Find all adjacent grid and put it in a list
+                    List<Grid_3x3> grid_3x3_list = new List<Grid_3x3>();
+                    grid_3x3_list = clickedCaseTemp.FindAdjacentGrids();
+                    //also don't forget the grid_3x3 of the current clicked case
+                    grid_3x3_list.Add((Grid_3x3)clickedCaseTemp.Parent);
+                    foreach (Grid_3x3 grid_3x3 in grid_3x3_list)
+                    {
+                        foreach (Control labelCase in grid_3x3.Controls)
+                        {
+                            if (labelCase is Sudoku_Numb_Label)
+                            {
+                                if (((Sudoku_Numb_Label)labelCase).Coordinates[0] == clickedCaseTemp.Coordinates[0] + rowMove && ((Sudoku_Numb_Label)labelCase).Coordinates[1] == clickedCaseTemp.Coordinates[1] + colMove)
+                                {
+                                    ((Sudoku_Numb_Label)labelCase).labelClick(labelCase, null);
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
+
 
         private void PressNumberToWrite(object sender, KeyPressEventArgs e)
         {
@@ -90,26 +141,17 @@ namespace Sudoku_Multiplayer
         private void buttonFill_Click(object sender, EventArgs e)
         {
             visualGrid.Fill(generatedGrid);
-
-            //we don't want the button to get focus after our click
-            visualGrid.Focus();
         }
 
         private void buttonHide_Click(object sender, EventArgs e)
         {
             visualGrid.HideRandom(9);
-
-            //we don't want the button to get focus after our click
-            visualGrid.Focus();
         }
 
         private void buttonGenerate_Click(object sender, EventArgs e)
         {
             generatedGrid = new Sudoku_Grid(true);
             generatedGrid.ShowInConsole();
-
-            //we don't want the button to get focus after our click
-            visualGrid.Focus();
         }
 
         private void buttonSaveGrid_Click(object sender, EventArgs e)
@@ -127,9 +169,6 @@ namespace Sudoku_Multiplayer
 
             //close the stream
             tw.Close();
-
-            //we don't want the button to get focus after our click
-            visualGrid.Focus();
         }
 
         private void buttonLoadGrid_Click(object sender, EventArgs e)
@@ -147,8 +186,11 @@ namespace Sudoku_Multiplayer
 
             //close the stream
             tr.Close();
+        }
 
-            //we don't want the button to get focus after our click
+        private void NeverFocusedButton(object sender, EventArgs e)
+        {
+            //we never want the button to get focus
             visualGrid.Focus();
         }
     }

@@ -38,6 +38,7 @@
             // 
             // buttonFill
             // 
+            this.buttonFill.CausesValidation = false;
             this.buttonFill.Location = new System.Drawing.Point(1017, 188);
             this.buttonFill.Margin = new System.Windows.Forms.Padding(4);
             this.buttonFill.Name = "buttonFill";
@@ -47,9 +48,11 @@
             this.buttonFill.Text = "Fill that grid";
             this.buttonFill.UseVisualStyleBackColor = true;
             this.buttonFill.Click += new System.EventHandler(this.buttonFill_Click);
+            this.buttonFill.Enter += new System.EventHandler(this.NeverFocusedButton);
             // 
             // buttonHide
             // 
+            this.buttonHide.CausesValidation = false;
             this.buttonHide.Location = new System.Drawing.Point(1017, 277);
             this.buttonHide.Margin = new System.Windows.Forms.Padding(4);
             this.buttonHide.Name = "buttonHide";
@@ -59,6 +62,7 @@
             this.buttonHide.Text = "Hide Randomly";
             this.buttonHide.UseVisualStyleBackColor = true;
             this.buttonHide.Click += new System.EventHandler(this.buttonHide_Click);
+            this.buttonHide.Enter += new System.EventHandler(this.NeverFocusedButton);
             // 
             // labelNbrPreview
             // 
@@ -71,6 +75,7 @@
             // 
             // buttonGenerate
             // 
+            this.buttonGenerate.CausesValidation = false;
             this.buttonGenerate.Location = new System.Drawing.Point(1017, 31);
             this.buttonGenerate.Margin = new System.Windows.Forms.Padding(4);
             this.buttonGenerate.Name = "buttonGenerate";
@@ -80,9 +85,11 @@
             this.buttonGenerate.Text = "Generate Sudoku grid";
             this.buttonGenerate.UseVisualStyleBackColor = true;
             this.buttonGenerate.Click += new System.EventHandler(this.buttonGenerate_Click);
+            this.buttonGenerate.Enter += new System.EventHandler(this.NeverFocusedButton);
             // 
             // buttonLoadGrid
             // 
+            this.buttonLoadGrid.CausesValidation = false;
             this.buttonLoadGrid.Location = new System.Drawing.Point(1017, 107);
             this.buttonLoadGrid.Margin = new System.Windows.Forms.Padding(4);
             this.buttonLoadGrid.Name = "buttonLoadGrid";
@@ -92,9 +99,11 @@
             this.buttonLoadGrid.Text = "Load grid";
             this.buttonLoadGrid.UseVisualStyleBackColor = true;
             this.buttonLoadGrid.Click += new System.EventHandler(this.buttonLoadGrid_Click);
+            this.buttonLoadGrid.Enter += new System.EventHandler(this.NeverFocusedButton);
             // 
             // buttonSaveGrid
             // 
+            this.buttonSaveGrid.CausesValidation = false;
             this.buttonSaveGrid.Location = new System.Drawing.Point(822, 107);
             this.buttonSaveGrid.Margin = new System.Windows.Forms.Padding(4);
             this.buttonSaveGrid.Name = "buttonSaveGrid";
@@ -104,6 +113,7 @@
             this.buttonSaveGrid.Text = "Save grid";
             this.buttonSaveGrid.UseVisualStyleBackColor = true;
             this.buttonSaveGrid.Click += new System.EventHandler(this.buttonSaveGrid_Click);
+            this.buttonSaveGrid.Enter += new System.EventHandler(this.NeverFocusedButton);
             // 
             // Game_Window
             // 

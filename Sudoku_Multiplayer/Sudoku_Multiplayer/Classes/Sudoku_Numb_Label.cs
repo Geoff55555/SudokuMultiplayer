@@ -59,7 +59,7 @@ namespace Sudoku_Multiplayer.Classes
         }
 
         //methods
-        //when the case is clicked
+        //when the case is clicked for delegate methods
         void OnCaseClick(object sender, CaseClick c)
         {
             if (CaseClick != null)
@@ -69,7 +69,7 @@ namespace Sudoku_Multiplayer.Classes
         }
 
         //for HIGHLIGHTS
-        private void labelClick(object sender, EventArgs e)
+        public void labelClick(object sender, EventArgs e)
         {
             this.BackColor = Color.Teal;
             string message = "Label clicked is : [ " + this.Coordinates[0] + " , " + this.Coordinates[1] + " ]";
@@ -119,7 +119,7 @@ namespace Sudoku_Multiplayer.Classes
         private void highlightNextColAndRow()
         {
             List<Grid_3x3> gridList = new List<Grid_3x3>();
-            gridList = adjacentGrids();
+            gridList = FindAdjacentGrids();
             highlight(gridList);
         }
 
@@ -174,8 +174,8 @@ namespace Sudoku_Multiplayer.Classes
             }
         }
 
-        //Find all adjacent grids
-        private List<Grid_3x3> adjacentGrids()
+        //Function to find all adjacent grids
+        public List<Grid_3x3> FindAdjacentGrids()
         {
             List<Grid_3x3> gridList = new List<Grid_3x3>();
             switch (this.Parent.Tag)
