@@ -26,7 +26,6 @@ namespace Sudoku_Multiplayer
             this.Controls.Add(visualGrid);
 
             this.KeyPress += new KeyPressEventHandler(PressNumberToWrite);
-            this.KeyUp += new KeyEventHandler(keyIsUp);
             this.KeyPreview = true;
 
             foreach (Control gridcontrol in visualGrid.Controls)
@@ -54,13 +53,17 @@ namespace Sudoku_Multiplayer
         }
 
         //Event on Key pressing
-        private void keyIsUp(object sender, KeyEventArgs e) //keydown and keypress don't works: only KeyUp works, idk why...
+        //so grateful for thos explainations http://umaranis.com/2013/07/09/handle-arrow-key-events-in-windows-forms-net/
+        //Pressing of a key is detected and handled in Windows Form using KeyPress, KeyDown or similar events.
+        //But these events does not fire when arrow keys are pressed.One way to get around it is to set KeyPreview as true for your Form.In many cases, this also doesn’t work, for instance, when you have buttons on your Form.
+        //In such cases, ProcessCmdKey can be overridden to detect and handle arrow key events.
+        //After handling the arrow key event if you do not want the standard arrow key functionality to kick in, return true rather than calling return base.ProcessCmdKey(ref msg, keyData); Standard functionality could be to move focus to the next or previous control.
+        //Returning true from ProcessCmdKey means event has been handled and should not be routed further for processing.
+        //So it catches ALL (raw) keyboard input ! --> Not so nice if we want to get the caracters of the keys. Rather use KeyPress for the numbers
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
-            //we don't want the button to get focus after our click
-            visualGrid.Focus();
-
             //ENTER KEY
-            if (e.KeyData == Keys.Enter)
+            if (keyData == Keys.Enter)
             {
                 try
                 {
@@ -68,6 +71,8 @@ namespace Sudoku_Multiplayer
                     {
                         clickedCaseTemp.Text = labelNbrPreview.Text;
                         labelNbrPreview.Text = "ENTERED IN THE GRID";
+                        //Case handled, return true to say we're done
+                        return true;
                     }
                 }
                 catch
@@ -76,14 +81,14 @@ namespace Sudoku_Multiplayer
                 }
             }
             //ARROW KEYS for cool navigation in the grid
-            else if (e.KeyData == Keys.Up || e.KeyData == Keys.Down || e.KeyData == Keys.Right || e.KeyData == Keys.Left)
+            else if (keyData == Keys.Up || keyData == Keys.Down || keyData == Keys.Right || keyData == Keys.Left)
             {
                 if (clickedCaseTemp != null)
                 {
                     //Determine the movement of clicked case according to the e.KeyData
                     int rowMove = 0;
                     int colMove = 0;
-                    switch (e.KeyData)
+                    switch (keyData)
                     {
                         case Keys.Up:
                             rowMove = -1;
@@ -112,13 +117,16 @@ namespace Sudoku_Multiplayer
                                 if (((Sudoku_Numb_Label)labelCase).Coordinates[0] == clickedCaseTemp.Coordinates[0] + rowMove && ((Sudoku_Numb_Label)labelCase).Coordinates[1] == clickedCaseTemp.Coordinates[1] + colMove)
                                 {
                                     ((Sudoku_Numb_Label)labelCase).labelClick(labelCase, null);
-                                    break;
+                                    //Case handled, return true to say we're done
+                                    return true;
                                 }
                             }
                         }
                     }
                 }
             }
+            //if here, maybe it is a number input, so we're not done
+            return false;
         }
 
 
@@ -188,10 +196,5 @@ namespace Sudoku_Multiplayer
             tr.Close();
         }
 
-        private void NeverFocusedButton(object sender, EventArgs e)
-        {
-            //we never want the button to get focus
-            visualGrid.Focus();
-        }
     }
 }

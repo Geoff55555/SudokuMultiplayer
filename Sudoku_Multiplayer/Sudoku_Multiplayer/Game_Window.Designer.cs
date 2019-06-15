@@ -48,7 +48,6 @@
             this.buttonFill.Text = "Fill that grid";
             this.buttonFill.UseVisualStyleBackColor = true;
             this.buttonFill.Click += new System.EventHandler(this.buttonFill_Click);
-            this.buttonFill.Enter += new System.EventHandler(this.NeverFocusedButton);
             // 
             // buttonHide
             // 
@@ -62,7 +61,6 @@
             this.buttonHide.Text = "Hide Randomly";
             this.buttonHide.UseVisualStyleBackColor = true;
             this.buttonHide.Click += new System.EventHandler(this.buttonHide_Click);
-            this.buttonHide.Enter += new System.EventHandler(this.NeverFocusedButton);
             // 
             // labelNbrPreview
             // 
@@ -85,7 +83,6 @@
             this.buttonGenerate.Text = "Generate Sudoku grid";
             this.buttonGenerate.UseVisualStyleBackColor = true;
             this.buttonGenerate.Click += new System.EventHandler(this.buttonGenerate_Click);
-            this.buttonGenerate.Enter += new System.EventHandler(this.NeverFocusedButton);
             // 
             // buttonLoadGrid
             // 
@@ -99,7 +96,6 @@
             this.buttonLoadGrid.Text = "Load grid";
             this.buttonLoadGrid.UseVisualStyleBackColor = true;
             this.buttonLoadGrid.Click += new System.EventHandler(this.buttonLoadGrid_Click);
-            this.buttonLoadGrid.Enter += new System.EventHandler(this.NeverFocusedButton);
             // 
             // buttonSaveGrid
             // 
@@ -113,7 +109,6 @@
             this.buttonSaveGrid.Text = "Save grid";
             this.buttonSaveGrid.UseVisualStyleBackColor = true;
             this.buttonSaveGrid.Click += new System.EventHandler(this.buttonSaveGrid_Click);
-            this.buttonSaveGrid.Enter += new System.EventHandler(this.NeverFocusedButton);
             // 
             // Game_Window
             // 
