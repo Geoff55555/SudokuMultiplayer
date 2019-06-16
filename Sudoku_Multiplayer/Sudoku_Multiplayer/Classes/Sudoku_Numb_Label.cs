@@ -12,7 +12,7 @@ namespace Sudoku_Multiplayer.Classes
     {
         public int[] Coordinates = new int[2];
         public event EventHandler<CaseClick> CaseClick;
-        public bool isRight=false;
+        public bool isRight = false;
 
         //Constructor to fill Grid_3x3
         public Sudoku_Numb_Label(int row, int column)
@@ -78,14 +78,14 @@ namespace Sudoku_Multiplayer.Classes
             c.message = message;
             Console.WriteLine(message);
 
-            noHighlight();//before higlighting, reset to no highlight so the past highlight is removed
+            noHighlight(true);//before higlighting, reset to no highlight so the past highlight is removed
             highlightThisLabelGrid();
             highlightNextColAndRow();
 
             OnCaseClick(this, c);
         }
 
-        private void noHighlight()
+        public void noHighlight(bool yes)
         {
             foreach (Control grid in this.Parent.Parent.Controls)
             {
@@ -95,7 +95,14 @@ namespace Sudoku_Multiplayer.Classes
                     {
                         if (label is Label)
                         {
-                            ((Label)label).BackColor = Color.Transparent;
+                            if (yes)
+                            {
+                                ((Label)label).BackColor = Color.Transparent;
+                            }
+                            else
+                            {
+                                ((Label)label).BackColor = Color.FromArgb(79, 40, 235, 72);
+                            }
                         }
                     }
                 }
@@ -134,7 +141,7 @@ namespace Sudoku_Multiplayer.Classes
                 for (int col = 0; col < 3; col++)
                 {
                     int thisRow = this.Coordinates[0];
-                    int[] coordTemp = new int[] { thisRow, col + gridList[gridIndex].colCorr};
+                    int[] coordTemp = new int[] { thisRow, col + gridList[gridIndex].colCorr };
                     listCoordToHighlight.Add(coordTemp);
                 }
 

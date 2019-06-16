@@ -92,8 +92,32 @@ namespace Sudoku_Multiplayer.Classes
         }
 
         //Hide method --> Random 2-3 cases hidden in each 3x3 grid
-        public void HideRandom(int Difficulty)
+        void hideInGrid3x3_FromList(Control control, List<int> casesToHide, int hiddenCount)
         {
+            foreach (Control LabelControl in control.Controls)
+            {
+                if (LabelControl is Sudoku_Numb_Label)
+                {
+                    if (LabelControl.Text != "" && casesToHide.Contains(int.Parse(LabelControl.Text)))
+                    {
+                        casesToHide.Remove(int.Parse(LabelControl.Text));
+                        LabelControl.Text = "";
+                        //so the label is no more filled with the right number
+                        ((Sudoku_Numb_Label)LabelControl).isRight = false;
+                        hiddenCount += 1;
+                        //break; //look directly for the next label
+                    }
+                    else if (casesToHide.Count == 0)
+                    {
+                        break;
+                    }
+                }
+            }
+        }
+
+        public int HideRandom(int Difficulty)
+        {
+            int hiddenCount = 0;
             foreach (Control control in this.Controls)
             {
                 if (control is Grid_3x3)
@@ -111,26 +135,37 @@ namespace Sudoku_Multiplayer.Classes
                     }
                     //all the cases we want to hide are in the array
                     //Now we'll remove the corresponding labels in the grid
-                    foreach (Control LabelControl in control.Controls)
-                    {
-                        if (LabelControl is Sudoku_Numb_Label)
-                        {
-                            if (LabelControl.Text != "" && casesToHide.Contains(int.Parse(LabelControl.Text)))
-                            {
-                                casesToHide.Remove(int.Parse(LabelControl.Text));
-                                LabelControl.Text = "";
-                                //so the label is no more filled with the right number
-                                ((Sudoku_Numb_Label)LabelControl).isRight = false;
-                                //break; //look directly for the next label
-                            }
-                            else if (casesToHide.Count == 0)
-                            {
-                                break;
-                            }
-                        }
-                    }
+                    hideInGrid3x3_FromList(control, casesToHide, hiddenCount);
                 }
             }
+            return hiddenCount;
+        }
+
+        public int HideDetermined(int[][] tag_NumbersToKeep)
+        {
+            int hiddenCount = 0;
+            //transformation from nbrs to keep (easier to input) to nbrs to hide
+            //--will get all nbrs to hide
+            int[][] tag_NumbersToHide = new int[9][];
+            //--check every grid
+            foreach (Control control in this.Controls)
+            {
+                //--start from everything to hide
+                List<int> fullListTheOnesToHide = new List<int>() { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+                //--remove the ones to keep in every grid
+                if (control is Grid_3x3)
+                {
+                    //check all the line (corresponding to grid tag) of the ones to keep and remove them
+                    for (int IndexOfOneTokeep = 0; IndexOfOneTokeep < tag_NumbersToKeep[(int)control.Tag-1].Length; IndexOfOneTokeep++)
+                    {
+                        fullListTheOnesToHide.Remove(tag_NumbersToKeep[(int)control.Tag-1][IndexOfOneTokeep]);
+                    }
+                    //it only remains the ones to hide int fullListTheOnesToHide
+                    hideInGrid3x3_FromList(control, fullListTheOnesToHide, hiddenCount);
+                    fullListTheOnesToHide.Clear();
+                }
+            }
+            return hiddenCount;
         }
     }
 

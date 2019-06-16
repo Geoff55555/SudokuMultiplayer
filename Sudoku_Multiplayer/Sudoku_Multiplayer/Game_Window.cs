@@ -18,6 +18,7 @@ namespace Sudoku_Multiplayer
         Complete_Sudoku_Grid_Generator visualGrid = new Complete_Sudoku_Grid_Generator();
         List<int> nbrsAdmittedStaticList = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
         Sudoku_Numb_Label clickedCaseTemp;
+        int hiddenCount = 0;
 
         //initialisation of the game window
         public Game_Window()
@@ -73,13 +74,20 @@ namespace Sudoku_Multiplayer
                     {
                         //Sets the number in the grid
                         clickedCaseTemp.Text = labelNbrPreview.Text;
-                        labelNbrPreview.Text = "WATCH IN\n THE GRID";
+                        labelNbrPreview.Text = "WATCH IN \nTHE GRID";
                         //check if was the right number
                         int rightNumb = generatedGrid.grid[clickedCaseTemp.Coordinates[0], clickedCaseTemp.Coordinates[1]];
                         if (int.Parse(clickedCaseTemp.Text) == rightNumb)
                         {
                             clickedCaseTemp.ForeColor = Color.PaleGreen;
                             clickedCaseTemp.isRight = true;
+                            hiddenCount -= 1;
+                            if (hiddenCount == 0)
+                            {
+                                labelNbrPreview.ForeColor = Color.LimeGreen;
+                                labelNbrPreview.Text = "YOU \nWON !";
+                                clickedCaseTemp.noHighlight(false);
+                            }
                             //Case handled, return true to say we're done
                             return true;
                         }
@@ -162,6 +170,21 @@ namespace Sudoku_Multiplayer
             }
         }
 
+        private void hideDetermined()
+        {
+            int[][] casesToHide = new int[9][];
+            casesToHide[0] = new int[] { 2, 3, 4 };
+            casesToHide[1] = new int[] { 2, 3, 4 };
+            casesToHide[2] = new int[] { 2, 3, 4 };
+            casesToHide[3] = new int[] { 2, 3, 4 };
+            casesToHide[4] = new int[] { 2, 3, 4 };
+            casesToHide[5] = new int[] { 2, 3, 4 };
+            casesToHide[6] = new int[] { 2, 3, 4 };
+            casesToHide[7] = new int[] { 2, 3, 4 };
+            casesToHide[8] = new int[] { 2, 3, 4 };
+            hiddenCount = visualGrid.HideDetermined(casesToHide);
+        }
+
         //Buttons
         private void buttonFill_Click(object sender, EventArgs e)
         {
@@ -170,7 +193,7 @@ namespace Sudoku_Multiplayer
 
         private void buttonHide_Click(object sender, EventArgs e)
         {
-            visualGrid.HideRandom(9);
+            hiddenCount = visualGrid.HideRandom(3);
         }
 
         private void buttonGenerate_Click(object sender, EventArgs e)
