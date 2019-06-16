@@ -18,3 +18,4 @@ C:\Users\delta\Documents\GitHub\SudokuMultiplayer\Sudoku_Multiplayer\Sudoku_Mult
 C:\Users\delta\Documents\GitHub\SudokuMultiplayer\Sudoku_Multiplayer\Sudoku_Multiplayer\obj\Debug\Sudoku_Multiplayer.csproj.CoreCompileInputs.cache
 C:\Users\delta\Documents\GitHub\SudokuMultiplayer\Sudoku_Multiplayer\Sudoku_Multiplayer\obj\Debug\Sudoku_Multiplayer.exe
 C:\Users\delta\Documents\GitHub\SudokuMultiplayer\Sudoku_Multiplayer\Sudoku_Multiplayer\obj\Debug\Sudoku_Multiplayer.pdb
+C:\Users\delta\Documents\GitHub\SudokuMultiplayer\Sudoku_Multiplayer\Sudoku_Multiplayer\obj\Debug\Sudoku_Multiplayer.Connexion_Windows.resources

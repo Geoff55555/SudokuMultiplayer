@@ -14,6 +14,8 @@ namespace Sudoku_Multiplayer
 {
     public partial class Game_Window : Form
     {
+        bool isHost = true;
+
         Sudoku_Grid generatedGrid = new Sudoku_Grid(false);
         Complete_Sudoku_Grid_Generator visualGrid = new Complete_Sudoku_Grid_Generator();
         List<int> nbrsAdmittedStaticList = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
@@ -26,9 +28,11 @@ namespace Sudoku_Multiplayer
             InitializeComponent();
             this.Controls.Add(visualGrid);
 
+            //Add events to manage keys press
             this.KeyPress += new KeyPressEventHandler(PressNumberToWrite);
             this.KeyPreview = true;
 
+            //Add event click to every label added in grid 9x9
             foreach (Control gridcontrol in visualGrid.Controls)
             {
                 foreach (Control caseControls in gridcontrol.Controls)
@@ -39,11 +43,6 @@ namespace Sudoku_Multiplayer
                     }
                 }
             }
-            //for test purposes
-            //this.Controls.Add(new Grid_3x3(3, 3));
-            //Grid_3x3 sdGrid = new Grid_3x3(3, 3);
-            //sdGrid.Location = new System.Drawing.Point(sdGrid.side_length,0);
-            //Controls.Add(sdGrid);
         }
 
         //event when a case of the grid is clicked

@@ -16,7 +16,7 @@ namespace Sudoku_Multiplayer
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Game_Window());
+            Application.Run(new Connexion_Windows());
         }
     }
 }
