@@ -53,6 +53,7 @@ namespace Sudoku_Multiplayer
         }
 
         //Event on Key pressing
+
         //so grateful for thos explainations http://umaranis.com/2013/07/09/handle-arrow-key-events-in-windows-forms-net/
         //Pressing of a key is detected and handled in Windows Form using KeyPress, KeyDown or similar events.
         //But these events does not fire when arrow keys are pressed.One way to get around it is to set KeyPreview as true for your Form.In many cases, this also doesn’t work, for instance, when you have buttons on your Form.
@@ -67,12 +68,28 @@ namespace Sudoku_Multiplayer
             {
                 try
                 {
-                    if (nbrsAdmittedStaticList.Contains(int.Parse(labelNbrPreview.Text)))
+                    //if the number is a number from 1 to 9 and if it is not right yet
+                    if (nbrsAdmittedStaticList.Contains(int.Parse(labelNbrPreview.Text)) && !clickedCaseTemp.isRight)
                     {
+                        //Sets the number in the grid
                         clickedCaseTemp.Text = labelNbrPreview.Text;
-                        labelNbrPreview.Text = "ENTERED IN THE GRID";
-                        //Case handled, return true to say we're done
-                        return true;
+                        labelNbrPreview.Text = "WATCH IN\n THE GRID";
+                        //check if was the right number
+                        int rightNumb = generatedGrid.grid[clickedCaseTemp.Coordinates[0], clickedCaseTemp.Coordinates[1]];
+                        if (int.Parse(clickedCaseTemp.Text) == rightNumb)
+                        {
+                            clickedCaseTemp.ForeColor = Color.PaleGreen;
+                            clickedCaseTemp.isRight = true;
+                            //Case handled, return true to say we're done
+                            return true;
+                        }
+                        else
+                        {
+                            clickedCaseTemp.ForeColor = Color.DarkRed;
+                            clickedCaseTemp.isRight = false;
+                            //Case handled, return true to say we're done
+                            return true;
+                        }
                     }
                 }
                 catch
@@ -196,5 +213,9 @@ namespace Sudoku_Multiplayer
             tr.Close();
         }
 
+        private void NeverFocusButton(object sender, EventArgs e)
+        {
+            visualGrid.Focus();
+        }
     }
 }

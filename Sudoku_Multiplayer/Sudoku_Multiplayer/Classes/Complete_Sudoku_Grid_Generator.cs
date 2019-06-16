@@ -100,6 +100,7 @@ namespace Sudoku_Multiplayer.Classes
                 {
                     int hideRdm = rdm.Next(1, Difficulty + 1); //it is [min; max[ !
                     //int hideRdm = 8;
+                    //create a list of the numbers to hide randomly
                     List<int> casesToHide = new List<int>();
                     List<int> availableToBeHidden = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
                     for (int i = 0; i < hideRdm; i++)
@@ -118,6 +119,8 @@ namespace Sudoku_Multiplayer.Classes
                             {
                                 casesToHide.Remove(int.Parse(LabelControl.Text));
                                 LabelControl.Text = "";
+                                //so the label is no more filled with the right number
+                                ((Sudoku_Numb_Label)LabelControl).isRight = false;
                                 //break; //look directly for the next label
                             }
                             else if (casesToHide.Count == 0)
