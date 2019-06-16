@@ -19,59 +19,63 @@ namespace Sudoku_Multiplayer
 
         private DateTime DateTime;
 
-        public Sudoku_Grid()
+        public Sudoku_Grid(bool createGrid)
         {
-            DateTime = DateTime.Now;
-            //for the 8 first rows
-            for (int row = 0; row < 8; row++)
+            if (createGrid)
             {
-                availableRowList.AddRange(staticFullList);
-                for (int column = 0; column < 9; column++)
+                DateTime = DateTime.Now;
+                //for the 8 first rows
+                for (int row = 0; row < 8; row++)
                 {
-                    try
+                    availableRowList.AddRange(staticFullList);
+                    for (int column = 0; column < 9; column++)
                     {
-                        if (DateTime.Now <= DateTime.AddSeconds(15)) //if within 15sec OK, else restart from 0
+                        try
                         {
-                            addRandomNumber(row, column);
-                        }
-                        else
-                        {
-                            grid = new int[9, 9];
-                            row = 0;
-                            column = -1;
-                            availableRowList.Clear();
-                            availableRowList.AddRange(staticFullList);//re-add in available row list 
-                            DateTime = DateTime.Now;
-                        }
-                    }
-                    catch (DuplicateException)
-                    {
-                        stuck++;
-                        if (stuck >= 5 || column == 8) //really stuck, need to restart that row
-                        {
-                            for (int i = 0; i < 9; i++)
+                            if (DateTime.Now <= DateTime.AddSeconds(15)) //if within 15sec OK, else restart from 0
                             {
-                                grid[row, i] = 0;
+                                addRandomNumber(row, column);
                             }
-                            column = -1;
-                            availableRowList.Clear();
-                            availableRowList.AddRange(staticFullList);//re-add in available row list 
+                            else
+                            {
+                                grid = new int[9, 9];
+                                row = 0;
+                                column = -1;
+                                availableRowList.Clear();
+                                availableRowList.AddRange(staticFullList);//re-add in available row list 
+                                DateTime = DateTime.Now;
+                            }
                         }
-                        else if (stuck < 5)
+                        catch (DuplicateException)
                         {
-                            grid[row, column] = 0;
-                            column--;
+                            stuck++;
+                            if (stuck >= 5 || column == 8) //really stuck, need to restart that row
+                            {
+                                for (int i = 0; i < 9; i++)
+                                {
+                                    grid[row, i] = 0;
+                                }
+                                column = -1;
+                                availableRowList.Clear();
+                                availableRowList.AddRange(staticFullList);//re-add in available row list 
+                            }
+                            else if (stuck < 5)
+                            {
+                                grid[row, column] = 0;
+                                column--;
+                            }
                         }
                     }
                 }
-            }
 
-            //fill the last (determined) row
-            for (int column = 0; column < 9; column++)
-            {
-                int lastNumberPossible = detLastNumberInColumn(column);
-                grid[8, column] = lastNumberPossible;
+                //fill the last (determined) row
+                for (int column = 0; column < 9; column++)
+                {
+                    int lastNumberPossible = detLastNumberInColumn(column);
+                    grid[8, column] = lastNumberPossible;
+                }
             }
+            else { }
         }
 
         private int detLastNumberInColumn(int column)

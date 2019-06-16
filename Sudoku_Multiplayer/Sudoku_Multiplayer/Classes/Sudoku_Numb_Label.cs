@@ -10,8 +10,11 @@ namespace Sudoku_Multiplayer.Classes
 {
     class Sudoku_Numb_Label : Label
     {
-        int[] Coordinates = new int[2];
-        //Constructor for generated Grid
+        public int[] Coordinates = new int[2];
+        public event EventHandler<CaseClick> CaseClick;
+        public bool isRight=false;
+
+        //Constructor to fill Grid_3x3
         public Sudoku_Numb_Label(int row, int column)
         {
             //Set tag for future identification : they are the coordinates
@@ -19,7 +22,7 @@ namespace Sudoku_Multiplayer.Classes
             Coordinates[1] = column;
             this.Tag = Coordinates;
             //Set font size
-            this.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             //this.Size = new System.Drawing.Size(this.Parent.Width, this.Parent.Height);
 
             //Make it fill its container
@@ -31,10 +34,11 @@ namespace Sudoku_Multiplayer.Classes
             //Set alignment
             this.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 
-            //Set event on click
-            this.Click += new System.EventHandler(this.labelClick);
             //Set the margins
             this.Margin = new Padding(0);
+
+            //Set event on click
+            this.Click += new System.EventHandler(this.labelClick);
         }
 
         //Constructor for notes
@@ -56,14 +60,29 @@ namespace Sudoku_Multiplayer.Classes
         }
 
         //methods
+        //when the case is clicked for delegate methods
+        void OnCaseClick(object sender, CaseClick c)
+        {
+            if (CaseClick != null)
+            {
+                CaseClick(sender, c);
+            }
+        }
+
         //for HIGHLIGHTS
-        private void labelClick(object sender, EventArgs e)
+        public void labelClick(object sender, EventArgs e)
         {
             this.BackColor = Color.Teal;
-            Console.WriteLine("Label clicked is :" + this.Coordinates[0] + this.Coordinates[1]);
+            string message = "Label clicked is : [ " + this.Coordinates[0] + " , " + this.Coordinates[1] + " ]";
+            CaseClick c = new CaseClick();
+            c.message = message;
+            Console.WriteLine(message);
+
             noHighlight();//before higlighting, reset to no highlight so the past highlight is removed
             highlightThisLabelGrid();
             highlightNextColAndRow();
+
+            OnCaseClick(this, c);
         }
 
         private void noHighlight()
@@ -101,7 +120,7 @@ namespace Sudoku_Multiplayer.Classes
         private void highlightNextColAndRow()
         {
             List<Grid_3x3> gridList = new List<Grid_3x3>();
-            gridList = adjacentGrids();
+            gridList = FindAdjacentGrids();
             highlight(gridList);
         }
 
@@ -115,7 +134,7 @@ namespace Sudoku_Multiplayer.Classes
                 for (int col = 0; col < 3; col++)
                 {
                     int thisRow = this.Coordinates[0];
-                    int[] coordTemp = new int[] { thisRow, col };
+                    int[] coordTemp = new int[] { thisRow, col + gridList[gridIndex].colCorr};
                     listCoordToHighlight.Add(coordTemp);
                 }
 
@@ -141,7 +160,7 @@ namespace Sudoku_Multiplayer.Classes
                 for (int row = 0; row < 3; row++)
                 {
                     int thisCol = this.Coordinates[1];
-                    int[] coordTemp = new int[] { row, thisCol };
+                    int[] coordTemp = new int[] { row + gridList[gridIndex].rowCorr, thisCol };
                     listCoordToHighlight.Add(coordTemp);
                 }
 
@@ -156,8 +175,8 @@ namespace Sudoku_Multiplayer.Classes
             }
         }
 
-        //Find all adjacent grids
-        private List<Grid_3x3> adjacentGrids()
+        //Function to find all adjacent grids
+        public List<Grid_3x3> FindAdjacentGrids()
         {
             List<Grid_3x3> gridList = new List<Grid_3x3>();
             switch (this.Parent.Tag)
@@ -218,6 +237,7 @@ namespace Sudoku_Multiplayer.Classes
             }
             return _1grid;
         }
+
 
     }
 }

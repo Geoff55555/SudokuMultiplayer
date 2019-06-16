@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Classes\CaseClick.cs" />
     <Compile Include="Classes\Complete_Sudoku_Grid_Generator.cs">
       <SubType>Component</SubType>
     </Compile>
