@@ -72,7 +72,10 @@ namespace Sudoku_Multiplayer.Classes
         //for HIGHLIGHTS
         public void labelClick(object sender, EventArgs e)
         {
-            this.BackColor = Color.Teal;
+            if (this.BackColor != Color.DeepSkyBlue)
+            {
+                this.BackColor = Color.Teal;
+            }
             string message = "Label clicked is : [ " + this.Coordinates[0] + " , " + this.Coordinates[1] + " ]";
             CaseClick c = new CaseClick();
             c.message = message;
@@ -95,13 +98,16 @@ namespace Sudoku_Multiplayer.Classes
                     {
                         if (label is Label)
                         {
-                            if (yes)
+                            if (label.BackColor != Color.DeepSkyBlue)
                             {
-                                ((Label)label).BackColor = Color.Transparent;
-                            }
-                            else
-                            {
-                                ((Label)label).BackColor = Color.FromArgb(79, 40, 235, 72);
+                                if (yes)
+                                {
+                                    ((Label)label).BackColor = Color.Transparent;
+                                }
+                                else
+                                {
+                                    ((Label)label).BackColor = Color.FromArgb(79, 40, 235, 72);
+                                }
                             }
                         }
                     }
@@ -115,11 +121,17 @@ namespace Sudoku_Multiplayer.Classes
             {
                 if ((((int[])label.Tag)[0] == this.Coordinates[0] && ((int[])label.Tag)[1] != this.Coordinates[1]) || (((int[])label.Tag)[0] != this.Coordinates[0] && ((int[])label.Tag)[1] == this.Coordinates[1]))
                 {
-                    label.BackColor = Color.Teal;
+                    if (label.BackColor != Color.DeepSkyBlue)
+                    {
+                        label.BackColor = Color.Teal;
+                    }
                 }
                 else if (((int[])label.Tag)[0] == this.Coordinates[0] && ((int[])label.Tag)[1] == this.Coordinates[1])
                 {
-                    label.BackColor = Color.LightSeaGreen;
+                    if (label.BackColor != Color.DeepSkyBlue)
+                    {
+                        label.BackColor = Color.LightSeaGreen;
+                    }
                 }
             }
         }
@@ -150,11 +162,17 @@ namespace Sudoku_Multiplayer.Classes
                 {
                     if (((int[])label.Tag).SequenceEqual(listCoordToHighlight[0]) || ((int[])label.Tag).SequenceEqual(listCoordToHighlight[1]) || ((int[])label.Tag).SequenceEqual(listCoordToHighlight[2]))
                     {
-                        label.BackColor = Color.Teal;
+                        if (label.BackColor != Color.DeepSkyBlue)
+                        {
+                            label.BackColor = Color.Teal;
+                        }
                     }
                     else
                     {
-                        label.BackColor = Color.Transparent;
+                        if (label.BackColor != Color.DeepSkyBlue)
+                        {
+                            label.BackColor = Color.Transparent;
+                        }
                     }
                 }
             }
@@ -176,7 +194,10 @@ namespace Sudoku_Multiplayer.Classes
                 {
                     if (((int[])label.Tag).SequenceEqual(listCoordToHighlight[0]) || ((int[])label.Tag).SequenceEqual(listCoordToHighlight[1]) || ((int[])label.Tag).SequenceEqual(listCoordToHighlight[2]))
                     {
-                        label.BackColor = Color.Teal;
+                        if (label.BackColor != Color.DeepSkyBlue)
+                        {
+                            label.BackColor = Color.Teal;
+                        }
                     }
                 }
             }

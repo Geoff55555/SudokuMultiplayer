@@ -20,11 +20,14 @@ namespace Sudoku_Multiplayer
         bool isHost = true;
         int Difficulty = 1;
         Random rdm = new Random();
+        //for reception of special pack
+        bool isWaitingforCase = false;
 
         Sudoku_Grid generatedGrid = new Sudoku_Grid(false);
         Complete_Sudoku_Grid_Generator visualGrid = new Complete_Sudoku_Grid_Generator();
         List<int> nbrsAdmittedStaticList = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
         Sudoku_Numb_Label clickedCaseTemp;
+        Sudoku_Numb_Label receivedCase;
         int hiddenCount = 0;
 
         //initialisation of the game window
@@ -34,6 +37,7 @@ namespace Sudoku_Multiplayer
             if (isHost)
             {
                 server = setServer;
+                server.InfoExchange += server_InfoExchange;
             }
             else
             {
@@ -75,9 +79,80 @@ namespace Sudoku_Multiplayer
             if (e.Info == "Object Received" && e.ObjectData is Sudoku_Grid)
             {
                 generatedGrid = (Sudoku_Grid)e.ObjectData;
+                visualGrid.Fill(generatedGrid);
+                hiddenCount = visualGrid.HideDetermined(generatedGrid.NumbersToKeep);
             }
-            visualGrid.Fill(generatedGrid);
-            hiddenCount = visualGrid.HideDetermined(generatedGrid.NumbersToKeep);
+            else if (e.ObjectData is int[])
+            {
+                //coordinates just received --> waiting for number
+                isWaitingforCase = true;
+                foreach (Control grid_9x9 in this.Controls)
+                {
+                    if (grid_9x9 is Complete_Sudoku_Grid_Generator)
+                    {
+                        foreach (Control grid_3x3 in grid_9x9.Controls)
+                        {
+                            if (grid_3x3 is Grid_3x3)
+                            {
+                                foreach (Sudoku_Numb_Label caseLabel in grid_3x3.Controls)
+                                {
+                                    if (caseLabel.Coordinates.SequenceEqual((int[])e.ObjectData))
+                                    {
+                                        receivedCase = caseLabel;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            else if (e.ObjectData is string)
+            {
+                if (isWaitingforCase)
+                {
+                    receivedCase.Text = (string)e.ObjectData;
+                    receivedCase.BackColor = Color.DeepSkyBlue;
+                    isWaitingforCase = false;
+                }
+            }
+        }
+
+        private void server_InfoExchange(object sender, commArgs e)
+        {
+            if (e.ObjectData is int[])
+            {
+                //coordinates just received --> waiting for number
+                isWaitingforCase = true;
+                foreach (Control grid_9x9 in this.Controls)
+                {
+                    if (grid_9x9 is Complete_Sudoku_Grid_Generator)
+                    {
+                        foreach (Control grid_3x3 in grid_9x9.Controls)
+                        {
+                            if (grid_3x3 is Grid_3x3)
+                            {
+                                foreach (Sudoku_Numb_Label caseLabel in grid_3x3.Controls)
+                                {
+                                    if (caseLabel.Coordinates.SequenceEqual((int[])e.ObjectData))
+                                    {
+                                        receivedCase = caseLabel;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            else if (e.ObjectData is string)
+            {
+                if (isWaitingforCase)
+                {
+                    receivedCase.Text = (string)e.ObjectData;
+                    receivedCase.BackColor = Color.DeepSkyBlue;
+                    isWaitingforCase = false;
+                }
+            }
+
         }
 
         //event when a case of the grid is clicked
@@ -108,7 +183,7 @@ namespace Sudoku_Multiplayer
                     {
                         //Sets the number in the grid
                         clickedCaseTemp.Text = labelNbrPreview.Text;
-                        labelNbrPreview.Text = "WATCH IN \nTHE GRID";
+                        labelNbrPreview.Text = "In the \nGrid";
                         //check if was the right number
                         int rightNumb = generatedGrid.fullGrid[clickedCaseTemp.Coordinates[0], clickedCaseTemp.Coordinates[1]];
                         if (int.Parse(clickedCaseTemp.Text) == rightNumb)
@@ -116,6 +191,23 @@ namespace Sudoku_Multiplayer
                             clickedCaseTemp.ForeColor = Color.PaleGreen;
                             clickedCaseTemp.isRight = true;
                             hiddenCount -= 1;
+
+                            //share result
+                            if (isHost)
+                            {
+                                for (int client = 0; client < server.ClientList.Count; client++)
+                                {
+                                    server.ClientList[client].SendData(clickedCaseTemp.Coordinates, "coord");
+                                    server.ClientList[client].SendData(clickedCaseTemp.Text, "nbr");
+                                }
+                            }
+                            else
+                            {
+                                client.SendData(clickedCaseTemp.Coordinates, "coord");
+                                client.SendData(clickedCaseTemp.Text, "nbr");
+                            }
+
+                            //END GAME
                             if (hiddenCount == 0)
                             {
                                 labelNbrPreview.ForeColor = Color.LimeGreen;
