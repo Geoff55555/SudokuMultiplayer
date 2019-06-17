@@ -179,9 +179,9 @@ namespace Sudoku_Multiplayer.Classes
                 if (control is Grid_3x3)
                 {
                     //check all the line (corresponding to grid tag) of the ones to keep and remove them
-                    for (int IndexOfOneToHide = 0; IndexOfOneToHide < tag_NumbersToHide[(int)control.Tag-1].Length; IndexOfOneToHide++)
+                    for (int IndexOfOneToHide = 0; IndexOfOneToHide < tag_NumbersToHide[(int)control.Tag - 1].Length; IndexOfOneToHide++)
                     {
-                        fullListTheOnesToKeep.Remove(tag_NumbersToHide[(int)control.Tag-1][IndexOfOneToHide]);
+                        fullListTheOnesToKeep.Remove(tag_NumbersToHide[(int)control.Tag - 1][IndexOfOneToHide]);
                     }
                     //it only remains the ones to hide int fullListTheOnesToHide
                     hideInGrid3x3_FromList(control, fullListTheOnesToKeep, hiddenCount);
@@ -190,6 +190,8 @@ namespace Sudoku_Multiplayer.Classes
             }
             return hiddenCount;
         }
+
+
     }
 
     //Test if UNIQUE SOLUTION -->recup en 1 SudokuGrid et écrire une méthode de test dedans --> Semblable au CheckDupliactes mais plus de random, on test tous les nombres des cases vides(établir un max pour que ça prenne pas 5jours)

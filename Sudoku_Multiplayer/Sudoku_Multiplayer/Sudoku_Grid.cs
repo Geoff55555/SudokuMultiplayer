@@ -213,23 +213,17 @@ namespace Sudoku_Multiplayer
             for (int row = 0; row < 9; row++)
             {
                 List<int> availableToBeHidden = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
-                for (int i = 0; i < hideRdm; i++)
+                for (int i = 0; i < rdm.Next(1,hideRdm+1) ; i++)
                 {
                     int caseToHide = rdm.Next(0, availableToBeHidden.Count);//it is [min; max[ !
                     availableToBeHidden.Remove(availableToBeHidden[caseToHide]);
                 }
                 //list contains all random nbrs to keep on a row
                 gridReady[row] = new int[availableToBeHidden.Count];
-                for (int col = 0; col < 9; col++)
+                //put the list in the according row of gridReady 
+                for (int indexList = 0; indexList < availableToBeHidden.Count; indexList++)
                 {
-                    int indexHidden=0;
-                    //if the nmber in the full grid has to be hidden put it in the [][] 2D array
-                    if (availableToBeHidden.Count > 0 && availableToBeHidden.Contains(fullGrid[row, col]))
-                    {
-                        availableToBeHidden.Remove(fullGrid[row, col]);
-                        gridReady[row][indexHidden] = fullGrid[row, col];
-                        indexHidden += 1;
-                    }
+                    gridReady[row][indexList] = availableToBeHidden[indexList];
                 }
             }
             NumbersToKeep = gridReady;
