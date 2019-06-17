@@ -71,7 +71,7 @@ namespace Sudoku_Multiplayer
             {
                 label_NameOtherPlayer.Text = e.Message;
             }
-            else if (e.Info == "Object Received")
+            else if (e.Info == "Object Received" && e.ObjectData is string)
             {
                 label_MsgReceived.Text = (string)e.ObjectData;
             }
@@ -265,7 +265,7 @@ namespace Sudoku_Multiplayer
         private void buttonReady_Click(object sender, EventArgs e)
         {
             this.Hide();
-            Game_Window newGame = new Game_Window(isHost, int.Parse(comboBox_Difficulty.Text));
+            Game_Window newGame = new Game_Window(server, client, isHost, int.Parse(comboBox_Difficulty.Text));
             newGame.ShowDialog();
             this.ShowDialog();
         }

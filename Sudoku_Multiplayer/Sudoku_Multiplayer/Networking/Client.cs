@@ -9,7 +9,7 @@ using System.Windows.Forms;
 
 namespace Client_Server_SerialComm
 {
-    class Client
+    public class Client
     {
         Socket commSocket;
 

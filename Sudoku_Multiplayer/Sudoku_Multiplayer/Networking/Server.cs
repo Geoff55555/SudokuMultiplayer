@@ -9,7 +9,7 @@ using System.Windows.Forms;
 
 namespace Client_Server_SerialComm
 {
-    class Server : Control //pour pvr utiliser le Invoke sur le Server ! #invoke-ception 8D
+    public class Server : Control //pour pvr utiliser le Invoke sur le Server ! #invoke-ception 8D
     {
         Socket listenSocket;
         IPAddress serverIP;

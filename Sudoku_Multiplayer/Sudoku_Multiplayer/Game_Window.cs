@@ -1,4 +1,5 @@
-﻿using Sudoku_Multiplayer.Classes;
+﻿using Client_Server_SerialComm;
+using Sudoku_Multiplayer.Classes;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -14,8 +15,11 @@ namespace Sudoku_Multiplayer
 {
     public partial class Game_Window : Form
     {
+        Client client;
+        Server server;
         bool isHost = true;
         int Difficulty = 1;
+        Random rdm = new Random();
 
         Sudoku_Grid generatedGrid = new Sudoku_Grid(false);
         Complete_Sudoku_Grid_Generator visualGrid = new Complete_Sudoku_Grid_Generator();
@@ -24,9 +28,19 @@ namespace Sudoku_Multiplayer
         int hiddenCount = 0;
 
         //initialisation of the game window
-        public Game_Window(bool isHost, int setDifficulty)
+        public Game_Window(Server setServer, Client setClient, bool setIsHost, int setDifficulty)
         {
-            this.isHost = isHost;
+            this.isHost = setIsHost;
+            if (isHost)
+            {
+                server = setServer;
+            }
+            else
+            {
+                client = setClient;
+                client.infoExchange += client_infoExchange;
+            }
+
             InitializeComponent();
             if (isHost)
             {
@@ -53,6 +67,17 @@ namespace Sudoku_Multiplayer
                     }
                 }
             }
+        }
+
+        //onInfoExchange
+        private void client_infoExchange(object sender, commArgs e)
+        {
+            if (e.Info == "Object Received" && e.ObjectData is Sudoku_Grid)
+            {
+                generatedGrid = (Sudoku_Grid)e.ObjectData;
+            }
+            visualGrid.Fill(generatedGrid);
+            hiddenCount = visualGrid.HideDetermined(generatedGrid.NumbersToKeep);
         }
 
         //event when a case of the grid is clicked
@@ -85,7 +110,7 @@ namespace Sudoku_Multiplayer
                         clickedCaseTemp.Text = labelNbrPreview.Text;
                         labelNbrPreview.Text = "WATCH IN \nTHE GRID";
                         //check if was the right number
-                        int rightNumb = generatedGrid.grid[clickedCaseTemp.Coordinates[0], clickedCaseTemp.Coordinates[1]];
+                        int rightNumb = generatedGrid.fullGrid[clickedCaseTemp.Coordinates[0], clickedCaseTemp.Coordinates[1]];
                         if (int.Parse(clickedCaseTemp.Text) == rightNumb)
                         {
                             clickedCaseTemp.ForeColor = Color.PaleGreen;
@@ -169,7 +194,6 @@ namespace Sudoku_Multiplayer
             return false;
         }
 
-
         private void PressNumberToWrite(object sender, KeyPressEventArgs e)
         {
             try
@@ -185,6 +209,7 @@ namespace Sudoku_Multiplayer
             }
         }
 
+        //methods
         private void hideDetermined()
         {
             int[][] casesToHide = new int[9][];
@@ -226,7 +251,7 @@ namespace Sudoku_Multiplayer
             {
                 for (int col = 0; col < 9; col++)
                 {
-                    tw.WriteLine(generatedGrid.grid[row, col]);
+                    tw.WriteLine(generatedGrid.fullGrid[row, col]);
                 }
             }
 
@@ -243,7 +268,7 @@ namespace Sudoku_Multiplayer
             {
                 for (int col = 0; col < 9; col++)
                 {
-                    generatedGrid.grid[row, col] = int.Parse(tr.ReadLine());
+                    generatedGrid.fullGrid[row, col] = int.Parse(tr.ReadLine());
                 }
             }
 
@@ -266,18 +291,40 @@ namespace Sudoku_Multiplayer
             {
                 for (int col = 0; col < 9; col++)
                 {
-                    generatedGrid.grid[row, col] = int.Parse(tr.ReadLine());
+                    generatedGrid.fullGrid[row, col] = int.Parse(tr.ReadLine());
                 }
             }
             //close the stream
             tr.Close();
 
-            //fill the visual
-            visualGrid.Fill(generatedGrid);
-            hiddenCount = visualGrid.HideRandom(Difficulty);
+            //determine the nbrs to hide --> written in generatedGrid.NbrsToHide
+            generatedGrid.RdmNbrsToKeep(Difficulty);
 
             //send it to client
+            //--cannot serialize the whole grid
 
+            //--send the grid with wholes
+            for (int client = 0; client < server.ClientList.Count; client++)
+            {
+                server.ClientList[client].SendData(generatedGrid, "generatedGrid");
+            }
+
+            //fill the visual
+            visualGrid.Fill(generatedGrid);
+            hiddenCount = visualGrid.KeepDetermined(generatedGrid.NumbersToKeep);
+            //hiddenCount = visualGrid.HideRandom(Difficulty);
+
+            //int[][] casesToHide = new int[9][];
+            //casesToHide[0] = new int[] { 2, 3, 4 };
+            //casesToHide[1] = new int[] { 2, 3, 4 };
+            //casesToHide[2] = new int[] { 2, 3, 4 };
+            //casesToHide[3] = new int[] { 2, 3, 4 };
+            //casesToHide[4] = new int[] { 2, 3, 4 };
+            //casesToHide[5] = new int[] { 2, 3, 4 };
+            //casesToHide[6] = new int[] { 2, 3, 4 };
+            //casesToHide[7] = new int[] { 2, 3, 4 };
+            //casesToHide[8] = new int[] { 2, 3, 4 };
+            //hiddenCount = visualGrid.KeepDetermined(casesToHide);
         }
     }
 }

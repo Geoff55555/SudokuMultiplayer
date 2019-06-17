@@ -141,7 +141,7 @@ namespace Sudoku_Multiplayer.Classes
             return hiddenCount;
         }
 
-        public int HideDetermined(int[][] tag_NumbersToKeep)
+        public int KeepDetermined(int[][] tag_NumbersToKeep)
         {
             int hiddenCount = 0;
             //transformation from nbrs to keep (easier to input) to nbrs to hide
@@ -156,13 +156,36 @@ namespace Sudoku_Multiplayer.Classes
                 if (control is Grid_3x3)
                 {
                     //check all the line (corresponding to grid tag) of the ones to keep and remove them
-                    for (int IndexOfOneTokeep = 0; IndexOfOneTokeep < tag_NumbersToKeep[(int)control.Tag-1].Length; IndexOfOneTokeep++)
+                    for (int IndexOfOneTokeep = 0; IndexOfOneTokeep < tag_NumbersToKeep[(int)control.Tag - 1].Length; IndexOfOneTokeep++)
                     {
-                        fullListTheOnesToHide.Remove(tag_NumbersToKeep[(int)control.Tag-1][IndexOfOneTokeep]);
+                        fullListTheOnesToHide.Remove(tag_NumbersToKeep[(int)control.Tag - 1][IndexOfOneTokeep]);
                     }
                     //it only remains the ones to hide int fullListTheOnesToHide
                     hideInGrid3x3_FromList(control, fullListTheOnesToHide, hiddenCount);
                     fullListTheOnesToHide.Clear();
+                }
+            }
+            return hiddenCount;
+        }
+
+        public int HideDetermined(int[][] tag_NumbersToHide)
+        {
+            int hiddenCount = 0;
+            //--check every grid
+            foreach (Control control in this.Controls)
+            {
+                //--start from everything to hide
+                List<int> fullListTheOnesToKeep = new List<int>() { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+                if (control is Grid_3x3)
+                {
+                    //check all the line (corresponding to grid tag) of the ones to keep and remove them
+                    for (int IndexOfOneToHide = 0; IndexOfOneToHide < tag_NumbersToHide[(int)control.Tag-1].Length; IndexOfOneToHide++)
+                    {
+                        fullListTheOnesToKeep.Remove(tag_NumbersToHide[(int)control.Tag-1][IndexOfOneToHide]);
+                    }
+                    //it only remains the ones to hide int fullListTheOnesToHide
+                    hideInGrid3x3_FromList(control, fullListTheOnesToKeep, hiddenCount);
+                    fullListTheOnesToKeep.Clear();
                 }
             }
             return hiddenCount;

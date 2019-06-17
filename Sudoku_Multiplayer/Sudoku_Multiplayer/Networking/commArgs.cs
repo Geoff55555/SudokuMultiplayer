@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Client_Server_SerialComm
 {
-    class commArgs : EventArgs
+    public class commArgs : EventArgs
     {
         public bool Reception; //to know if it is received or sent
         public string Info; //add personalized info about what parameter is exchanged

@@ -8,9 +8,11 @@ using Sudoku_Multiplayer.Classes;
 
 namespace Sudoku_Multiplayer
 {
-    class Sudoku_Grid : TableLayoutPanel
+    [Serializable]
+    class Sudoku_Grid
     {
-        public int[,] grid = new int[9, 9];
+        public int[,] fullGrid = new int[9, 9];
+        public int[][] NumbersToKeep = new int[9][];
         Random rdm = new Random();
         List<int> availableRowList = new List<int>();
         IEnumerable<int> staticFullList = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
@@ -38,7 +40,7 @@ namespace Sudoku_Multiplayer
                             }
                             else
                             {
-                                grid = new int[9, 9];
+                                fullGrid = new int[9, 9];
                                 row = 0;
                                 column = -1;
                                 availableRowList.Clear();
@@ -53,7 +55,7 @@ namespace Sudoku_Multiplayer
                             {
                                 for (int i = 0; i < 9; i++)
                                 {
-                                    grid[row, i] = 0;
+                                    fullGrid[row, i] = 0;
                                 }
                                 column = -1;
                                 availableRowList.Clear();
@@ -61,7 +63,7 @@ namespace Sudoku_Multiplayer
                             }
                             else if (stuck < 5)
                             {
-                                grid[row, column] = 0;
+                                fullGrid[row, column] = 0;
                                 column--;
                             }
                         }
@@ -72,7 +74,7 @@ namespace Sudoku_Multiplayer
                 for (int column = 0; column < 9; column++)
                 {
                     int lastNumberPossible = detLastNumberInColumn(column);
-                    grid[8, column] = lastNumberPossible;
+                    fullGrid[8, column] = lastNumberPossible;
                 }
             }
             else { }
@@ -84,7 +86,7 @@ namespace Sudoku_Multiplayer
             numberListInTheColumn.AddRange(staticFullList);
             for (int row = 0; row < 8; row++)
             {
-                numberListInTheColumn.Remove(grid[row, column]);
+                numberListInTheColumn.Remove(fullGrid[row, column]);
             }
             int lastInTheList = numberListInTheColumn[0];
             return lastInTheList;
@@ -97,7 +99,7 @@ namespace Sudoku_Multiplayer
             {
                 newRdm = rdm.Next(0, 9);//it is [min; max[ !
             }
-            grid[row, column] = availableRowList[newRdm];
+            fullGrid[row, column] = availableRowList[newRdm];
             CheckForDuplicates(row, column);
             //success
             availableRowList.Remove(availableRowList[newRdm]);
@@ -109,7 +111,7 @@ namespace Sudoku_Multiplayer
             //in whole row
             for (int columnTest = 0; columnTest < 9; columnTest++)
             {
-                if (column != columnTest && this.grid[row, column] == this.grid[row, columnTest])
+                if (column != columnTest && this.fullGrid[row, column] == this.fullGrid[row, columnTest])
                 {
                     throw new DuplicateException(row, columnTest);
                 }
@@ -118,7 +120,7 @@ namespace Sudoku_Multiplayer
             //in whole column
             for (int rowTest = 0; rowTest < 9; rowTest++)
             {
-                if (row != rowTest && this.grid[row, column] == this.grid[rowTest, column])
+                if (row != rowTest && this.fullGrid[row, column] == this.fullGrid[rowTest, column])
                 {
                     throw new DuplicateException(rowTest, column);
                 }
@@ -135,7 +137,7 @@ namespace Sudoku_Multiplayer
                     int rowTest9x9 = rowTest + seekFirst_RowOrCol_ofSubGrid(row, "Row");
                     int columnTest9x9 = columnTest + seekFirst_RowOrCol_ofSubGrid(column, "Column");
 
-                    if (row != rowTest9x9 && column != columnTest9x9 && grid[row, column] == subGrid[rowTest, columnTest])
+                    if (row != rowTest9x9 && column != columnTest9x9 && fullGrid[row, column] == subGrid[rowTest, columnTest])
                     {
                         int rowOfDuplicate = rowTest9x9;
                         int columnOfDuplicate = columnTest9x9;
@@ -160,7 +162,7 @@ namespace Sudoku_Multiplayer
                     int rowG3x3 = rowG9x9 - firstRow9x9;
                     int columnG3x3 = columnG9x9 - firstColumn9x9;
 
-                    reducedGrid[rowG3x3, columnG3x3] = this.grid[rowG9x9, columnG9x9];
+                    reducedGrid[rowG3x3, columnG3x3] = this.fullGrid[rowG9x9, columnG9x9];
                 }
             }
             return reducedGrid;
@@ -196,9 +198,44 @@ namespace Sudoku_Multiplayer
                 Console.WriteLine("\n");
                 for (int c = 0; c < 9; c++)
                 {
-                    Console.WriteLine("[" + r + "," + c + "] :" + grid[r, c]);
+                    Console.WriteLine("[" + r + "," + c + "] :" + fullGrid
+[r, c]);
                 }
             }
         }
+
+        //method to hide
+
+
+        public void RdmNbrsToKeep(int hideRdm)
+        {
+            int[][] gridReady = new int[9][];
+            for (int row = 0; row < 9; row++)
+            {
+                List<int> availableToBeHidden = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+                for (int i = 0; i < hideRdm; i++)
+                {
+                    int caseToHide = rdm.Next(0, availableToBeHidden.Count);//it is [min; max[ !
+                    availableToBeHidden.Remove(availableToBeHidden[caseToHide]);
+                }
+                //list contains all random nbrs to keep on a row
+                gridReady[row] = new int[availableToBeHidden.Count];
+                for (int col = 0; col < 9; col++)
+                {
+                    int indexHidden=0;
+                    //if the nmber in the full grid has to be hidden put it in the [][] 2D array
+                    if (availableToBeHidden.Count > 0 && availableToBeHidden.Contains(fullGrid[row, col]))
+                    {
+                        availableToBeHidden.Remove(fullGrid[row, col]);
+                        gridReady[row][indexHidden] = fullGrid[row, col];
+                        indexHidden += 1;
+                    }
+                }
+            }
+            NumbersToKeep = gridReady;
+            //then use
+            //hiddenCount = visualGrid.HideDetermined(casesToHide);
+        }
+
     }
 }
