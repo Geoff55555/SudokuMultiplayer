@@ -15,6 +15,7 @@ namespace Sudoku_Multiplayer
     public partial class Game_Window : Form
     {
         bool isHost = true;
+        int Difficulty = 1;
 
         Sudoku_Grid generatedGrid = new Sudoku_Grid(false);
         Complete_Sudoku_Grid_Generator visualGrid = new Complete_Sudoku_Grid_Generator();
@@ -23,10 +24,19 @@ namespace Sudoku_Multiplayer
         int hiddenCount = 0;
 
         //initialisation of the game window
-        public Game_Window()
+        public Game_Window(bool isHost, int setDifficulty)
         {
+            this.isHost = isHost;
             InitializeComponent();
+            if (isHost)
+            {
+                buttonGo.Enabled = true;
+            }
             this.Controls.Add(visualGrid);
+
+            //difficulty set
+            Difficulty = setDifficulty;
+            comboBox_Difficulty.SelectedItem = setDifficulty;
 
             //Add events to manage keys press
             this.KeyPress += new KeyPressEventHandler(PressNumberToWrite);
@@ -86,6 +96,12 @@ namespace Sudoku_Multiplayer
                                 labelNbrPreview.ForeColor = Color.LimeGreen;
                                 labelNbrPreview.Text = "YOU \nWON !";
                                 clickedCaseTemp.noHighlight(false);
+                                //unlock new grid editor
+                                buttonGenerate.Enabled = true;
+                                buttonSaveGrid.Enabled = true;
+                                buttonLoadGrid.Enabled = true;
+                                buttonFill.Enabled = true;
+                                buttonHide.Enabled = true;
                             }
                             //Case handled, return true to say we're done
                             return true;
@@ -192,7 +208,7 @@ namespace Sudoku_Multiplayer
 
         private void buttonHide_Click(object sender, EventArgs e)
         {
-            hiddenCount = visualGrid.HideRandom(3);
+            hiddenCount = visualGrid.HideRandom(Difficulty);
         }
 
         private void buttonGenerate_Click(object sender, EventArgs e)
@@ -238,6 +254,30 @@ namespace Sudoku_Multiplayer
         private void NeverFocusButton(object sender, EventArgs e)
         {
             visualGrid.Focus();
+        }
+
+        private void buttonGo_Click(object sender, EventArgs e)
+        {
+            //load a grid
+            TextReader tr = new StreamReader("saved_grid.txt");
+
+            //read line of the file
+            for (int row = 0; row < 9; row++)
+            {
+                for (int col = 0; col < 9; col++)
+                {
+                    generatedGrid.grid[row, col] = int.Parse(tr.ReadLine());
+                }
+            }
+            //close the stream
+            tr.Close();
+
+            //fill the visual
+            visualGrid.Fill(generatedGrid);
+            hiddenCount = visualGrid.HideRandom(Difficulty);
+
+            //send it to client
+
         }
     }
 }

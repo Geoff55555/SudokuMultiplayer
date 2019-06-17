@@ -71,6 +71,7 @@
     </Compile>
     <Compile Include="Networking\Client.cs" />
     <Compile Include="Networking\commArgs.cs" />
+    <Compile Include="Networking\SerialObject.cs" />
     <Compile Include="Networking\Server.cs">
       <SubType>Component</SubType>
     </Compile>

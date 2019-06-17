@@ -9,24 +9,34 @@ using System.Windows.Forms;
 
 namespace Client_Server_SerialComm
 {
-    class Server : Control //pour pvr utiliser le Invoke dessus !
+    class Server : Control //pour pvr utiliser le Invoke sur le Server ! #invoke-ception 8D
     {
         Socket listenSocket;
         IPAddress serverIP;
         IPEndPoint serverEndPoint;
+        
+        //to enable more than one client connected to the server
+        public List<Client> ClientList = new List<Client>();
 
-        List<Client> clientList = new List<Client>();
-
+        //events to launch
         public event EventHandler<commArgs> Connection;
         public event EventHandler<commArgs> InfoExchange;
 
-        public Server(string ip, int port)//port should always be >1024 to avoid any conflicts
+        //public variable
+        public bool isConnected = false;
+
+        //Constructor
+        public Server(string ip, int port)
         {
+            //init the socket
             listenSocket = new Socket(SocketType.Stream, ProtocolType.Tcp);
+
             serverIP = IPAddress.Parse(ip);
             serverEndPoint = new IPEndPoint(serverIP, port);
             listenSocket.Bind(serverEndPoint);
+
             listenSocket.Listen(10);
+
             acceptConnection();
         }
 
@@ -41,39 +51,63 @@ namespace Client_Server_SerialComm
 
         private void acceptConnectionCallback(IAsyncResult ar)
         {
-            //quand le server accepte la connection, il reçoit le socket de communication avec le client --> Il faut le garder !
+            //quand le server accepte la connection, il reçoit le socket de communication avec le client --> Il faut garder ce Socket!
             AddClient(listenSocket.EndAccept(ar));
-            commArgs connectionInfo = new commArgs("Connected to Client");
-            connectionInfo.coSuccess = true;
+
+            //notify the new connection
+            commArgs connectionInfo = new commArgs();
+            connectionInfo.Info = "Connected to Client";
+            isConnected = true;
             launchWithInvokeCheck(Connection, this, connectionInfo);
+
+            acceptConnection();
         }
 
         private void AddClient(Socket clientSocket)
         {
-            Client newClient = new Client(clientSocket);
-            newClient.infoExchange += newClient_InfoExchange; //les events lancés par les clients seront tous récup par le server qui enverra son propre event correspondant
-            clientList.Add(newClient);
+            Client newClient = new Client(clientSocket); //special constructor for client coming from a server
+            //add methods to the new client : the events launched by the clients will all be RE-Launched by the server with its own infoExchange and Connexion events !! --> Invoke-ception 8)
+            newClient.infoExchange += newClient_InfoExchange; //rappel en fr : les events lancés par les clients seront tous récup par le server qui enverra son propre event correspondant
+            newClient.Connection += newClient_Connection; //rappel en fr : les events lancés par les clients seront tous récup par le server qui enverra son propre event correspondant
+            ClientList.Add(newClient);
         }
 
         private void newClient_InfoExchange(object sender, commArgs e)
         {
-            launchWithInvokeCheck(InfoExchange, sender, e);
+            this.launchWithInvokeCheck(InfoExchange, sender, e);
         }
 
-        //check method
-        private void launchWithInvokeCheck(EventHandler<commArgs> syncMethod, object sender, commArgs e)
+        private void newClient_Connection(object sender, commArgs e)
         {
-            if (syncMethod != null)//when connexion is lost
+            //if connection is lost, dispose that sender to the garbage collector
+            if (!((Client)sender).isConnected)
             {
-                if (syncMethod.Target is Control)
+                sender = null;
+                isConnected = false;
+            }
+            this.launchWithInvokeCheck(Connection, sender, e);
+            
+        }
+
+
+        //check method
+        private void launchWithInvokeCheck(EventHandler<commArgs> ASyncMethod, object sender, commArgs e)
+        {
+            if (ASyncMethod == null)
+            {
+                Console.WriteLine("Delegate sync method launch by " + sender + " has not been defined");
+            }
+            else
+            {
+                if (ASyncMethod.Target is Control)
                 {
-                    if (((Control)syncMethod.Target).InvokeRequired)
+                    if (((Control)ASyncMethod.Target).InvokeRequired)
                     {
-                        ((Control)syncMethod.Target).Invoke(syncMethod, sender, e);
+                        ((Control)ASyncMethod.Target).Invoke(ASyncMethod, sender, e);
                     }
                     else
                     {
-                        syncMethod(sender, e);
+                        ASyncMethod(sender, e);
                     }
                 }
             }
