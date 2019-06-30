@@ -21,8 +21,6 @@ namespace Sudoku_Multiplayer
         bool isHost = true;
         int Difficulty = 1;
         Random rdm = new Random();
-        //--for reception of special pack
-        bool isWaitingforCase = false;
 
         Sudoku_Nbrs_Gen generatedGridNbrs = new Sudoku_Nbrs_Gen(false);
         Grid_9x9 visualGrid = new Grid_9x9();
@@ -77,97 +75,87 @@ namespace Sudoku_Multiplayer
         //onInfoExchange
         private void client_infoExchange(object sender, commArgs e)
         {
-            if (e.ObjectData is Sudoku_Nbrs_Gen)
+            if (e.Reception)
             {
-                generatedGridNbrs = (Sudoku_Nbrs_Gen)e.ObjectData;
-                visualGrid.Fill(generatedGridNbrs);
-                hiddenCount = visualGrid.HideDetermined(generatedGridNbrs.NumbersToKeep);
-            }
-            else if (e.ObjectData is int[])
-            {
-                foreach (Control grid_9x9 in this.Controls)
+                if (e.ObjectData is Sudoku_Nbrs_Gen)
                 {
-                    if (grid_9x9 is Grid_9x9)
+                    generatedGridNbrs = (Sudoku_Nbrs_Gen)e.ObjectData;
+                    visualGrid.Fill(generatedGridNbrs);
+                    hiddenCount = visualGrid.HideDetermined(generatedGridNbrs.NumbersToKeep);
+                }
+                else if (e.ObjectData is int[])
+                {
+                    foreach (Control grid_9x9 in this.Controls)
                     {
-                        foreach (Control grid_3x3 in grid_9x9.Controls)
+                        if (grid_9x9 is Grid_9x9)
                         {
-                            if (grid_3x3 is Grid_3x3)
+                            foreach (Control grid_3x3 in grid_9x9.Controls)
                             {
-                                foreach (Sudoku_Label_Nbr caseLabel in grid_3x3.Controls)
+                                if (grid_3x3 is Grid_3x3)
                                 {
-                                    if (caseLabel.Coordinates.SequenceEqual((int[])e.ObjectData))
+                                    foreach (Sudoku_Label_Nbr caseLabel in grid_3x3.Controls)
                                     {
-                                        receivedCase = caseLabel;
-                                        Console.WriteLine("We received a case ! Coordinates are : [ " + receivedCase.Coordinates[0] + " , " + receivedCase.Coordinates[1] + " ]");
-                                        //coordinates just received --> waiting for number
-                                        isWaitingforCase = true;
-                                        Console.WriteLine("Waiting for the number...");
+                                        if (caseLabel.Coordinates[0] == ((int[])e.ObjectData)[0] && caseLabel.Coordinates[1] == ((int[])e.ObjectData)[1])
+                                        {
+                                            receivedCase = caseLabel;
+                                            receivedCase.Text = ((int[])e.ObjectData)[2].ToString();
+                                            receivedCase.isRight = true;
+                                            Console.WriteLine("We received a case ! Coordinates are : [ " + receivedCase.Coordinates[0] + " , " + receivedCase.Coordinates[1] + " ]" +
+                                                "\nAnd the number is " + receivedCase.Text);
+                                            receivedCase.BackColor = Color.DeepSkyBlue;
+                                            hiddenCount -= 1;
+                                            Console.WriteLine(hiddenCount + "case(s) left to find until the end !");
+                                        }
                                     }
                                 }
                             }
                         }
                     }
                 }
-            }
-            else if (e.ObjectData is string)
-            {
-                if (isWaitingforCase)
+                else
                 {
-                    receivedCase.Text = (string)e.ObjectData;
-                    receivedCase.BackColor = Color.DeepSkyBlue;
-                    isWaitingforCase = false;
-                    Console.WriteLine("We received the number ! It is : " + receivedCase.Text);
-                    hiddenCount -= 1;
+                    Console.WriteLine("Data received but not managed");
                 }
-            }
-            else if(e.Reception)
-            {
-                Console.WriteLine("Data received but not managed");
             }
         }
 
         private void server_InfoExchange(object sender, commArgs e)
         {
-            if (e.ObjectData is int[])
+            if (e.Reception)
             {
-                foreach (Control grid_9x9 in this.Controls)
+                if (e.ObjectData is int[])
                 {
-                    if (grid_9x9 is Grid_9x9)
+                    foreach (Control grid_9x9 in this.Controls)
                     {
-                        foreach (Control grid_3x3 in grid_9x9.Controls)
+                        if (grid_9x9 is Grid_9x9)
                         {
-                            if (grid_3x3 is Grid_3x3)
+                            foreach (Control grid_3x3 in grid_9x9.Controls)
                             {
-                                foreach (Sudoku_Label_Nbr caseLabel in grid_3x3.Controls)
+                                if (grid_3x3 is Grid_3x3)
                                 {
-                                    if (caseLabel.Coordinates.SequenceEqual((int[])e.ObjectData))
+                                    foreach (Sudoku_Label_Nbr caseLabel in grid_3x3.Controls)
                                     {
-                                        receivedCase = caseLabel;
-                                        Console.WriteLine("We received a case ! Coordinates are : [ " + receivedCase.Coordinates[0] + " , " + receivedCase.Coordinates[1] + " ]");
-                                        //coordinates just received --> waiting for number
-                                        isWaitingforCase = true;
-                                        Console.WriteLine("Waiting for the number...");
+                                        if (caseLabel.Coordinates[0] == ((int[])e.ObjectData)[0] && caseLabel.Coordinates[1] == ((int[])e.ObjectData)[1])
+                                        {
+                                            receivedCase = caseLabel;
+                                            receivedCase.Text = ((int[])e.ObjectData)[2].ToString();
+                                            receivedCase.isRight = true;
+                                            Console.WriteLine("We received a case ! Coordinates are : [ " + receivedCase.Coordinates[0] + " , " + receivedCase.Coordinates[1] + " ]" +
+                                                "\nAnd the number is " + receivedCase.Text);
+                                            receivedCase.BackColor = Color.DeepSkyBlue;
+                                            hiddenCount -= 1;
+                                            Console.WriteLine(hiddenCount + "case(s) left to find until the end !");
+                                        }
                                     }
                                 }
                             }
                         }
                     }
                 }
-            }
-            else if (e.ObjectData is string)
-            {
-                if (isWaitingforCase)
+                else
                 {
-                    receivedCase.Text = (string)e.ObjectData;
-                    receivedCase.BackColor = Color.DeepSkyBlue;
-                    isWaitingforCase = false;
-                    Console.WriteLine("We received the number ! It is : " + receivedCase.Text);
-                    hiddenCount -= 1;
+                    Console.WriteLine("Data received but not managed");
                 }
-            }
-            else if (e.Reception)
-            {
-                Console.WriteLine("Data received but not managed");
             }
         }
 
@@ -213,33 +201,38 @@ namespace Sudoku_Multiplayer
                             {
                                 for (int client = 0; client < server.ClientList.Count; client++)
                                 {
-                                    server.ClientList[client].SendData(clickedCaseTemp.Coordinates, "coord");
-                                    Console.WriteLine("Coordinates are sent to the client.");
-                                    server.ClientList[client].SendData(clickedCaseTemp.Text, "nbr");
-                                    Console.WriteLine("The number is sent to the client.");
+                                    int[] coordAndNbr = new int[3];
+                                    coordAndNbr[0] = clickedCaseTemp.Coordinates[0];
+                                    coordAndNbr[1] = clickedCaseTemp.Coordinates[1];
+                                    coordAndNbr[2] = int.Parse(clickedCaseTemp.Text);
+                                    server.ClientList[client].SendData(coordAndNbr, "Case coord and text sent to the client(s).");
+                                    Console.WriteLine("The case (coord and text) has been sent to the client(s).");
+
+                                    //server.ClientList[client].SendData(clickedCaseTemp.Coordinates, "coord");
+                                    //Console.WriteLine("Coordinates are sent to the client.");
+                                    //no more used because the 2d pack is not always received
+                                    //server.ClientList[client].SendData(clickedCaseTemp.Text, "nbr");
+                                    //Console.WriteLine("The number is sent to the client.");
                                 }
                             }
                             else
                             {
-                                client.SendData(clickedCaseTemp.Coordinates, "coord");
-                                Console.WriteLine("Coordinates are sent to the server.");
-                                client.SendData(clickedCaseTemp.Text, "nbr");
-                                Console.WriteLine("The number is sent to the server.");
+                                int[] coordAndNbr = new int[3];
+                                coordAndNbr[0] = clickedCaseTemp.Coordinates[0];
+                                coordAndNbr[1] = clickedCaseTemp.Coordinates[1];
+                                coordAndNbr[2] = int.Parse(clickedCaseTemp.Text);
+                                client.SendData(coordAndNbr, "Case coord and text sent to the server.");
+                                Console.WriteLine("The case (coord and text) has been sent to the server.");
+
+                                //no more used because the 2d pack is not always received
+                                //client.SendData(clickedCaseTemp.Coordinates, "coord");
+                                //Console.WriteLine("Coordinates are sent to the server.");
+                                //client.SendData(clickedCaseTemp.Text, "nbr");
+                                //Console.WriteLine("The number is sent to the server.");
                             }
 
-                            //END GAME
-                            if (hiddenCount == 0)
-                            {
-                                labelNbrPreview.ForeColor = Color.LimeGreen;
-                                labelNbrPreview.Text = "YOU \nWON !";
-                                clickedCaseTemp.noHighlight(false);
-                                //unlock new grid editor
-                                buttonGenerate.Enabled = true;
-                                buttonSaveGrid.Enabled = true;
-                                buttonLoadGrid.Enabled = true;
-                                buttonFill.Enabled = true;
-                                buttonHide.Enabled = true;
-                            }
+                            //END GAME check and if true, changes the color of all cells
+                            checkEndGame();
                             //Case handled, return true to say we're done
                             return true;
                         }
@@ -335,6 +328,22 @@ namespace Sudoku_Multiplayer
             casesToHide[7] = new int[] { 2, 3, 4 };
             casesToHide[8] = new int[] { 2, 3, 4 };
             hiddenCount = visualGrid.HideDetermined(casesToHide);
+        }
+
+        private void checkEndGame()
+        {
+            if (hiddenCount == 0)
+            {
+                labelNbrPreview.ForeColor = Color.LimeGreen;
+                labelNbrPreview.Text = "YOU \nWON !";
+                clickedCaseTemp.noHighlight(false);
+                //unlock new grid editor
+                buttonGenerate.Enabled = true;
+                buttonSaveGrid.Enabled = true;
+                buttonLoadGrid.Enabled = true;
+                buttonFill.Enabled = true;
+                buttonHide.Enabled = true;
+            }
         }
 
         //Buttons
