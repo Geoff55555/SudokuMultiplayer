@@ -32,24 +32,26 @@ namespace Sudoku_Multiplayer
         //initialisation of the game window
         public Game_Window(Server setServer, Client setClient, bool setIsHost, int setDifficulty)
         {
+            InitializeComponent();
+
             this.isHost = setIsHost;
             if (isHost)
             {
                 server = setServer;
                 server.InfoExchange += server_InfoExchange;
+                buttonGo.Enabled = true;
             }
             else
             {
                 client = setClient;
                 client.infoExchange += client_infoExchange;
+                client.ReceiveData();
             }
 
-            InitializeComponent();
-            if (isHost)
-            {
-                buttonGo.Enabled = true;
-            }
-            this.Controls.Add(visualGrid);
+            //visual grid size adjustement to the dedicated panel
+            this.panel_SudokuGrid.Controls.Add(visualGrid);
+            visualGrid.changeSize(visualGrid.Parent.Size);
+            Console.WriteLine("Height and Width of the grid : " + visualGrid.Size.Height.ToString() + " " + visualGrid.Size.Width.ToString());
 
             //difficulty set
             Difficulty = setDifficulty;
@@ -77,15 +79,9 @@ namespace Sudoku_Multiplayer
         {
             if (e.Reception)
             {
-                if (e.ObjectData is Sudoku_Nbrs_Gen)
+                if (e.ObjectData is int[])
                 {
-                    generatedGridNbrs = (Sudoku_Nbrs_Gen)e.ObjectData;
-                    visualGrid.Fill(generatedGridNbrs);
-                    hiddenCount = visualGrid.HideDetermined(generatedGridNbrs.NumbersToKeep);
-                }
-                else if (e.ObjectData is int[])
-                {
-                    foreach (Control grid_9x9 in this.Controls)
+                    foreach (Control grid_9x9 in this.panel_SudokuGrid.Controls)
                     {
                         if (grid_9x9 is Grid_9x9)
                         {
@@ -105,12 +101,30 @@ namespace Sudoku_Multiplayer
                                             receivedCase.BackColor = Color.DeepSkyBlue;
                                             hiddenCount -= 1;
                                             Console.WriteLine(hiddenCount + "case(s) left to find until the end !");
+                                            checkEndGame();
                                         }
                                     }
                                 }
                             }
                         }
                     }
+                }
+                else if (e.ObjectData is Sudoku_Nbrs_Gen)
+                {
+                    generatedGridNbrs = (Sudoku_Nbrs_Gen)e.ObjectData;
+                    visualGrid.Fill(generatedGridNbrs);
+                    //hiddenCount = visualGrid.HideDetermined(generatedGridNbrs.NumbersToKeep);
+                    visualGrid.HideDetermined(generatedGridNbrs.NumbersToKeep);
+                }
+                else if (e.ObjectData is string)
+                {
+                    switch (((string)e.ObjectData).Split(',')[0])
+                    {
+                        case "hiddenCount":
+                            hiddenCount = int.Parse(((string)e.ObjectData).Split(',')[1]);
+                            break;
+                    }
+
                 }
                 else
                 {
@@ -125,7 +139,7 @@ namespace Sudoku_Multiplayer
             {
                 if (e.ObjectData is int[])
                 {
-                    foreach (Control grid_9x9 in this.Controls)
+                    foreach (Control grid_9x9 in this.panel_SudokuGrid.Controls)
                     {
                         if (grid_9x9 is Grid_9x9)
                         {
@@ -145,6 +159,7 @@ namespace Sudoku_Multiplayer
                                             receivedCase.BackColor = Color.DeepSkyBlue;
                                             hiddenCount -= 1;
                                             Console.WriteLine(hiddenCount + "case(s) left to find until the end !");
+                                            checkEndGame();
                                         }
                                     }
                                 }
@@ -195,6 +210,8 @@ namespace Sudoku_Multiplayer
                             clickedCaseTemp.ForeColor = Color.PaleGreen;
                             clickedCaseTemp.isRight = true;
                             hiddenCount -= 1;
+                            Console.WriteLine(hiddenCount + "case(s) left to find until the end !");
+
 
                             //share result
                             if (isHost)
@@ -327,7 +344,8 @@ namespace Sudoku_Multiplayer
             casesToHide[6] = new int[] { 2, 3, 4 };
             casesToHide[7] = new int[] { 2, 3, 4 };
             casesToHide[8] = new int[] { 2, 3, 4 };
-            hiddenCount = visualGrid.HideDetermined(casesToHide);
+            //hiddenCount = visualGrid.HideDetermined(casesToHide);
+            visualGrid.HideDetermined(casesToHide);
         }
 
         private void checkEndGame()
@@ -343,6 +361,8 @@ namespace Sudoku_Multiplayer
                 buttonLoadGrid.Enabled = true;
                 buttonFill.Enabled = true;
                 buttonHide.Enabled = true;
+                //disable panel sudoku
+                panel_SudokuGrid.Enabled = false;
             }
         }
 
@@ -404,6 +424,8 @@ namespace Sudoku_Multiplayer
 
         private void buttonGo_Click(object sender, EventArgs e)
         {
+            //making sure the panel Sudoku is enabled
+            panel_SudokuGrid.Enabled = true;
             //load a grid
             TextReader tr = new StreamReader("saved_grid.txt");
 
@@ -420,6 +442,8 @@ namespace Sudoku_Multiplayer
 
             //determine the nbrs to hide --> written in generatedGrid.NbrsToHide
             generatedGridNbrs.RdmNbrsToKeep(Difficulty);
+            this.hiddenCount = generatedGridNbrs.hiddenCount;
+
 
             //send it to client
             //--cannot serialize the whole grid
@@ -432,8 +456,22 @@ namespace Sudoku_Multiplayer
 
             //fill the visual
             visualGrid.Fill(generatedGridNbrs);
-            hiddenCount = visualGrid.KeepDetermined(generatedGridNbrs.NumbersToKeep);
+
+            //determine how many nbrs will be hidden
+            //hiddenCount = visualGrid.KeepDetermined(generatedGridNbrs.NumbersToKeep);
+            visualGrid.KeepDetermined(generatedGridNbrs.NumbersToKeep);
+            Console.WriteLine("Nbrs of cases to discover is " + hiddenCount);
+
+            //send that number
+            string hiddenCountToSend = "hiddenCount,";
+            hiddenCountToSend += this.hiddenCount.ToString();
+            for (int client = 0; client < server.ClientList.Count; client++)
+            {
+                server.ClientList[client].SendData(hiddenCountToSend, "hiddenCount");
+            }
+
             //hiddenCount = visualGrid.HideRandom(Difficulty);
+
 
             //int[][] casesToHide = new int[9][];
             //casesToHide[0] = new int[] { 2, 3, 4 };

@@ -9,7 +9,7 @@ namespace Sudoku_Multiplayer.Classes
 {
     class Grid_9x9 : TableLayoutPanel
     {
-        public int side_length = 540;
+        public int side_length = 540; //default value
         Random rdm = new Random();
 
         public Grid_9x9()
@@ -43,6 +43,11 @@ namespace Sudoku_Multiplayer.Classes
                     gridNbr++;
                 }
             }
+        }
+
+        public void changeSize(System.Drawing.Size size)
+        {
+            this.Size = size;
         }
 
         public void Fill(Sudoku_Nbrs_Gen generatedGrid)
@@ -92,8 +97,9 @@ namespace Sudoku_Multiplayer.Classes
         }
 
         //Hide method --> Random 2-3 cases hidden in each 3x3 grid
-        void hideInGrid3x3_FromList(Control control, List<int> casesToHide, int hiddenCount)
+        void hideInGrid3x3_FromList(Control control, List<int> casesToHide)
         {
+            //int hiddenCount4ThatGrid = 0;
             foreach (Control LabelControl in control.Controls)
             {
                 if (LabelControl is Sudoku_Label_Nbr)
@@ -104,7 +110,7 @@ namespace Sudoku_Multiplayer.Classes
                         LabelControl.Text = "";
                         //so the label is no more filled with the right number
                         ((Sudoku_Label_Nbr)LabelControl).isRight = false;
-                        hiddenCount += 1;
+                        //hiddenCount4ThatGrid += 1;
                         //break; //look directly for the next label
                     }
                     else if (casesToHide.Count == 0)
@@ -113,6 +119,7 @@ namespace Sudoku_Multiplayer.Classes
                     }
                 }
             }
+            //return hiddenCount4ThatGrid;
         }
 
         public int HideRandom(int Difficulty)
@@ -135,37 +142,38 @@ namespace Sudoku_Multiplayer.Classes
                     }
                     //all the cases we want to hide are in the array
                     //Now we'll remove the corresponding labels in the grid
-                    hideInGrid3x3_FromList(control, casesToHide, hiddenCount);
+                    hideInGrid3x3_FromList(control, casesToHide);
                 }
             }
             return hiddenCount;
         }
 
-        public int KeepDetermined(int[][] tag_NumbersToKeep)
+        public void KeepDetermined(int[][] tag_NumbersToKeep)
         {
-            int hiddenCount = 0;
+            //int hiddenCount = 0;
             //transformation from nbrs to keep (easier to input) to nbrs to hide
             //--will get all nbrs to hide
             int[][] tag_NumbersToHide = new int[9][];
             //--check every grid
-            foreach (Control control in this.Controls)
+            foreach (Control grid_3x3 in this.Controls)
             {
                 //--start from everything to hide
                 List<int> fullListTheOnesToHide = new List<int>() { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
                 //--remove the ones to keep in every grid
-                if (control is Grid_3x3)
+                if (grid_3x3 is Grid_3x3)
                 {
-                    //check all the line (corresponding to grid tag) of the ones to keep and remove them
-                    for (int IndexOfOneTokeep = 0; IndexOfOneTokeep < tag_NumbersToKeep[(int)control.Tag - 1].Length; IndexOfOneTokeep++)
+                    //check the entire the line (knowing that the line number = the grid tag-1) of the ones to keep and remove them from the list of the ones to hide (yes, it's a bit messy)
+                    for (int IndexOfOneTokeep = 0; IndexOfOneTokeep < tag_NumbersToKeep[(int)grid_3x3.Tag - 1].Length; IndexOfOneTokeep++)
                     {
-                        fullListTheOnesToHide.Remove(tag_NumbersToKeep[(int)control.Tag - 1][IndexOfOneTokeep]);
+                        fullListTheOnesToHide.Remove(tag_NumbersToKeep[(int)grid_3x3.Tag - 1][IndexOfOneTokeep]);
                     }
                     //it only remains the ones to hide int fullListTheOnesToHide
-                    hideInGrid3x3_FromList(control, fullListTheOnesToHide, hiddenCount);
+                    //hiddenCount += hideInGrid3x3_FromList(grid_3x3, fullListTheOnesToHide, hiddenCount);
+                    hideInGrid3x3_FromList(grid_3x3, fullListTheOnesToHide);
                     fullListTheOnesToHide.Clear();
                 }
             }
-            return hiddenCount;
+            //return hiddenCount;
         }
 
         public int HideDetermined(int[][] tag_NumbersToHide)
@@ -184,7 +192,7 @@ namespace Sudoku_Multiplayer.Classes
                         fullListTheOnesToKeep.Remove(tag_NumbersToHide[(int)control.Tag - 1][IndexOfOneToHide]);
                     }
                     //it only remains the ones to hide int fullListTheOnesToHide
-                    hideInGrid3x3_FromList(control, fullListTheOnesToKeep, hiddenCount);
+                    hideInGrid3x3_FromList(control, fullListTheOnesToKeep);
                     fullListTheOnesToKeep.Clear();
                 }
             }

@@ -54,19 +54,19 @@
             this.radioButtonClient = new System.Windows.Forms.RadioButton();
             this.buttonReady = new System.Windows.Forms.Button();
             this.panel_Player = new System.Windows.Forms.Panel();
-            this.label_Static_NamePlayer = new System.Windows.Forms.Label();
-            this.textBox_NamePlayer = new System.Windows.Forms.TextBox();
-            this.label_Static_DiscussWith = new System.Windows.Forms.Label();
-            this.textBox_Msg = new System.Windows.Forms.TextBox();
+            this.label_MsgReceived = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.label_NameConnectedPlayer = new System.Windows.Forms.Label();
-            this.label_MsgReceived = new System.Windows.Forms.Label();
-            this.panel_Config = new System.Windows.Forms.Panel();
-            this.comboBox_GameMode = new System.Windows.Forms.ComboBox();
-            this.label_Difficulty = new System.Windows.Forms.Label();
-            this.label_GameMode = new System.Windows.Forms.Label();
-            this.comboBox_Difficulty = new System.Windows.Forms.ComboBox();
             this.label_NameOtherPlayer = new System.Windows.Forms.Label();
+            this.label_Static_NamePlayer = new System.Windows.Forms.Label();
+            this.textBox_Msg = new System.Windows.Forms.TextBox();
+            this.textBox_NamePlayer = new System.Windows.Forms.TextBox();
+            this.label_Static_DiscussWith = new System.Windows.Forms.Label();
+            this.panel_Config = new System.Windows.Forms.Panel();
+            this.comboBox_Difficulty = new System.Windows.Forms.ComboBox();
+            this.comboBox_GameMode = new System.Windows.Forms.ComboBox();
+            this.label_GameMode = new System.Windows.Forms.Label();
+            this.label_Difficulty = new System.Windows.Forms.Label();
             this.panelHost.SuspendLayout();
             this.panelClient.SuspendLayout();
             this.panel_Player.SuspendLayout();
@@ -170,7 +170,7 @@
             this.panelClient.Controls.Add(this.label4);
             this.panelClient.Controls.Add(this.label_StaticEnterIPHost);
             this.panelClient.Enabled = false;
-            this.panelClient.Location = new System.Drawing.Point(12, 236);
+            this.panelClient.Location = new System.Drawing.Point(12, 263);
             this.panelClient.Name = "panelClient";
             this.panelClient.Size = new System.Drawing.Size(538, 219);
             this.panelClient.TabIndex = 1;
@@ -201,7 +201,7 @@
             this.textBox_IP_X4.Name = "textBox_IP_X4";
             this.textBox_IP_X4.Size = new System.Drawing.Size(61, 22);
             this.textBox_IP_X4.TabIndex = 3;
-            this.textBox_IP_X4.Text = "205";
+            this.textBox_IP_X4.Text = "46";
             // 
             // textBox_IP_X3
             // 
@@ -210,7 +210,7 @@
             this.textBox_IP_X3.Name = "textBox_IP_X3";
             this.textBox_IP_X3.Size = new System.Drawing.Size(61, 22);
             this.textBox_IP_X3.TabIndex = 2;
-            this.textBox_IP_X3.Text = "0";
+            this.textBox_IP_X3.Text = "1";
             // 
             // label5
             // 
@@ -307,7 +307,7 @@
             // radioButtonClient
             // 
             this.radioButtonClient.AutoSize = true;
-            this.radioButtonClient.Location = new System.Drawing.Point(11, 209);
+            this.radioButtonClient.Location = new System.Drawing.Point(11, 236);
             this.radioButtonClient.Name = "radioButtonClient";
             this.radioButtonClient.Size = new System.Drawing.Size(145, 21);
             this.radioButtonClient.TabIndex = 2;
@@ -319,9 +319,9 @@
             // 
             this.buttonReady.Enabled = false;
             this.buttonReady.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonReady.Location = new System.Drawing.Point(776, 50);
+            this.buttonReady.Location = new System.Drawing.Point(828, 50);
             this.buttonReady.Name = "buttonReady";
-            this.buttonReady.Size = new System.Drawing.Size(128, 405);
+            this.buttonReady.Size = new System.Drawing.Size(128, 432);
             this.buttonReady.TabIndex = 1;
             this.buttonReady.Text = "Je suis prêt !";
             this.buttonReady.UseVisualStyleBackColor = true;
@@ -341,45 +341,19 @@
             this.panel_Player.Enabled = false;
             this.panel_Player.Location = new System.Drawing.Point(570, 196);
             this.panel_Player.Name = "panel_Player";
-            this.panel_Player.Size = new System.Drawing.Size(186, 259);
+            this.panel_Player.Size = new System.Drawing.Size(238, 286);
             this.panel_Player.TabIndex = 6;
             // 
-            // label_Static_NamePlayer
+            // label_MsgReceived
             // 
-            this.label_Static_NamePlayer.AutoSize = true;
-            this.label_Static_NamePlayer.Location = new System.Drawing.Point(19, 12);
-            this.label_Static_NamePlayer.Name = "label_Static_NamePlayer";
-            this.label_Static_NamePlayer.Size = new System.Drawing.Size(105, 17);
-            this.label_Static_NamePlayer.TabIndex = 0;
-            this.label_Static_NamePlayer.Text = "Nom du Joueur";
-            // 
-            // textBox_NamePlayer
-            // 
-            this.textBox_NamePlayer.Location = new System.Drawing.Point(20, 39);
-            this.textBox_NamePlayer.MaxLength = 15;
-            this.textBox_NamePlayer.Name = "textBox_NamePlayer";
-            this.textBox_NamePlayer.Size = new System.Drawing.Size(144, 22);
-            this.textBox_NamePlayer.TabIndex = 3;
-            this.textBox_NamePlayer.Text = "Inconnu";
-            this.textBox_NamePlayer.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.textBox_NamePlayer_PreviewKeyDown);
-            // 
-            // label_Static_DiscussWith
-            // 
-            this.label_Static_DiscussWith.Location = new System.Drawing.Point(17, 67);
-            this.label_Static_DiscussWith.Name = "label_Static_DiscussWith";
-            this.label_Static_DiscussWith.Size = new System.Drawing.Size(154, 42);
-            this.label_Static_DiscussWith.TabIndex = 0;
-            this.label_Static_DiscussWith.Text = "Discussion instantanée\r\navec ";
-            // 
-            // textBox_Msg
-            // 
-            this.textBox_Msg.Location = new System.Drawing.Point(20, 140);
-            this.textBox_Msg.MaxLength = 4;
-            this.textBox_Msg.Name = "textBox_Msg";
-            this.textBox_Msg.Size = new System.Drawing.Size(144, 22);
-            this.textBox_Msg.TabIndex = 3;
-            this.textBox_Msg.Text = "Message fairplay";
-            this.textBox_Msg.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.textBox_Msg_PreviewKeyDown);
+            this.label_MsgReceived.AutoSize = true;
+            this.label_MsgReceived.Location = new System.Drawing.Point(17, 205);
+            this.label_MsgReceived.MaximumSize = new System.Drawing.Size(200, 70);
+            this.label_MsgReceived.MinimumSize = new System.Drawing.Size(200, 70);
+            this.label_MsgReceived.Name = "label_MsgReceived";
+            this.label_MsgReceived.Size = new System.Drawing.Size(200, 70);
+            this.label_MsgReceived.TabIndex = 0;
+            this.label_MsgReceived.Text = "-";
             // 
             // label6
             // 
@@ -399,14 +373,51 @@
             this.label_NameConnectedPlayer.TabIndex = 0;
             this.label_NameConnectedPlayer.Text = "Lui envoyer un message";
             // 
-            // label_MsgReceived
+            // label_NameOtherPlayer
             // 
-            this.label_MsgReceived.AutoSize = true;
-            this.label_MsgReceived.Location = new System.Drawing.Point(17, 205);
-            this.label_MsgReceived.Name = "label_MsgReceived";
-            this.label_MsgReceived.Size = new System.Drawing.Size(13, 17);
-            this.label_MsgReceived.TabIndex = 0;
-            this.label_MsgReceived.Text = "-";
+            this.label_NameOtherPlayer.BackColor = System.Drawing.Color.Transparent;
+            this.label_NameOtherPlayer.Location = new System.Drawing.Point(56, 83);
+            this.label_NameOtherPlayer.Name = "label_NameOtherPlayer";
+            this.label_NameOtherPlayer.Size = new System.Drawing.Size(115, 22);
+            this.label_NameOtherPlayer.TabIndex = 0;
+            this.label_NameOtherPlayer.Text = "Inconnu";
+            // 
+            // label_Static_NamePlayer
+            // 
+            this.label_Static_NamePlayer.AutoSize = true;
+            this.label_Static_NamePlayer.Location = new System.Drawing.Point(19, 12);
+            this.label_Static_NamePlayer.Name = "label_Static_NamePlayer";
+            this.label_Static_NamePlayer.Size = new System.Drawing.Size(105, 17);
+            this.label_Static_NamePlayer.TabIndex = 0;
+            this.label_Static_NamePlayer.Text = "Nom du Joueur";
+            // 
+            // textBox_Msg
+            // 
+            this.textBox_Msg.Location = new System.Drawing.Point(20, 140);
+            this.textBox_Msg.MaxLength = 180;
+            this.textBox_Msg.Name = "textBox_Msg";
+            this.textBox_Msg.Size = new System.Drawing.Size(197, 22);
+            this.textBox_Msg.TabIndex = 3;
+            this.textBox_Msg.Text = "Message fairplay";
+            this.textBox_Msg.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.textBox_Msg_PreviewKeyDown);
+            // 
+            // textBox_NamePlayer
+            // 
+            this.textBox_NamePlayer.Location = new System.Drawing.Point(20, 39);
+            this.textBox_NamePlayer.MaxLength = 15;
+            this.textBox_NamePlayer.Name = "textBox_NamePlayer";
+            this.textBox_NamePlayer.Size = new System.Drawing.Size(197, 22);
+            this.textBox_NamePlayer.TabIndex = 3;
+            this.textBox_NamePlayer.Text = "Inconnu";
+            this.textBox_NamePlayer.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.textBox_NamePlayer_PreviewKeyDown);
+            // 
+            // label_Static_DiscussWith
+            // 
+            this.label_Static_DiscussWith.Location = new System.Drawing.Point(17, 67);
+            this.label_Static_DiscussWith.Name = "label_Static_DiscussWith";
+            this.label_Static_DiscussWith.Size = new System.Drawing.Size(154, 42);
+            this.label_Static_DiscussWith.TabIndex = 0;
+            this.label_Static_DiscussWith.Text = "Discussion instantanée\r\navec ";
             // 
             // panel_Config
             // 
@@ -418,27 +429,34 @@
             this.panel_Config.Enabled = false;
             this.panel_Config.Location = new System.Drawing.Point(570, 50);
             this.panel_Config.Name = "panel_Config";
-            this.panel_Config.Size = new System.Drawing.Size(186, 140);
+            this.panel_Config.Size = new System.Drawing.Size(238, 140);
             this.panel_Config.TabIndex = 7;
+            // 
+            // comboBox_Difficulty
+            // 
+            this.comboBox_Difficulty.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox_Difficulty.FormattingEnabled = true;
+            this.comboBox_Difficulty.Items.AddRange(new object[] {
+            "1",
+            "3",
+            "5"});
+            this.comboBox_Difficulty.Location = new System.Drawing.Point(22, 94);
+            this.comboBox_Difficulty.Name = "comboBox_Difficulty";
+            this.comboBox_Difficulty.Size = new System.Drawing.Size(195, 24);
+            this.comboBox_Difficulty.TabIndex = 4;
+            this.comboBox_Difficulty.SelectedIndexChanged += new System.EventHandler(this.comboBox_Difficulty_SelectedIndexChanged);
             // 
             // comboBox_GameMode
             // 
+            this.comboBox_GameMode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox_GameMode.FormattingEnabled = true;
             this.comboBox_GameMode.Items.AddRange(new object[] {
             "Co-opération"});
             this.comboBox_GameMode.Location = new System.Drawing.Point(21, 41);
             this.comboBox_GameMode.Name = "comboBox_GameMode";
-            this.comboBox_GameMode.Size = new System.Drawing.Size(144, 24);
+            this.comboBox_GameMode.Size = new System.Drawing.Size(196, 24);
             this.comboBox_GameMode.TabIndex = 4;
-            // 
-            // label_Difficulty
-            // 
-            this.label_Difficulty.AutoSize = true;
-            this.label_Difficulty.Location = new System.Drawing.Point(18, 69);
-            this.label_Difficulty.Name = "label_Difficulty";
-            this.label_Difficulty.Size = new System.Drawing.Size(128, 17);
-            this.label_Difficulty.TabIndex = 0;
-            this.label_Difficulty.Text = "Niveau de difficulté";
+            this.comboBox_GameMode.SelectedIndexChanged += new System.EventHandler(this.comboBox_GameMode_SelectedIndexChanged);
             // 
             // label_GameMode
             // 
@@ -449,32 +467,20 @@
             this.label_GameMode.TabIndex = 0;
             this.label_GameMode.Text = "Mode de jeu";
             // 
-            // comboBox_Difficulty
+            // label_Difficulty
             // 
-            this.comboBox_Difficulty.FormattingEnabled = true;
-            this.comboBox_Difficulty.Items.AddRange(new object[] {
-            "1",
-            "3",
-            "5"});
-            this.comboBox_Difficulty.Location = new System.Drawing.Point(22, 94);
-            this.comboBox_Difficulty.Name = "comboBox_Difficulty";
-            this.comboBox_Difficulty.Size = new System.Drawing.Size(144, 24);
-            this.comboBox_Difficulty.TabIndex = 4;
-            // 
-            // label_NameOtherPlayer
-            // 
-            this.label_NameOtherPlayer.BackColor = System.Drawing.Color.Transparent;
-            this.label_NameOtherPlayer.Location = new System.Drawing.Point(56, 83);
-            this.label_NameOtherPlayer.Name = "label_NameOtherPlayer";
-            this.label_NameOtherPlayer.Size = new System.Drawing.Size(115, 22);
-            this.label_NameOtherPlayer.TabIndex = 0;
-            this.label_NameOtherPlayer.Text = "Inconnu";
+            this.label_Difficulty.AutoSize = true;
+            this.label_Difficulty.Location = new System.Drawing.Point(18, 69);
+            this.label_Difficulty.Name = "label_Difficulty";
+            this.label_Difficulty.Size = new System.Drawing.Size(128, 17);
+            this.label_Difficulty.TabIndex = 0;
+            this.label_Difficulty.Text = "Niveau de difficulté";
             // 
             // Connexion_Windows
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(919, 465);
+            this.ClientSize = new System.Drawing.Size(968, 497);
             this.Controls.Add(this.panel_Config);
             this.Controls.Add(this.panel_Player);
             this.Controls.Add(this.radioButtonClient);

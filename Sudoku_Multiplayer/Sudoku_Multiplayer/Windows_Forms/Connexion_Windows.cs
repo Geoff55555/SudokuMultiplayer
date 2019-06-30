@@ -66,33 +66,57 @@ namespace Sudoku_Multiplayer
         //delegate methode for events on Info Exchange
         private void client_infoExchange(object sender, commArgs e)
         {
-            //We don't want to react if this is the client that sent the name, so we only care if this message is received
-            if (e.Info == "Message Received")
+            if (this.Visible) //because when the Game_Window will be opened, we don't want this to be triggered !
             {
-                label_NameOtherPlayer.Text = e.Message;
-            }
-            else if (e.Info == "Object Received" && e.ObjectData is string)
-            {
-                label_MsgReceived.Text = (string)e.ObjectData;
-            }
-            else if (e.Info == "Connexion Lost with the Server.")
-            {
-                panelClient.Enabled = true;
-                panel_Player.Enabled = false;
-                buttonReady.Enabled = false;
+                try
+                {
+                    //We don't want to react if this is the client that sent the name, so we only care if this message is received
+                    if (e.Reception)
+                    {
+                        messageCommunication(e);
+                        switch (((string)e.ObjectData).Split(',')[0])
+                        {
+                            case "Difficulty":
+                                comboBox_Difficulty.SelectedIndex = int.Parse(((string)e.ObjectData).Split(',')[1]);
+                                break;
+                            case "GameMode":
+                                comboBox_GameMode.SelectedIndex = int.Parse(((string)e.ObjectData).Split(',')[1]);
+                                break;
+                            case "LaunchGame":
+                                buttonReady_Click(this, null);
+                                break;
+                        }
+                    }
+                    if (e.Info == "Connexion Lost with the Server.")
+                    {
+                        panelClient.Enabled = true;
+                        panel_Player.Enabled = false;
+                        buttonReady.Enabled = false;
+                    }
+                }
+                catch (Exception exc)
+                {
+                    Console.WriteLine(exc);
+                }
             }
         }
 
         private void server_InfoExchange(object sender, commArgs e)
         {
-            //We don't want to react if this is the server that sent the name, so we only care if this message is received
-            if (e.Info == "Message Received")
+            if (this.Visible) //because when the Game_Window will be opened, we don't want this to be triggered !
             {
-                label_NameOtherPlayer.Text = e.Message;
-            }
-            else if (e.Info == "Object Received")
-            {
-                label_MsgReceived.Text = e.Message;
+                try
+                {
+                    //We don't want to react if this is the server that sent the name, so we only care if this message is received
+                    if (e.Reception)
+                    {
+                        messageCommunication(e);
+                    }
+                }
+                catch (Exception exc)
+                {
+                    Console.WriteLine(exc);
+                }
             }
         }
 
@@ -150,7 +174,7 @@ namespace Sudoku_Multiplayer
             {
                 panelClient.Enabled = false;
                 panel_Player.Enabled = true;
-                buttonReady.Enabled = true;
+                buttonReady.Text = "En attente de l'hôte";
                 client.ReceiveData();
             }
             else
@@ -162,6 +186,19 @@ namespace Sudoku_Multiplayer
                 //connexion lost with server, mandatory to restart
                 radioButtonHost.Checked = true;
                 radioButtonHost_MouseDown(this, null);
+            }
+        }
+
+        //managing communication
+        private void messageCommunication(commArgs e)
+        {
+            if (((string)e.ObjectData).Split(',')[0] == "name")
+            {
+                label_NameOtherPlayer.Text = ((string)e.ObjectData).Split(',')[1];
+            }
+            else if (((string)e.ObjectData).Split(',')[0] == "msg")
+            {
+                label_MsgReceived.Text = ((string)e.ObjectData).Split(',')[1];
             }
         }
 
@@ -230,16 +267,19 @@ namespace Sudoku_Multiplayer
         {
             if (e.KeyData == Keys.Enter)
             {
+                string msgToSend = "name,";
+                msgToSend += textBox_NamePlayer.Text;
                 if (isHost)
                 {
+                    //send to every clients
                     for (int client = 0; client < server.ClientList.Count; client++)
                     {
-                        server.ClientList[client].SendData(textBox_NamePlayer.Text, "name");
+                        server.ClientList[client].SendData(msgToSend, "name");
                     }
                 }
                 else
                 {
-                    client.SendData(textBox_NamePlayer.Text, "name");
+                    client.SendData(msgToSend, "name");
                 }
             }
         }
@@ -248,27 +288,62 @@ namespace Sudoku_Multiplayer
         {
             if (e.KeyData == Keys.Enter)
             {
+                string msgToSend = "msg,";
+                msgToSend += textBox_Msg.Text;
                 if (isHost)
                 {
                     for (int client = 0; client < server.ClientList.Count; client++)
                     {
-                        server.ClientList[client].SendData(textBox_Msg.Text, "name");
+                        server.ClientList[client].SendData(msgToSend, "msg");
                     }
                 }
                 else
                 {
-                    client.SendData(textBox_Msg.Text, "name");
+                    client.SendData(msgToSend, "msg");
                 }
             }
         }
 
+        //transmit to the client the choices made by the host regarding the GameMode and Difficulty
         private void buttonReady_Click(object sender, EventArgs e)
         {
+            if (isHost)
+            {
+                for (int client = 0; client < server.ClientList.Count; client++)
+                {
+                    server.ClientList[client].SendData("LaunchGame,", "LaunchGame");
+                }
+            }
             this.Hide();
             Game_Window newGame = new Game_Window(server, client, isHost, int.Parse(comboBox_Difficulty.Text));
             newGame.ShowDialog();
             this.ShowDialog();
         }
 
+        private void comboBox_Difficulty_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (isHost)
+            {
+                string infoToSend = "Difficulty,";
+                infoToSend += comboBox_Difficulty.SelectedIndex.ToString();
+                for (int client = 0; client < server.ClientList.Count; client++)
+                {
+                    server.ClientList[client].SendData(infoToSend, "Difficulty");
+                }
+            }
+        }
+
+        private void comboBox_GameMode_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (isHost)
+            {
+                string infoToSend = "GameMode,";
+                infoToSend += comboBox_GameMode.SelectedIndex.ToString();
+                for (int client = 0; client < server.ClientList.Count; client++)
+                {
+                    server.ClientList[client].SendData(infoToSend, "GameMode");
+                }
+            }
+        }
     }
 }

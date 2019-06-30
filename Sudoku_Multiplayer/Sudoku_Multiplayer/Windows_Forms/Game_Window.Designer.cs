@@ -35,11 +35,12 @@
             this.buttonLoadGrid = new System.Windows.Forms.Button();
             this.buttonSaveGrid = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
-            this.panel1 = new System.Windows.Forms.Panel();
+            this.panel_Parameters = new System.Windows.Forms.Panel();
             this.comboBox_Difficulty = new System.Windows.Forms.ComboBox();
             this.label_Difficulty = new System.Windows.Forms.Label();
             this.buttonGo = new System.Windows.Forms.Button();
-            this.panel1.SuspendLayout();
+            this.panel_SudokuGrid = new System.Windows.Forms.Panel();
+            this.panel_Parameters.SuspendLayout();
             this.SuspendLayout();
             // 
             // buttonFill
@@ -48,7 +49,7 @@
             this.buttonFill.CausesValidation = false;
             this.buttonFill.Enabled = false;
             this.buttonFill.Location = new System.Drawing.Point(9, 548);
-            this.buttonFill.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.buttonFill.Margin = new System.Windows.Forms.Padding(4);
             this.buttonFill.Name = "buttonFill";
             this.buttonFill.Size = new System.Drawing.Size(237, 53);
             this.buttonFill.TabIndex = 30;
@@ -64,7 +65,7 @@
             this.buttonHide.CausesValidation = false;
             this.buttonHide.Enabled = false;
             this.buttonHide.Location = new System.Drawing.Point(9, 608);
-            this.buttonHide.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.buttonHide.Margin = new System.Windows.Forms.Padding(4);
             this.buttonHide.Name = "buttonHide";
             this.buttonHide.Size = new System.Drawing.Size(237, 53);
             this.buttonHide.TabIndex = 10;
@@ -91,7 +92,7 @@
             this.buttonGenerate.CausesValidation = false;
             this.buttonGenerate.Enabled = false;
             this.buttonGenerate.Location = new System.Drawing.Point(9, 427);
-            this.buttonGenerate.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.buttonGenerate.Margin = new System.Windows.Forms.Padding(4);
             this.buttonGenerate.Name = "buttonGenerate";
             this.buttonGenerate.Size = new System.Drawing.Size(237, 53);
             this.buttonGenerate.TabIndex = 20;
@@ -107,7 +108,7 @@
             this.buttonLoadGrid.CausesValidation = false;
             this.buttonLoadGrid.Enabled = false;
             this.buttonLoadGrid.Location = new System.Drawing.Point(133, 487);
-            this.buttonLoadGrid.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.buttonLoadGrid.Margin = new System.Windows.Forms.Padding(4);
             this.buttonLoadGrid.Name = "buttonLoadGrid";
             this.buttonLoadGrid.Size = new System.Drawing.Size(113, 53);
             this.buttonLoadGrid.TabIndex = 20;
@@ -123,7 +124,7 @@
             this.buttonSaveGrid.CausesValidation = false;
             this.buttonSaveGrid.Enabled = false;
             this.buttonSaveGrid.Location = new System.Drawing.Point(9, 487);
-            this.buttonSaveGrid.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.buttonSaveGrid.Margin = new System.Windows.Forms.Padding(4);
             this.buttonSaveGrid.Name = "buttonSaveGrid";
             this.buttonSaveGrid.Size = new System.Drawing.Size(113, 53);
             this.buttonSaveGrid.TabIndex = 20;
@@ -145,24 +146,24 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "Number Preview";
             // 
-            // panel1
+            // panel_Parameters
             // 
-            this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.panel1.Controls.Add(this.comboBox_Difficulty);
-            this.panel1.Controls.Add(this.label_Difficulty);
-            this.panel1.Controls.Add(this.buttonSaveGrid);
-            this.panel1.Controls.Add(this.label1);
-            this.panel1.Controls.Add(this.buttonFill);
-            this.panel1.Controls.Add(this.labelNbrPreview);
-            this.panel1.Controls.Add(this.buttonGenerate);
-            this.panel1.Controls.Add(this.buttonGo);
-            this.panel1.Controls.Add(this.buttonHide);
-            this.panel1.Controls.Add(this.buttonLoadGrid);
-            this.panel1.Location = new System.Drawing.Point(948, 12);
-            this.panel1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(259, 665);
-            this.panel1.TabIndex = 31;
+            this.panel_Parameters.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.panel_Parameters.Controls.Add(this.comboBox_Difficulty);
+            this.panel_Parameters.Controls.Add(this.label_Difficulty);
+            this.panel_Parameters.Controls.Add(this.buttonSaveGrid);
+            this.panel_Parameters.Controls.Add(this.label1);
+            this.panel_Parameters.Controls.Add(this.buttonFill);
+            this.panel_Parameters.Controls.Add(this.labelNbrPreview);
+            this.panel_Parameters.Controls.Add(this.buttonGenerate);
+            this.panel_Parameters.Controls.Add(this.buttonGo);
+            this.panel_Parameters.Controls.Add(this.buttonHide);
+            this.panel_Parameters.Controls.Add(this.buttonLoadGrid);
+            this.panel_Parameters.Location = new System.Drawing.Point(699, 12);
+            this.panel_Parameters.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.panel_Parameters.Name = "panel_Parameters";
+            this.panel_Parameters.Size = new System.Drawing.Size(259, 665);
+            this.panel_Parameters.TabIndex = 31;
             // 
             // comboBox_Difficulty
             // 
@@ -197,7 +198,7 @@
             this.buttonGo.Enabled = false;
             this.buttonGo.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.buttonGo.Location = new System.Drawing.Point(9, 16);
-            this.buttonGo.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.buttonGo.Margin = new System.Windows.Forms.Padding(4);
             this.buttonGo.Name = "buttonGo";
             this.buttonGo.Size = new System.Drawing.Size(237, 53);
             this.buttonGo.TabIndex = 10;
@@ -207,18 +208,29 @@
             this.buttonGo.Click += new System.EventHandler(this.buttonGo_Click);
             this.buttonGo.Enter += new System.EventHandler(this.NeverFocusButton);
             // 
+            // panel_SudokuGrid
+            // 
+            this.panel_SudokuGrid.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel_SudokuGrid.Location = new System.Drawing.Point(12, 12);
+            this.panel_SudokuGrid.MaximumSize = new System.Drawing.Size(665, 665);
+            this.panel_SudokuGrid.MinimumSize = new System.Drawing.Size(665, 665);
+            this.panel_SudokuGrid.Name = "panel_SudokuGrid";
+            this.panel_SudokuGrid.Size = new System.Drawing.Size(665, 665);
+            this.panel_SudokuGrid.TabIndex = 32;
+            // 
             // Game_Window
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleDimensions = new System.Drawing.SizeF(120F, 120F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.ClientSize = new System.Drawing.Size(1219, 690);
-            this.Controls.Add(this.panel1);
+            this.ClientSize = new System.Drawing.Size(982, 688);
+            this.Controls.Add(this.panel_SudokuGrid);
+            this.Controls.Add(this.panel_Parameters);
             this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "Game_Window";
             this.Text = "Sudoku Multiplayer";
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
+            this.panel_Parameters.ResumeLayout(false);
+            this.panel_Parameters.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -232,10 +244,11 @@
         private System.Windows.Forms.Button buttonLoadGrid;
         private System.Windows.Forms.Button buttonSaveGrid;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Panel panel_Parameters;
         private System.Windows.Forms.Button buttonGo;
         private System.Windows.Forms.ComboBox comboBox_Difficulty;
         private System.Windows.Forms.Label label_Difficulty;
+        private System.Windows.Forms.Panel panel_SudokuGrid;
     }
 }
 

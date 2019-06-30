@@ -13,6 +13,9 @@ namespace Sudoku_Multiplayer
     {
         public int[,] fullGrid = new int[9, 9];
         public int[][] NumbersToKeep = new int[9][];
+        public int keepCount = 0;
+        public int hiddenCount = 0;
+
         Random rdm = new Random();
         List<int> availableRowList = new List<int>();
         IEnumerable<int> staticFullList = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
@@ -229,8 +232,10 @@ namespace Sudoku_Multiplayer
                 for (int indexList = 0; indexList < availableToBeHidden.Count; indexList++)
                 {
                     gridReady[row][indexList] = availableToBeHidden[indexList];
+                    keepCount += 1;
                 }
             }
+            hiddenCount = 81 - keepCount;
             NumbersToKeep = gridReady;
             //then use
             //hiddenCount = visualGrid.HideDetermined(casesToHide);
