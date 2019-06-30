@@ -23,11 +23,11 @@ namespace Sudoku_Multiplayer
         //for reception of special pack
         bool isWaitingforCase = false;
 
-        Sudoku_Grid generatedGrid = new Sudoku_Grid(false);
-        Complete_Sudoku_Grid_Generator visualGrid = new Complete_Sudoku_Grid_Generator();
+        Sudoku_Nbrs_Gen generatedGrid = new Sudoku_Nbrs_Gen(false);
+        Grid_9x9 visualGrid = new Grid_9x9();
         List<int> nbrsAdmittedStaticList = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
-        Sudoku_Numb_Label clickedCaseTemp;
-        Sudoku_Numb_Label receivedCase;
+        Sudoku_Label_Nbr clickedCaseTemp;
+        Sudoku_Label_Nbr receivedCase;
         int hiddenCount = 0;
 
         //initialisation of the game window
@@ -65,9 +65,9 @@ namespace Sudoku_Multiplayer
             {
                 foreach (Control caseControls in gridcontrol.Controls)
                 {
-                    if (caseControls is Sudoku_Numb_Label)
+                    if (caseControls is Sudoku_Label_Nbr)
                     {
-                        ((Sudoku_Numb_Label)caseControls).CaseClick += caseIsClicked;
+                        ((Sudoku_Label_Nbr)caseControls).CaseClick += caseIsClicked;
                     }
                 }
             }
@@ -76,9 +76,9 @@ namespace Sudoku_Multiplayer
         //onInfoExchange
         private void client_infoExchange(object sender, commArgs e)
         {
-            if (e.Info == "Object Received" && e.ObjectData is Sudoku_Grid)
+            if (e.ObjectData is Sudoku_Nbrs_Gen)
             {
-                generatedGrid = (Sudoku_Grid)e.ObjectData;
+                generatedGrid = (Sudoku_Nbrs_Gen)e.ObjectData;
                 visualGrid.Fill(generatedGrid);
                 hiddenCount = visualGrid.HideDetermined(generatedGrid.NumbersToKeep);
             }
@@ -88,13 +88,13 @@ namespace Sudoku_Multiplayer
                 isWaitingforCase = true;
                 foreach (Control grid_9x9 in this.Controls)
                 {
-                    if (grid_9x9 is Complete_Sudoku_Grid_Generator)
+                    if (grid_9x9 is Grid_9x9)
                     {
                         foreach (Control grid_3x3 in grid_9x9.Controls)
                         {
                             if (grid_3x3 is Grid_3x3)
                             {
-                                foreach (Sudoku_Numb_Label caseLabel in grid_3x3.Controls)
+                                foreach (Sudoku_Label_Nbr caseLabel in grid_3x3.Controls)
                                 {
                                     if (caseLabel.Coordinates.SequenceEqual((int[])e.ObjectData))
                                     {
@@ -125,13 +125,13 @@ namespace Sudoku_Multiplayer
                 isWaitingforCase = true;
                 foreach (Control grid_9x9 in this.Controls)
                 {
-                    if (grid_9x9 is Complete_Sudoku_Grid_Generator)
+                    if (grid_9x9 is Grid_9x9)
                     {
                         foreach (Control grid_3x3 in grid_9x9.Controls)
                         {
                             if (grid_3x3 is Grid_3x3)
                             {
-                                foreach (Sudoku_Numb_Label caseLabel in grid_3x3.Controls)
+                                foreach (Sudoku_Label_Nbr caseLabel in grid_3x3.Controls)
                                 {
                                     if (caseLabel.Coordinates.SequenceEqual((int[])e.ObjectData))
                                     {
@@ -158,7 +158,7 @@ namespace Sudoku_Multiplayer
         //event when a case of the grid is clicked
         private void caseIsClicked(object sender, CaseClick e)
         {
-            clickedCaseTemp = (Sudoku_Numb_Label)sender;
+            clickedCaseTemp = (Sudoku_Label_Nbr)sender;
             Console.WriteLine("Case Clicked is : [ " + clickedCaseTemp.Coordinates[0] + " , " + clickedCaseTemp.Coordinates[1] + " ] and has been put in temporary memory to be re-used easily");
         }
 
@@ -269,11 +269,11 @@ namespace Sudoku_Multiplayer
                     {
                         foreach (Control labelCase in grid_3x3.Controls)
                         {
-                            if (labelCase is Sudoku_Numb_Label)
+                            if (labelCase is Sudoku_Label_Nbr)
                             {
-                                if (((Sudoku_Numb_Label)labelCase).Coordinates[0] == clickedCaseTemp.Coordinates[0] + rowMove && ((Sudoku_Numb_Label)labelCase).Coordinates[1] == clickedCaseTemp.Coordinates[1] + colMove)
+                                if (((Sudoku_Label_Nbr)labelCase).Coordinates[0] == clickedCaseTemp.Coordinates[0] + rowMove && ((Sudoku_Label_Nbr)labelCase).Coordinates[1] == clickedCaseTemp.Coordinates[1] + colMove)
                                 {
-                                    ((Sudoku_Numb_Label)labelCase).labelClick(labelCase, null);
+                                    ((Sudoku_Label_Nbr)labelCase).labelClick(labelCase, null);
                                     //Case handled, return true to say we're done
                                     return true;
                                 }
@@ -330,7 +330,7 @@ namespace Sudoku_Multiplayer
 
         private void buttonGenerate_Click(object sender, EventArgs e)
         {
-            generatedGrid = new Sudoku_Grid(true);
+            generatedGrid = new Sudoku_Nbrs_Gen(true);
             generatedGrid.ShowInConsole();
         }
 

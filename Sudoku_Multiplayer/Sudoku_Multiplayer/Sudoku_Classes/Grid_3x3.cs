@@ -82,7 +82,7 @@ namespace Sudoku_Multiplayer.Classes
             {
                 for (int column = 0; column < 3; column++) //fill every case (per column)
                 {
-                    Sudoku_Numb_Label labelN = new Sudoku_Numb_Label(row + rowCorr, column + colCorr);
+                    Sudoku_Label_Nbr labelN = new Sudoku_Label_Nbr(row + rowCorr, column + colCorr);
                     this.Controls.Add(labelN, column, row); // Attention ! column first and then row
                 }
             }
@@ -107,7 +107,7 @@ namespace Sudoku_Multiplayer.Classes
                     if (coordinates.SequenceEqual(((int[])labelsList[0].Tag))) //just to check if the simplified references with labelsList works
                     {
                         labelsList[0].Text = Grid_3x3[row, column].ToString();
-                        ((Sudoku_Numb_Label)labelsList[0]).isRight = true; //because filled with the full grid generated
+                        ((Sudoku_Label_Nbr)labelsList[0]).isRight = true; //because filled with the full grid generated
                         Console.WriteLine("Coordinates [ " + coordinates[0] + " , " + coordinates[1] + " ] of Grid 3x3 nbr " + this.Tag + " filled correctly with " + labelsList[0].Text + " from generated grid.");
                         labelsList.Remove(labelsList[0]);//so the next label is always in list case #0
                     }

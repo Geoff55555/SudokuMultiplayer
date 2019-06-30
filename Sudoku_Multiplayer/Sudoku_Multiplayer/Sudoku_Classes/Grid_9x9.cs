@@ -7,12 +7,12 @@ using System.Windows.Forms;
 
 namespace Sudoku_Multiplayer.Classes
 {
-    class Complete_Sudoku_Grid_Generator : TableLayoutPanel
+    class Grid_9x9 : TableLayoutPanel
     {
         public int side_length = 540;
         Random rdm = new Random();
 
-        public Complete_Sudoku_Grid_Generator()
+        public Grid_9x9()
         {
             //whole grid style
             this.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Inset;
@@ -45,7 +45,7 @@ namespace Sudoku_Multiplayer.Classes
             }
         }
 
-        public void Fill(Sudoku_Grid generatedGrid)
+        public void Fill(Sudoku_Nbrs_Gen generatedGrid)
         {
             //Control[] allGrids = this.Controls.Find("tableLayoutPanel_Grid_3x3_", true);
             List<Grid_3x3> gridList = new List<Grid_3x3>();
@@ -96,14 +96,14 @@ namespace Sudoku_Multiplayer.Classes
         {
             foreach (Control LabelControl in control.Controls)
             {
-                if (LabelControl is Sudoku_Numb_Label)
+                if (LabelControl is Sudoku_Label_Nbr)
                 {
                     if (LabelControl.Text != "" && casesToHide.Contains(int.Parse(LabelControl.Text)))
                     {
                         casesToHide.Remove(int.Parse(LabelControl.Text));
                         LabelControl.Text = "";
                         //so the label is no more filled with the right number
-                        ((Sudoku_Numb_Label)LabelControl).isRight = false;
+                        ((Sudoku_Label_Nbr)LabelControl).isRight = false;
                         hiddenCount += 1;
                         //break; //look directly for the next label
                     }

@@ -9,7 +9,7 @@ using Sudoku_Multiplayer.Classes;
 namespace Sudoku_Multiplayer
 {
     [Serializable]
-    class Sudoku_Grid
+    class Sudoku_Nbrs_Gen
     {
         public int[,] fullGrid = new int[9, 9];
         public int[][] NumbersToKeep = new int[9][];
@@ -21,7 +21,7 @@ namespace Sudoku_Multiplayer
 
         private DateTime DateTime;
 
-        public Sudoku_Grid(bool createGrid)
+        public Sudoku_Nbrs_Gen(bool createGrid)
         {
             if (createGrid)
             {

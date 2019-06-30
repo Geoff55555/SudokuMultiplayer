@@ -8,14 +8,14 @@ using System.Windows.Forms;
 
 namespace Sudoku_Multiplayer.Classes
 {
-    class Sudoku_Numb_Label : Label
+    class Sudoku_Label_Nbr : Label
     {
         public int[] Coordinates = new int[2];
         public event EventHandler<CaseClick> CaseClick;
         public bool isRight = false;
 
         //Constructor to fill Grid_3x3
-        public Sudoku_Numb_Label(int row, int column)
+        public Sudoku_Label_Nbr(int row, int column)
         {
             //Set tag for future identification : they are the coordinates
             Coordinates[0] = row;
@@ -42,7 +42,7 @@ namespace Sudoku_Multiplayer.Classes
         }
 
         //Constructor for notes
-        public Sudoku_Numb_Label(int note)
+        public Sudoku_Label_Nbr(int note)
         {
             //Make it fill its container
             this.Dock = System.Windows.Forms.DockStyle.Fill;
