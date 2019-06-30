@@ -36,9 +36,9 @@
             this.buttonSaveGrid = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.buttonGo = new System.Windows.Forms.Button();
             this.comboBox_Difficulty = new System.Windows.Forms.ComboBox();
             this.label_Difficulty = new System.Windows.Forms.Label();
+            this.buttonGo = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -47,9 +47,10 @@
             this.buttonFill.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonFill.CausesValidation = false;
             this.buttonFill.Enabled = false;
-            this.buttonFill.Location = new System.Drawing.Point(10, 445);
+            this.buttonFill.Location = new System.Drawing.Point(9, 548);
+            this.buttonFill.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.buttonFill.Name = "buttonFill";
-            this.buttonFill.Size = new System.Drawing.Size(178, 43);
+            this.buttonFill.Size = new System.Drawing.Size(237, 53);
             this.buttonFill.TabIndex = 30;
             this.buttonFill.TabStop = false;
             this.buttonFill.Text = "Fill that grid";
@@ -62,9 +63,10 @@
             this.buttonHide.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonHide.CausesValidation = false;
             this.buttonHide.Enabled = false;
-            this.buttonHide.Location = new System.Drawing.Point(10, 494);
+            this.buttonHide.Location = new System.Drawing.Point(9, 608);
+            this.buttonHide.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.buttonHide.Name = "buttonHide";
-            this.buttonHide.Size = new System.Drawing.Size(178, 43);
+            this.buttonHide.Size = new System.Drawing.Size(237, 53);
             this.buttonHide.TabIndex = 10;
             this.buttonHide.TabStop = false;
             this.buttonHide.Text = "Hide Randomly";
@@ -77,10 +79,9 @@
             this.labelNbrPreview.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.labelNbrPreview.AutoSize = true;
             this.labelNbrPreview.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelNbrPreview.Location = new System.Drawing.Point(92, 113);
-            this.labelNbrPreview.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.labelNbrPreview.Location = new System.Drawing.Point(119, 139);
             this.labelNbrPreview.Name = "labelNbrPreview";
-            this.labelNbrPreview.Size = new System.Drawing.Size(0, 26);
+            this.labelNbrPreview.Size = new System.Drawing.Size(0, 32);
             this.labelNbrPreview.TabIndex = 0;
             this.labelNbrPreview.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
@@ -89,9 +90,10 @@
             this.buttonGenerate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonGenerate.CausesValidation = false;
             this.buttonGenerate.Enabled = false;
-            this.buttonGenerate.Location = new System.Drawing.Point(10, 347);
+            this.buttonGenerate.Location = new System.Drawing.Point(9, 427);
+            this.buttonGenerate.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.buttonGenerate.Name = "buttonGenerate";
-            this.buttonGenerate.Size = new System.Drawing.Size(178, 43);
+            this.buttonGenerate.Size = new System.Drawing.Size(237, 53);
             this.buttonGenerate.TabIndex = 20;
             this.buttonGenerate.TabStop = false;
             this.buttonGenerate.Text = "Generate New Sudoku grid";
@@ -104,9 +106,10 @@
             this.buttonLoadGrid.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonLoadGrid.CausesValidation = false;
             this.buttonLoadGrid.Enabled = false;
-            this.buttonLoadGrid.Location = new System.Drawing.Point(103, 396);
+            this.buttonLoadGrid.Location = new System.Drawing.Point(133, 487);
+            this.buttonLoadGrid.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.buttonLoadGrid.Name = "buttonLoadGrid";
-            this.buttonLoadGrid.Size = new System.Drawing.Size(85, 43);
+            this.buttonLoadGrid.Size = new System.Drawing.Size(113, 53);
             this.buttonLoadGrid.TabIndex = 20;
             this.buttonLoadGrid.TabStop = false;
             this.buttonLoadGrid.Text = "Load grid";
@@ -119,9 +122,10 @@
             this.buttonSaveGrid.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonSaveGrid.CausesValidation = false;
             this.buttonSaveGrid.Enabled = false;
-            this.buttonSaveGrid.Location = new System.Drawing.Point(10, 396);
+            this.buttonSaveGrid.Location = new System.Drawing.Point(9, 487);
+            this.buttonSaveGrid.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.buttonSaveGrid.Name = "buttonSaveGrid";
-            this.buttonSaveGrid.Size = new System.Drawing.Size(85, 43);
+            this.buttonSaveGrid.Size = new System.Drawing.Size(113, 53);
             this.buttonSaveGrid.TabIndex = 20;
             this.buttonSaveGrid.TabStop = false;
             this.buttonSaveGrid.Text = "Save grid";
@@ -135,15 +139,15 @@
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.Color.Black;
-            this.label1.Location = new System.Drawing.Point(20, 80);
-            this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label1.Location = new System.Drawing.Point(23, 98);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(165, 24);
+            this.label1.Size = new System.Drawing.Size(207, 29);
             this.label1.TabIndex = 0;
             this.label1.Text = "Number Preview";
             // 
             // panel1
             // 
+            this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.panel1.Controls.Add(this.comboBox_Difficulty);
             this.panel1.Controls.Add(this.label_Difficulty);
             this.panel1.Controls.Add(this.buttonSaveGrid);
@@ -154,27 +158,11 @@
             this.panel1.Controls.Add(this.buttonGo);
             this.panel1.Controls.Add(this.buttonHide);
             this.panel1.Controls.Add(this.buttonLoadGrid);
-            this.panel1.Location = new System.Drawing.Point(711, 10);
-            this.panel1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.panel1.Location = new System.Drawing.Point(948, 12);
+            this.panel1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(194, 540);
+            this.panel1.Size = new System.Drawing.Size(259, 665);
             this.panel1.TabIndex = 31;
-            // 
-            // buttonGo
-            // 
-            this.buttonGo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonGo.CausesValidation = false;
-            this.buttonGo.Enabled = false;
-            this.buttonGo.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonGo.Location = new System.Drawing.Point(10, 13);
-            this.buttonGo.Name = "buttonGo";
-            this.buttonGo.Size = new System.Drawing.Size(178, 43);
-            this.buttonGo.TabIndex = 10;
-            this.buttonGo.TabStop = false;
-            this.buttonGo.Text = "PLAY";
-            this.buttonGo.UseVisualStyleBackColor = true;
-            this.buttonGo.Click += new System.EventHandler(this.buttonGo_Click);
-            this.buttonGo.Enter += new System.EventHandler(this.NeverFocusButton);
             // 
             // comboBox_Difficulty
             // 
@@ -185,10 +173,10 @@
             "1",
             "3",
             "5"});
-            this.comboBox_Difficulty.Location = new System.Drawing.Point(10, 321);
-            this.comboBox_Difficulty.Margin = new System.Windows.Forms.Padding(2);
+            this.comboBox_Difficulty.Location = new System.Drawing.Point(9, 395);
+            this.comboBox_Difficulty.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.comboBox_Difficulty.Name = "comboBox_Difficulty";
-            this.comboBox_Difficulty.Size = new System.Drawing.Size(178, 21);
+            this.comboBox_Difficulty.Size = new System.Drawing.Size(236, 24);
             this.comboBox_Difficulty.TabIndex = 32;
             // 
             // label_Difficulty
@@ -196,21 +184,37 @@
             this.label_Difficulty.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label_Difficulty.AutoSize = true;
             this.label_Difficulty.Enabled = false;
-            this.label_Difficulty.Location = new System.Drawing.Point(53, 297);
-            this.label_Difficulty.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label_Difficulty.Location = new System.Drawing.Point(67, 366);
             this.label_Difficulty.Name = "label_Difficulty";
-            this.label_Difficulty.Size = new System.Drawing.Size(98, 13);
+            this.label_Difficulty.Size = new System.Drawing.Size(128, 17);
             this.label_Difficulty.TabIndex = 31;
             this.label_Difficulty.Text = "Niveau de difficulté";
             // 
+            // buttonGo
+            // 
+            this.buttonGo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonGo.CausesValidation = false;
+            this.buttonGo.Enabled = false;
+            this.buttonGo.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.buttonGo.Location = new System.Drawing.Point(9, 16);
+            this.buttonGo.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.buttonGo.Name = "buttonGo";
+            this.buttonGo.Size = new System.Drawing.Size(237, 53);
+            this.buttonGo.TabIndex = 10;
+            this.buttonGo.TabStop = false;
+            this.buttonGo.Text = "PLAY";
+            this.buttonGo.UseVisualStyleBackColor = true;
+            this.buttonGo.Click += new System.EventHandler(this.buttonGo_Click);
+            this.buttonGo.Enter += new System.EventHandler(this.NeverFocusButton);
+            // 
             // Game_Window
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.ClientSize = new System.Drawing.Size(914, 561);
+            this.ClientSize = new System.Drawing.Size(1219, 690);
             this.Controls.Add(this.panel1);
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "Game_Window";
             this.Text = "Sudoku Multiplayer";
             this.panel1.ResumeLayout(false);

@@ -15,15 +15,16 @@ namespace Sudoku_Multiplayer
 {
     public partial class Game_Window : Form
     {
+        //attributes
         Client client;
         Server server;
         bool isHost = true;
         int Difficulty = 1;
         Random rdm = new Random();
-        //for reception of special pack
+        //--for reception of special pack
         bool isWaitingforCase = false;
 
-        Sudoku_Nbrs_Gen generatedGrid = new Sudoku_Nbrs_Gen(false);
+        Sudoku_Nbrs_Gen generatedGridNbrs = new Sudoku_Nbrs_Gen(false);
         Grid_9x9 visualGrid = new Grid_9x9();
         List<int> nbrsAdmittedStaticList = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
         Sudoku_Label_Nbr clickedCaseTemp;
@@ -78,14 +79,12 @@ namespace Sudoku_Multiplayer
         {
             if (e.ObjectData is Sudoku_Nbrs_Gen)
             {
-                generatedGrid = (Sudoku_Nbrs_Gen)e.ObjectData;
-                visualGrid.Fill(generatedGrid);
-                hiddenCount = visualGrid.HideDetermined(generatedGrid.NumbersToKeep);
+                generatedGridNbrs = (Sudoku_Nbrs_Gen)e.ObjectData;
+                visualGrid.Fill(generatedGridNbrs);
+                hiddenCount = visualGrid.HideDetermined(generatedGridNbrs.NumbersToKeep);
             }
             else if (e.ObjectData is int[])
             {
-                //coordinates just received --> waiting for number
-                isWaitingforCase = true;
                 foreach (Control grid_9x9 in this.Controls)
                 {
                     if (grid_9x9 is Grid_9x9)
@@ -99,6 +98,10 @@ namespace Sudoku_Multiplayer
                                     if (caseLabel.Coordinates.SequenceEqual((int[])e.ObjectData))
                                     {
                                         receivedCase = caseLabel;
+                                        Console.WriteLine("We received a case ! Coordinates are : [ " + receivedCase.Coordinates[0] + " , " + receivedCase.Coordinates[1] + " ]");
+                                        //coordinates just received --> waiting for number
+                                        isWaitingforCase = true;
+                                        Console.WriteLine("Waiting for the number...");
                                     }
                                 }
                             }
@@ -113,7 +116,13 @@ namespace Sudoku_Multiplayer
                     receivedCase.Text = (string)e.ObjectData;
                     receivedCase.BackColor = Color.DeepSkyBlue;
                     isWaitingforCase = false;
+                    Console.WriteLine("We received the number ! It is : " + receivedCase.Text);
+                    hiddenCount -= 1;
                 }
+            }
+            else if(e.Reception)
+            {
+                Console.WriteLine("Data received but not managed");
             }
         }
 
@@ -121,8 +130,6 @@ namespace Sudoku_Multiplayer
         {
             if (e.ObjectData is int[])
             {
-                //coordinates just received --> waiting for number
-                isWaitingforCase = true;
                 foreach (Control grid_9x9 in this.Controls)
                 {
                     if (grid_9x9 is Grid_9x9)
@@ -136,6 +143,10 @@ namespace Sudoku_Multiplayer
                                     if (caseLabel.Coordinates.SequenceEqual((int[])e.ObjectData))
                                     {
                                         receivedCase = caseLabel;
+                                        Console.WriteLine("We received a case ! Coordinates are : [ " + receivedCase.Coordinates[0] + " , " + receivedCase.Coordinates[1] + " ]");
+                                        //coordinates just received --> waiting for number
+                                        isWaitingforCase = true;
+                                        Console.WriteLine("Waiting for the number...");
                                     }
                                 }
                             }
@@ -150,9 +161,14 @@ namespace Sudoku_Multiplayer
                     receivedCase.Text = (string)e.ObjectData;
                     receivedCase.BackColor = Color.DeepSkyBlue;
                     isWaitingforCase = false;
+                    Console.WriteLine("We received the number ! It is : " + receivedCase.Text);
+                    hiddenCount -= 1;
                 }
             }
-
+            else if (e.Reception)
+            {
+                Console.WriteLine("Data received but not managed");
+            }
         }
 
         //event when a case of the grid is clicked
@@ -185,7 +201,7 @@ namespace Sudoku_Multiplayer
                         clickedCaseTemp.Text = labelNbrPreview.Text;
                         labelNbrPreview.Text = "In the \nGrid";
                         //check if was the right number
-                        int rightNumb = generatedGrid.fullGrid[clickedCaseTemp.Coordinates[0], clickedCaseTemp.Coordinates[1]];
+                        int rightNumb = generatedGridNbrs.fullGrid[clickedCaseTemp.Coordinates[0], clickedCaseTemp.Coordinates[1]];
                         if (int.Parse(clickedCaseTemp.Text) == rightNumb)
                         {
                             clickedCaseTemp.ForeColor = Color.PaleGreen;
@@ -198,13 +214,17 @@ namespace Sudoku_Multiplayer
                                 for (int client = 0; client < server.ClientList.Count; client++)
                                 {
                                     server.ClientList[client].SendData(clickedCaseTemp.Coordinates, "coord");
+                                    Console.WriteLine("Coordinates are sent to the client.");
                                     server.ClientList[client].SendData(clickedCaseTemp.Text, "nbr");
+                                    Console.WriteLine("The number is sent to the client.");
                                 }
                             }
                             else
                             {
                                 client.SendData(clickedCaseTemp.Coordinates, "coord");
+                                Console.WriteLine("Coordinates are sent to the server.");
                                 client.SendData(clickedCaseTemp.Text, "nbr");
+                                Console.WriteLine("The number is sent to the server.");
                             }
 
                             //END GAME
@@ -320,7 +340,7 @@ namespace Sudoku_Multiplayer
         //Buttons
         private void buttonFill_Click(object sender, EventArgs e)
         {
-            visualGrid.Fill(generatedGrid);
+            visualGrid.Fill(generatedGridNbrs);
         }
 
         private void buttonHide_Click(object sender, EventArgs e)
@@ -330,8 +350,8 @@ namespace Sudoku_Multiplayer
 
         private void buttonGenerate_Click(object sender, EventArgs e)
         {
-            generatedGrid = new Sudoku_Nbrs_Gen(true);
-            generatedGrid.ShowInConsole();
+            generatedGridNbrs = new Sudoku_Nbrs_Gen(true);
+            generatedGridNbrs.ShowInConsole();
         }
 
         private void buttonSaveGrid_Click(object sender, EventArgs e)
@@ -343,7 +363,7 @@ namespace Sudoku_Multiplayer
             {
                 for (int col = 0; col < 9; col++)
                 {
-                    tw.WriteLine(generatedGrid.fullGrid[row, col]);
+                    tw.WriteLine(generatedGridNbrs.fullGrid[row, col]);
                 }
             }
 
@@ -360,7 +380,7 @@ namespace Sudoku_Multiplayer
             {
                 for (int col = 0; col < 9; col++)
                 {
-                    generatedGrid.fullGrid[row, col] = int.Parse(tr.ReadLine());
+                    generatedGridNbrs.fullGrid[row, col] = int.Parse(tr.ReadLine());
                 }
             }
 
@@ -383,14 +403,14 @@ namespace Sudoku_Multiplayer
             {
                 for (int col = 0; col < 9; col++)
                 {
-                    generatedGrid.fullGrid[row, col] = int.Parse(tr.ReadLine());
+                    generatedGridNbrs.fullGrid[row, col] = int.Parse(tr.ReadLine());
                 }
             }
             //close the stream
             tr.Close();
 
             //determine the nbrs to hide --> written in generatedGrid.NbrsToHide
-            generatedGrid.RdmNbrsToKeep(Difficulty);
+            generatedGridNbrs.RdmNbrsToKeep(Difficulty);
 
             //send it to client
             //--cannot serialize the whole grid
@@ -398,12 +418,12 @@ namespace Sudoku_Multiplayer
             //--send the grid with wholes
             for (int client = 0; client < server.ClientList.Count; client++)
             {
-                server.ClientList[client].SendData(generatedGrid, "generatedGrid");
+                server.ClientList[client].SendData(generatedGridNbrs, "generatedGrid");
             }
 
             //fill the visual
-            visualGrid.Fill(generatedGrid);
-            hiddenCount = visualGrid.KeepDetermined(generatedGrid.NumbersToKeep);
+            visualGrid.Fill(generatedGridNbrs);
+            hiddenCount = visualGrid.KeepDetermined(generatedGridNbrs.NumbersToKeep);
             //hiddenCount = visualGrid.HideRandom(Difficulty);
 
             //int[][] casesToHide = new int[9][];

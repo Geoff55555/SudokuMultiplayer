@@ -60,6 +60,7 @@ namespace Sudoku_Multiplayer
                                 column = -1;
                                 availableRowList.Clear();
                                 availableRowList.AddRange(staticFullList);//re-add in available row list 
+                                Console.WriteLine("Stuck with this line, I restart it.");
                             }
                             else if (stuck < 5)
                             {
@@ -75,9 +76,13 @@ namespace Sudoku_Multiplayer
                 {
                     int lastNumberPossible = detLastNumberInColumn(column);
                     fullGrid[8, column] = lastNumberPossible;
+                    Console.WriteLine("The grid is fully generated with numbers");
                 }
             }
-            else { }
+            else
+            {
+                Console.WriteLine("The grid created and waiting for numbers (fill with file)");
+            }
         }
 
         private int detLastNumberInColumn(int column)
@@ -213,7 +218,7 @@ namespace Sudoku_Multiplayer
             for (int row = 0; row < 9; row++)
             {
                 List<int> availableToBeHidden = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
-                for (int i = 0; i < rdm.Next(1,hideRdm+1) ; i++)
+                for (int i = 0; i < rdm.Next(1, hideRdm + 1); i++)
                 {
                     int caseToHide = rdm.Next(0, availableToBeHidden.Count);//it is [min; max[ !
                     availableToBeHidden.Remove(availableToBeHidden[caseToHide]);
