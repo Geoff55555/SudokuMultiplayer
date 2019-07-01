@@ -45,9 +45,28 @@ namespace Sudoku_Multiplayer.Classes
             }
         }
 
-        public void changeSize(System.Drawing.Size size)
+        public void ChangeSize(System.Drawing.Size size)
         {
             this.Size = size;
+        }
+
+        public List<Sudoku_Label_Nbr> GetAllChilds()
+        {
+            List<Sudoku_Label_Nbr> allCellsList = new List<Sudoku_Label_Nbr>();
+            foreach (Control grid_3x3 in this.Controls)
+            {
+                if (grid_3x3 is Grid_3x3)
+                {
+                    foreach (Control label in grid_3x3.Controls)
+                    {
+                        if (label is Sudoku_Label_Nbr)
+                        {
+                            allCellsList.Add((Sudoku_Label_Nbr)label);
+                        }
+                    }
+                }
+            }
+            return allCellsList;
         }
 
         public void Fill(Sudoku_Nbrs_Gen generatedGrid)

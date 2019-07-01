@@ -33,30 +33,30 @@
             this.button_OpenConnexionToClient = new System.Windows.Forms.Button();
             this.label_IPHost = new System.Windows.Forms.Label();
             this.textBox_HostPortChosen = new System.Windows.Forms.TextBox();
-            this.label_StaticClientState = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label_StaticIPHost = new System.Windows.Forms.Label();
+            this.label_Static_ClientState = new System.Windows.Forms.Label();
+            this.label_PortHost = new System.Windows.Forms.Label();
+            this.label_Static_HostIP = new System.Windows.Forms.Label();
             this.panelClient = new System.Windows.Forms.Panel();
             this.label_Status_CoToHost = new System.Windows.Forms.Label();
             this.buttonConnectToHost = new System.Windows.Forms.Button();
             this.textBox_IP_X4 = new System.Windows.Forms.TextBox();
             this.textBox_IP_X3 = new System.Windows.Forms.TextBox();
-            this.label5 = new System.Windows.Forms.Label();
+            this.label_Static_CoToHost = new System.Windows.Forms.Label();
             this.textBox_IP_X2 = new System.Windows.Forms.TextBox();
             this.textBox_HostPort = new System.Windows.Forms.TextBox();
             this.textBox_IP_X1 = new System.Windows.Forms.TextBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label_Point = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label_StaticEnterIPHost = new System.Windows.Forms.Label();
+            this.label_Static_IPPoint3 = new System.Windows.Forms.Label();
+            this.label_Static_IPPoint2 = new System.Windows.Forms.Label();
+            this.label_Static_IPPoint1 = new System.Windows.Forms.Label();
+            this.label_Static_EnterHostPort = new System.Windows.Forms.Label();
+            this.label_Static_EnterHostIP = new System.Windows.Forms.Label();
             this.radioButtonHost = new System.Windows.Forms.RadioButton();
             this.radioButtonClient = new System.Windows.Forms.RadioButton();
             this.buttonReady = new System.Windows.Forms.Button();
             this.panel_Player = new System.Windows.Forms.Panel();
             this.label_MsgReceived = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.label_NameConnectedPlayer = new System.Windows.Forms.Label();
+            this.label_Static_ReceivedMsg = new System.Windows.Forms.Label();
+            this.label_Static_SendMsg = new System.Windows.Forms.Label();
             this.label_NameOtherPlayer = new System.Windows.Forms.Label();
             this.label_Static_NamePlayer = new System.Windows.Forms.Label();
             this.textBox_Msg = new System.Windows.Forms.TextBox();
@@ -67,6 +67,7 @@
             this.comboBox_GameMode = new System.Windows.Forms.ComboBox();
             this.label_GameMode = new System.Windows.Forms.Label();
             this.label_Difficulty = new System.Windows.Forms.Label();
+            this.label_Status_msg = new System.Windows.Forms.Label();
             this.panelHost.SuspendLayout();
             this.panelClient.SuspendLayout();
             this.panel_Player.SuspendLayout();
@@ -80,9 +81,9 @@
             this.panelHost.Controls.Add(this.button_OpenConnexionToClient);
             this.panelHost.Controls.Add(this.label_IPHost);
             this.panelHost.Controls.Add(this.textBox_HostPortChosen);
-            this.panelHost.Controls.Add(this.label_StaticClientState);
-            this.panelHost.Controls.Add(this.label2);
-            this.panelHost.Controls.Add(this.label_StaticIPHost);
+            this.panelHost.Controls.Add(this.label_Static_ClientState);
+            this.panelHost.Controls.Add(this.label_PortHost);
+            this.panelHost.Controls.Add(this.label_Static_HostIP);
             this.panelHost.Enabled = false;
             this.panelHost.Location = new System.Drawing.Point(11, 50);
             this.panelHost.Name = "panelHost";
@@ -126,32 +127,32 @@
             this.textBox_HostPortChosen.TabIndex = 3;
             this.textBox_HostPortChosen.Text = "1025";
             // 
-            // label_StaticClientState
+            // label_Static_ClientState
             // 
-            this.label_StaticClientState.AutoSize = true;
-            this.label_StaticClientState.Location = new System.Drawing.Point(17, 112);
-            this.label_StaticClientState.Name = "label_StaticClientState";
-            this.label_StaticClientState.Size = new System.Drawing.Size(146, 17);
-            this.label_StaticClientState.TabIndex = 0;
-            this.label_StaticClientState.Text = "Etat connexion invité :";
+            this.label_Static_ClientState.AutoSize = true;
+            this.label_Static_ClientState.Location = new System.Drawing.Point(17, 112);
+            this.label_Static_ClientState.Name = "label_Static_ClientState";
+            this.label_Static_ClientState.Size = new System.Drawing.Size(146, 17);
+            this.label_Static_ClientState.TabIndex = 0;
+            this.label_Static_ClientState.Text = "Etat connexion invité :";
             // 
-            // label2
+            // label_PortHost
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(301, 20);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(72, 17);
-            this.label2.TabIndex = 0;
-            this.label2.Text = "Mon port :";
+            this.label_PortHost.AutoSize = true;
+            this.label_PortHost.Location = new System.Drawing.Point(301, 20);
+            this.label_PortHost.Name = "label_PortHost";
+            this.label_PortHost.Size = new System.Drawing.Size(72, 17);
+            this.label_PortHost.TabIndex = 0;
+            this.label_PortHost.Text = "Mon port :";
             // 
-            // label_StaticIPHost
+            // label_Static_HostIP
             // 
-            this.label_StaticIPHost.AutoSize = true;
-            this.label_StaticIPHost.Location = new System.Drawing.Point(18, 20);
-            this.label_StaticIPHost.Name = "label_StaticIPHost";
-            this.label_StaticIPHost.Size = new System.Drawing.Size(114, 17);
-            this.label_StaticIPHost.TabIndex = 0;
-            this.label_StaticIPHost.Text = "Mon adresse IP :";
+            this.label_Static_HostIP.AutoSize = true;
+            this.label_Static_HostIP.Location = new System.Drawing.Point(18, 20);
+            this.label_Static_HostIP.Name = "label_Static_HostIP";
+            this.label_Static_HostIP.Size = new System.Drawing.Size(114, 17);
+            this.label_Static_HostIP.TabIndex = 0;
+            this.label_Static_HostIP.Text = "Mon adresse IP :";
             // 
             // panelClient
             // 
@@ -160,15 +161,15 @@
             this.panelClient.Controls.Add(this.buttonConnectToHost);
             this.panelClient.Controls.Add(this.textBox_IP_X4);
             this.panelClient.Controls.Add(this.textBox_IP_X3);
-            this.panelClient.Controls.Add(this.label5);
+            this.panelClient.Controls.Add(this.label_Static_CoToHost);
             this.panelClient.Controls.Add(this.textBox_IP_X2);
             this.panelClient.Controls.Add(this.textBox_HostPort);
             this.panelClient.Controls.Add(this.textBox_IP_X1);
-            this.panelClient.Controls.Add(this.label3);
-            this.panelClient.Controls.Add(this.label1);
-            this.panelClient.Controls.Add(this.label_Point);
-            this.panelClient.Controls.Add(this.label4);
-            this.panelClient.Controls.Add(this.label_StaticEnterIPHost);
+            this.panelClient.Controls.Add(this.label_Static_IPPoint3);
+            this.panelClient.Controls.Add(this.label_Static_IPPoint2);
+            this.panelClient.Controls.Add(this.label_Static_IPPoint1);
+            this.panelClient.Controls.Add(this.label_Static_EnterHostPort);
+            this.panelClient.Controls.Add(this.label_Static_EnterHostIP);
             this.panelClient.Enabled = false;
             this.panelClient.Location = new System.Drawing.Point(12, 263);
             this.panelClient.Name = "panelClient";
@@ -196,7 +197,7 @@
             // 
             // textBox_IP_X4
             // 
-            this.textBox_IP_X4.Location = new System.Drawing.Point(413, 14);
+            this.textBox_IP_X4.Location = new System.Drawing.Point(430, 15);
             this.textBox_IP_X4.MaxLength = 3;
             this.textBox_IP_X4.Name = "textBox_IP_X4";
             this.textBox_IP_X4.Size = new System.Drawing.Size(61, 22);
@@ -205,25 +206,25 @@
             // 
             // textBox_IP_X3
             // 
-            this.textBox_IP_X3.Location = new System.Drawing.Point(328, 15);
+            this.textBox_IP_X3.Location = new System.Drawing.Point(345, 16);
             this.textBox_IP_X3.MaxLength = 3;
             this.textBox_IP_X3.Name = "textBox_IP_X3";
             this.textBox_IP_X3.Size = new System.Drawing.Size(61, 22);
             this.textBox_IP_X3.TabIndex = 2;
             this.textBox_IP_X3.Text = "1";
             // 
-            // label5
+            // label_Static_CoToHost
             // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(16, 178);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(159, 17);
-            this.label5.TabIndex = 0;
-            this.label5.Text = "Etat connexion à l\'hôte :";
+            this.label_Static_CoToHost.AutoSize = true;
+            this.label_Static_CoToHost.Location = new System.Drawing.Point(16, 178);
+            this.label_Static_CoToHost.Name = "label_Static_CoToHost";
+            this.label_Static_CoToHost.Size = new System.Drawing.Size(159, 17);
+            this.label_Static_CoToHost.TabIndex = 0;
+            this.label_Static_CoToHost.Text = "Etat connexion à l\'hôte :";
             // 
             // textBox_IP_X2
             // 
-            this.textBox_IP_X2.Location = new System.Drawing.Point(243, 15);
+            this.textBox_IP_X2.Location = new System.Drawing.Point(260, 16);
             this.textBox_IP_X2.MaxLength = 3;
             this.textBox_IP_X2.Name = "textBox_IP_X2";
             this.textBox_IP_X2.Size = new System.Drawing.Size(61, 22);
@@ -232,7 +233,7 @@
             // 
             // textBox_HostPort
             // 
-            this.textBox_HostPort.Location = new System.Drawing.Point(157, 66);
+            this.textBox_HostPort.Location = new System.Drawing.Point(175, 66);
             this.textBox_HostPort.MaxLength = 4;
             this.textBox_HostPort.Name = "textBox_HostPort";
             this.textBox_HostPort.Size = new System.Drawing.Size(61, 22);
@@ -241,57 +242,57 @@
             // 
             // textBox_IP_X1
             // 
-            this.textBox_IP_X1.Location = new System.Drawing.Point(158, 15);
+            this.textBox_IP_X1.Location = new System.Drawing.Point(175, 16);
             this.textBox_IP_X1.MaxLength = 3;
             this.textBox_IP_X1.Name = "textBox_IP_X1";
             this.textBox_IP_X1.Size = new System.Drawing.Size(61, 22);
             this.textBox_IP_X1.TabIndex = 0;
             this.textBox_IP_X1.Text = "192";
             // 
-            // label3
+            // label_Static_IPPoint3
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(395, 17);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(12, 17);
-            this.label3.TabIndex = 0;
-            this.label3.Text = ".";
+            this.label_Static_IPPoint3.AutoSize = true;
+            this.label_Static_IPPoint3.Location = new System.Drawing.Point(412, 18);
+            this.label_Static_IPPoint3.Name = "label_Static_IPPoint3";
+            this.label_Static_IPPoint3.Size = new System.Drawing.Size(12, 17);
+            this.label_Static_IPPoint3.TabIndex = 0;
+            this.label_Static_IPPoint3.Text = ".";
             // 
-            // label1
+            // label_Static_IPPoint2
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(310, 15);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(12, 17);
-            this.label1.TabIndex = 0;
-            this.label1.Text = ".";
+            this.label_Static_IPPoint2.AutoSize = true;
+            this.label_Static_IPPoint2.Location = new System.Drawing.Point(327, 16);
+            this.label_Static_IPPoint2.Name = "label_Static_IPPoint2";
+            this.label_Static_IPPoint2.Size = new System.Drawing.Size(12, 17);
+            this.label_Static_IPPoint2.TabIndex = 0;
+            this.label_Static_IPPoint2.Text = ".";
             // 
-            // label_Point
+            // label_Static_IPPoint1
             // 
-            this.label_Point.AutoSize = true;
-            this.label_Point.Location = new System.Drawing.Point(225, 15);
-            this.label_Point.Name = "label_Point";
-            this.label_Point.Size = new System.Drawing.Size(12, 17);
-            this.label_Point.TabIndex = 0;
-            this.label_Point.Text = ".";
+            this.label_Static_IPPoint1.AutoSize = true;
+            this.label_Static_IPPoint1.Location = new System.Drawing.Point(242, 16);
+            this.label_Static_IPPoint1.Name = "label_Static_IPPoint1";
+            this.label_Static_IPPoint1.Size = new System.Drawing.Size(12, 17);
+            this.label_Static_IPPoint1.TabIndex = 0;
+            this.label_Static_IPPoint1.Text = ".";
             // 
-            // label4
+            // label_Static_EnterHostPort
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(16, 69);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(135, 17);
-            this.label4.TabIndex = 5;
-            this.label4.Text = "Entrer l\'IP de l\'hôte :";
+            this.label_Static_EnterHostPort.AutoSize = true;
+            this.label_Static_EnterHostPort.Location = new System.Drawing.Point(16, 69);
+            this.label_Static_EnterHostPort.Name = "label_Static_EnterHostPort";
+            this.label_Static_EnterHostPort.Size = new System.Drawing.Size(157, 17);
+            this.label_Static_EnterHostPort.TabIndex = 5;
+            this.label_Static_EnterHostPort.Text = "Entrer le port de l\'hôte :";
             // 
-            // label_StaticEnterIPHost
+            // label_Static_EnterHostIP
             // 
-            this.label_StaticEnterIPHost.AutoSize = true;
-            this.label_StaticEnterIPHost.Location = new System.Drawing.Point(17, 18);
-            this.label_StaticEnterIPHost.Name = "label_StaticEnterIPHost";
-            this.label_StaticEnterIPHost.Size = new System.Drawing.Size(135, 17);
-            this.label_StaticEnterIPHost.TabIndex = 6;
-            this.label_StaticEnterIPHost.Text = "Entrer l\'IP de l\'hôte :";
+            this.label_Static_EnterHostIP.AutoSize = true;
+            this.label_Static_EnterHostIP.Location = new System.Drawing.Point(17, 18);
+            this.label_Static_EnterHostIP.Name = "label_Static_EnterHostIP";
+            this.label_Static_EnterHostIP.Size = new System.Drawing.Size(135, 17);
+            this.label_Static_EnterHostIP.TabIndex = 6;
+            this.label_Static_EnterHostIP.Text = "Entrer l\'IP de l\'hôte :";
             // 
             // radioButtonHost
             // 
@@ -323,7 +324,7 @@
             this.buttonReady.Name = "buttonReady";
             this.buttonReady.Size = new System.Drawing.Size(128, 432);
             this.buttonReady.TabIndex = 1;
-            this.buttonReady.Text = "Je suis prêt !";
+            this.buttonReady.Text = "Nous sommes\r\nprêts !";
             this.buttonReady.UseVisualStyleBackColor = true;
             this.buttonReady.Click += new System.EventHandler(this.buttonReady_Click);
             // 
@@ -331,8 +332,9 @@
             // 
             this.panel_Player.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel_Player.Controls.Add(this.label_MsgReceived);
-            this.panel_Player.Controls.Add(this.label6);
-            this.panel_Player.Controls.Add(this.label_NameConnectedPlayer);
+            this.panel_Player.Controls.Add(this.label_Static_ReceivedMsg);
+            this.panel_Player.Controls.Add(this.label_Status_msg);
+            this.panel_Player.Controls.Add(this.label_Static_SendMsg);
             this.panel_Player.Controls.Add(this.label_NameOtherPlayer);
             this.panel_Player.Controls.Add(this.label_Static_NamePlayer);
             this.panel_Player.Controls.Add(this.textBox_Msg);
@@ -355,23 +357,23 @@
             this.label_MsgReceived.TabIndex = 0;
             this.label_MsgReceived.Text = "-";
             // 
-            // label6
+            // label_Static_ReceivedMsg
             // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(17, 178);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(97, 17);
-            this.label6.TabIndex = 0;
-            this.label6.Text = "Message reçu";
+            this.label_Static_ReceivedMsg.AutoSize = true;
+            this.label_Static_ReceivedMsg.Location = new System.Drawing.Point(17, 178);
+            this.label_Static_ReceivedMsg.Name = "label_Static_ReceivedMsg";
+            this.label_Static_ReceivedMsg.Size = new System.Drawing.Size(97, 17);
+            this.label_Static_ReceivedMsg.TabIndex = 0;
+            this.label_Static_ReceivedMsg.Text = "Message reçu";
             // 
-            // label_NameConnectedPlayer
+            // label_Static_SendMsg
             // 
-            this.label_NameConnectedPlayer.AutoSize = true;
-            this.label_NameConnectedPlayer.Location = new System.Drawing.Point(17, 111);
-            this.label_NameConnectedPlayer.Name = "label_NameConnectedPlayer";
-            this.label_NameConnectedPlayer.Size = new System.Drawing.Size(163, 17);
-            this.label_NameConnectedPlayer.TabIndex = 0;
-            this.label_NameConnectedPlayer.Text = "Lui envoyer un message";
+            this.label_Static_SendMsg.AutoSize = true;
+            this.label_Static_SendMsg.Location = new System.Drawing.Point(17, 111);
+            this.label_Static_SendMsg.Name = "label_Static_SendMsg";
+            this.label_Static_SendMsg.Size = new System.Drawing.Size(163, 17);
+            this.label_Static_SendMsg.TabIndex = 0;
+            this.label_Static_SendMsg.Text = "Lui envoyer un message";
             // 
             // label_NameOtherPlayer
             // 
@@ -393,7 +395,7 @@
             // 
             // textBox_Msg
             // 
-            this.textBox_Msg.Location = new System.Drawing.Point(20, 140);
+            this.textBox_Msg.Location = new System.Drawing.Point(20, 131);
             this.textBox_Msg.MaxLength = 180;
             this.textBox_Msg.Name = "textBox_Msg";
             this.textBox_Msg.Size = new System.Drawing.Size(197, 22);
@@ -476,6 +478,15 @@
             this.label_Difficulty.TabIndex = 0;
             this.label_Difficulty.Text = "Niveau de difficulté";
             // 
+            // label_Status_msg
+            // 
+            this.label_Status_msg.AutoSize = true;
+            this.label_Status_msg.Location = new System.Drawing.Point(17, 156);
+            this.label_Status_msg.Name = "label_Status_msg";
+            this.label_Status_msg.Size = new System.Drawing.Size(45, 17);
+            this.label_Status_msg.TabIndex = 0;
+            this.label_Status_msg.Text = "Statut";
+            // 
             // Connexion_Windows
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -508,8 +519,8 @@
         private System.Windows.Forms.Panel panelHost;
         private System.Windows.Forms.Label label_Status_CoToClient;
         private System.Windows.Forms.Label label_IPHost;
-        private System.Windows.Forms.Label label_StaticClientState;
-        private System.Windows.Forms.Label label_StaticIPHost;
+        private System.Windows.Forms.Label label_Static_ClientState;
+        private System.Windows.Forms.Label label_Static_HostIP;
         private System.Windows.Forms.Panel panelClient;
         private System.Windows.Forms.Label label_Status_CoToHost;
         private System.Windows.Forms.Button buttonConnectToHost;
@@ -517,23 +528,23 @@
         private System.Windows.Forms.TextBox textBox_IP_X3;
         private System.Windows.Forms.TextBox textBox_IP_X2;
         private System.Windows.Forms.TextBox textBox_IP_X1;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label_Point;
-        private System.Windows.Forms.Label label_StaticEnterIPHost;
+        private System.Windows.Forms.Label label_Static_IPPoint3;
+        private System.Windows.Forms.Label label_Static_IPPoint2;
+        private System.Windows.Forms.Label label_Static_IPPoint1;
+        private System.Windows.Forms.Label label_Static_EnterHostIP;
         private System.Windows.Forms.RadioButton radioButtonHost;
         private System.Windows.Forms.RadioButton radioButtonClient;
         private System.Windows.Forms.Button buttonReady;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label_PortHost;
         private System.Windows.Forms.TextBox textBox_HostPort;
-        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label_Static_EnterHostPort;
         private System.Windows.Forms.TextBox textBox_HostPortChosen;
         private System.Windows.Forms.Button button_OpenConnexionToClient;
-        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label_Static_CoToHost;
         private System.Windows.Forms.Panel panel_Player;
         private System.Windows.Forms.Label label_MsgReceived;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Label label_NameConnectedPlayer;
+        private System.Windows.Forms.Label label_Static_ReceivedMsg;
+        private System.Windows.Forms.Label label_Static_SendMsg;
         private System.Windows.Forms.Label label_Static_DiscussWith;
         private System.Windows.Forms.Label label_Static_NamePlayer;
         private System.Windows.Forms.TextBox textBox_Msg;
@@ -544,5 +555,6 @@
         private System.Windows.Forms.Label label_GameMode;
         private System.Windows.Forms.Label label_Difficulty;
         private System.Windows.Forms.Label label_NameOtherPlayer;
+        private System.Windows.Forms.Label label_Status_msg;
     }
 }

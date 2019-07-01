@@ -25,9 +25,12 @@ namespace Sudoku_Multiplayer
         Sudoku_Nbrs_Gen generatedGridNbrs = new Sudoku_Nbrs_Gen(false);
         Grid_9x9 visualGrid = new Grid_9x9();
         List<int> nbrsAdmittedStaticList = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+        //for easier and quicker access to the cells
+        List<Sudoku_Label_Nbr> allCellsList;
         Sudoku_Label_Nbr clickedCaseTemp;
         Sudoku_Label_Nbr receivedCase;
         int hiddenCount = 0;
+        bool gameIsOver;
 
         //initialisation of the game window
         public Game_Window(Server setServer, Client setClient, bool setIsHost, int setDifficulty)
@@ -44,13 +47,13 @@ namespace Sudoku_Multiplayer
             else
             {
                 client = setClient;
-                client.infoExchange += client_infoExchange;
+                client.InfoExchange += client_infoExchange;
                 client.ReceiveData();
             }
 
             //visual grid size adjustement to the dedicated panel
             this.panel_SudokuGrid.Controls.Add(visualGrid);
-            visualGrid.changeSize(visualGrid.Parent.Size);
+            visualGrid.ChangeSize(visualGrid.Parent.Size);
             Console.WriteLine("Height and Width of the grid : " + visualGrid.Size.Height.ToString() + " " + visualGrid.Size.Width.ToString());
 
             //difficulty set
@@ -72,6 +75,9 @@ namespace Sudoku_Multiplayer
                     }
                 }
             }
+
+            //to have all cells accessible quickly and easily
+            allCellsList = visualGrid.GetAllChilds();
         }
 
         //onInfoExchange
@@ -177,8 +183,11 @@ namespace Sudoku_Multiplayer
         //event when a case of the grid is clicked
         private void caseIsClicked(object sender, CaseClick e)
         {
-            clickedCaseTemp = (Sudoku_Label_Nbr)sender;
-            Console.WriteLine("Case Clicked is : [ " + clickedCaseTemp.Coordinates[0] + " , " + clickedCaseTemp.Coordinates[1] + " ] and has been put in temporary memory to be re-used easily");
+            if (!gameIsOver)
+            {
+                clickedCaseTemp = (Sudoku_Label_Nbr)sender;
+                Console.WriteLine("Case Clicked is : [ " + clickedCaseTemp.Coordinates[0] + " , " + clickedCaseTemp.Coordinates[1] + " ] and has been put in temporary memory to be re-used easily");
+            }
         }
 
         //Event on Key pressing
@@ -222,7 +231,7 @@ namespace Sudoku_Multiplayer
                                     coordAndNbr[0] = clickedCaseTemp.Coordinates[0];
                                     coordAndNbr[1] = clickedCaseTemp.Coordinates[1];
                                     coordAndNbr[2] = int.Parse(clickedCaseTemp.Text);
-                                    server.ClientList[client].SendData(coordAndNbr, "Case coord and text sent to the client(s).");
+                                    server.ClientList[client].SendData(coordAndNbr);
                                     Console.WriteLine("The case (coord and text) has been sent to the client(s).");
 
                                     //server.ClientList[client].SendData(clickedCaseTemp.Coordinates, "coord");
@@ -238,7 +247,7 @@ namespace Sudoku_Multiplayer
                                 coordAndNbr[0] = clickedCaseTemp.Coordinates[0];
                                 coordAndNbr[1] = clickedCaseTemp.Coordinates[1];
                                 coordAndNbr[2] = int.Parse(clickedCaseTemp.Text);
-                                client.SendData(coordAndNbr, "Case coord and text sent to the server.");
+                                client.SendData(coordAndNbr);
                                 Console.WriteLine("The case (coord and text) has been sent to the server.");
 
                                 //no more used because the 2d pack is not always received
@@ -270,7 +279,7 @@ namespace Sudoku_Multiplayer
             //ARROW KEYS for cool navigation in the grid
             else if (keyData == Keys.Up || keyData == Keys.Down || keyData == Keys.Right || keyData == Keys.Left)
             {
-                if (clickedCaseTemp != null)
+                if (clickedCaseTemp != null && !gameIsOver)
                 {
                     //Determine the movement of clicked case according to the e.KeyData
                     int rowMove = 0;
@@ -290,26 +299,48 @@ namespace Sudoku_Multiplayer
                             colMove = -1;
                             break;
                     }
-                    //Find all adjacent grid and put it in a list
-                    List<Grid_3x3> grid_3x3_list = new List<Grid_3x3>();
-                    grid_3x3_list = clickedCaseTemp.FindAdjacentGrids();
-                    //also don't forget the grid_3x3 of the current clicked case
-                    grid_3x3_list.Add((Grid_3x3)clickedCaseTemp.Parent);
-                    foreach (Grid_3x3 grid_3x3 in grid_3x3_list)
+
+                    //would work if the list was created with line order but it is with by grid3x3 order
+                    //int nbrOfCellInTheList = (clickedCaseTemp.Coordinates[0]+1+rowMove)* (clickedCaseTemp.Coordinates[0]+1 + rowMove)-1;//+1 is to avoid multiply error caused by a position 0
+                    //allCellsList[nbrOfCellInTheList].labelClick(allCellsList[nbrOfCellInTheList], null);
+
+                    //best solution
+                    //coord of new clicked case
+                    int[] newCoord = new int[2];
+                    newCoord[0] = clickedCaseTemp.Coordinates[0] + rowMove;
+                    newCoord[1] = clickedCaseTemp.Coordinates[1] + colMove;
+
+                    for (int i = 0; i < allCellsList.Count; i++)
                     {
-                        foreach (Control labelCase in grid_3x3.Controls)
+                        if (allCellsList[i].Coordinates.SequenceEqual(newCoord))
                         {
-                            if (labelCase is Sudoku_Label_Nbr)
-                            {
-                                if (((Sudoku_Label_Nbr)labelCase).Coordinates[0] == clickedCaseTemp.Coordinates[0] + rowMove && ((Sudoku_Label_Nbr)labelCase).Coordinates[1] == clickedCaseTemp.Coordinates[1] + colMove)
-                                {
-                                    ((Sudoku_Label_Nbr)labelCase).labelClick(labelCase, null);
-                                    //Case handled, return true to say we're done
-                                    return true;
-                                }
-                            }
+                            allCellsList[i].LabelClick(allCellsList[i], null);
+                            //Case handled, return true to say we're done
+                            return true;
                         }
                     }
+
+                    //old solution
+                    ////Find all adjacent grid and put it in a list
+                    //List<Grid_3x3> grid_3x3_list = new List<Grid_3x3>();
+                    //grid_3x3_list = clickedCaseTemp.FindAdjacentGrids();
+                    ////also don't forget the grid_3x3 of the current clicked case
+                    //grid_3x3_list.Add((Grid_3x3)clickedCaseTemp.Parent);
+                    //foreach (Grid_3x3 grid_3x3 in grid_3x3_list)
+                    //{
+                    //    foreach (Control labelCase in grid_3x3.Controls)
+                    //    {
+                    //        if (labelCase is Sudoku_Label_Nbr)
+                    //        {
+                    //            if (((Sudoku_Label_Nbr)labelCase).Coordinates[0] == clickedCaseTemp.Coordinates[0] + rowMove && ((Sudoku_Label_Nbr)labelCase).Coordinates[1] == clickedCaseTemp.Coordinates[1] + colMove)
+                    //            {
+                    //                ((Sudoku_Label_Nbr)labelCase).labelClick(labelCase, null);
+                    //                //Case handled, return true to say we're done
+                    //                return true;
+                    //            }
+                    //        }
+                    //    }
+                    //}
                 }
             }
             //if here, maybe it is a number input, so we're not done
@@ -320,7 +351,7 @@ namespace Sudoku_Multiplayer
         {
             try
             {
-                if (nbrsAdmittedStaticList.Contains(int.Parse(e.KeyChar.ToString())))
+                if (nbrsAdmittedStaticList.Contains(int.Parse(e.KeyChar.ToString())) && !gameIsOver)
                 {
                     labelNbrPreview.Text = e.KeyChar.ToString();
                 }
@@ -354,15 +385,18 @@ namespace Sudoku_Multiplayer
             {
                 labelNbrPreview.ForeColor = Color.LimeGreen;
                 labelNbrPreview.Text = "YOU \nWON !";
-                clickedCaseTemp.noHighlight(false);
+                if (clickedCaseTemp != null)
+                {
+                    clickedCaseTemp.NoHighlight(false);
+                }
                 //unlock new grid editor
                 buttonGenerate.Enabled = true;
                 buttonSaveGrid.Enabled = true;
                 buttonLoadGrid.Enabled = true;
                 buttonFill.Enabled = true;
                 buttonHide.Enabled = true;
-                //disable panel sudoku
-                panel_SudokuGrid.Enabled = false;
+                //to avoid any new highligh
+                gameIsOver = true;
             }
         }
 
@@ -424,8 +458,9 @@ namespace Sudoku_Multiplayer
 
         private void buttonGo_Click(object sender, EventArgs e)
         {
-            //making sure the panel Sudoku is enabled
-            panel_SudokuGrid.Enabled = true;
+            //making sure the game is init
+            gameIsOver = false;
+
             //load a grid
             TextReader tr = new StreamReader("saved_grid.txt");
 
@@ -451,7 +486,7 @@ namespace Sudoku_Multiplayer
             //--send the grid with wholes
             for (int client = 0; client < server.ClientList.Count; client++)
             {
-                server.ClientList[client].SendData(generatedGridNbrs, "generatedGrid");
+                server.ClientList[client].SendData(generatedGridNbrs);
             }
 
             //fill the visual
@@ -467,7 +502,7 @@ namespace Sudoku_Multiplayer
             hiddenCountToSend += this.hiddenCount.ToString();
             for (int client = 0; client < server.ClientList.Count; client++)
             {
-                server.ClientList[client].SendData(hiddenCountToSend, "hiddenCount");
+                server.ClientList[client].SendData(hiddenCountToSend);
             }
 
             //hiddenCount = visualGrid.HideRandom(Difficulty);

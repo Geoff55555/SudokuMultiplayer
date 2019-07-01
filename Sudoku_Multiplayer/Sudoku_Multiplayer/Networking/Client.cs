@@ -13,7 +13,7 @@ namespace Client_Server_SerialComm
     {
         Socket commSocket;
 
-        public event EventHandler<commArgs> infoExchange;
+        public event EventHandler<commArgs> InfoExchange;
         public event EventHandler<commArgs> Connection;
         public bool isConnected = false; //vérifier connection perdue?
         public bool isServer = false;
@@ -114,12 +114,13 @@ namespace Client_Server_SerialComm
                     comm.Reception = true;
                     receivedData.Deserialize();
                     comm.ObjectData = receivedData.Deserialized;
-                    launchWithInvokeCheck(infoExchange, this, comm);
+                    launchWithInvokeCheck(InfoExchange, this, comm);
                     ReceiveData();
                 }
             }
             catch (System.Net.Sockets.SocketException e)
             {
+                Console.WriteLine(e);
                 commArgs connexionLost = new commArgs();
                 connexionLost.Info = "Connexion Lost with the ";
                 if (isServer)
@@ -165,7 +166,7 @@ namespace Client_Server_SerialComm
         //    launchWithInvokeCheck(infoExchange, this, comm);
         //}
 
-        public void SendData(object data, string param)
+        public void SendData(object data)
         {
             if (isConnected)
             {
@@ -186,7 +187,7 @@ namespace Client_Server_SerialComm
             commSocket.EndSend(ar);
             commArgs comm = new commArgs();
             comm.Info = "The object data has been sent";
-            launchWithInvokeCheck(infoExchange, this, comm);
+            launchWithInvokeCheck(InfoExchange, this, comm);
         }
 
         //Making sure everything isn't messed up with asynchrone stuff
@@ -220,7 +221,7 @@ namespace Client_Server_SerialComm
         {
             commArgs comm = new commArgs();
             comm.Info = "Not connected !";
-            launchWithInvokeCheck(infoExchange, this, comm);
+            launchWithInvokeCheck(InfoExchange, this, comm);
         }
     }
 }

@@ -80,10 +80,13 @@
             this.labelNbrPreview.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.labelNbrPreview.AutoSize = true;
             this.labelNbrPreview.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelNbrPreview.Location = new System.Drawing.Point(119, 139);
+            this.labelNbrPreview.Location = new System.Drawing.Point(18, 138);
+            this.labelNbrPreview.MaximumSize = new System.Drawing.Size(227, 32);
+            this.labelNbrPreview.MinimumSize = new System.Drawing.Size(227, 32);
             this.labelNbrPreview.Name = "labelNbrPreview";
-            this.labelNbrPreview.Size = new System.Drawing.Size(0, 32);
+            this.labelNbrPreview.Size = new System.Drawing.Size(227, 32);
             this.labelNbrPreview.TabIndex = 0;
+            this.labelNbrPreview.Text = "Press a number";
             this.labelNbrPreview.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // buttonGenerate
@@ -220,8 +223,7 @@
             // 
             // Game_Window
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(120F, 120F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             this.ClientSize = new System.Drawing.Size(982, 688);
             this.Controls.Add(this.panel_SudokuGrid);

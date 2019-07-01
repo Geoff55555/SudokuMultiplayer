@@ -67,7 +67,7 @@ namespace Client_Server_SerialComm
         {
             Client newClient = new Client(clientSocket); //special constructor for client coming from a server
             //add methods to the new client : the events launched by the clients will all be RE-Launched by the server with its own infoExchange and Connexion events !! --> Invoke-ception 8)
-            newClient.infoExchange += newClient_InfoExchange; //rappel en fr : les events lancés par les clients seront tous récup par le server qui enverra son propre event correspondant
+            newClient.InfoExchange += newClient_InfoExchange; //rappel en fr : les events lancés par les clients seront tous récup par le server qui enverra son propre event correspondant
             newClient.Connection += newClient_Connection; //rappel en fr : les events lancés par les clients seront tous récup par le server qui enverra son propre event correspondant
             ClientList.Add(newClient);
         }

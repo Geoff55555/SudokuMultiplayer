@@ -38,7 +38,7 @@ namespace Sudoku_Multiplayer.Classes
             this.Margin = new Padding(0);
 
             //Set event on click
-            this.Click += new System.EventHandler(this.labelClick);
+            this.Click += new System.EventHandler(this.LabelClick);
         }
 
         //Constructor for notes
@@ -70,7 +70,7 @@ namespace Sudoku_Multiplayer.Classes
         }
 
         //for HIGHLIGHTS
-        public void labelClick(object sender, EventArgs e)
+        public void LabelClick(object sender, EventArgs e)
         {
             if (this.BackColor != Color.DeepSkyBlue)
             {
@@ -81,14 +81,14 @@ namespace Sudoku_Multiplayer.Classes
             c.message = message;
             Console.WriteLine(message);
 
-            noHighlight(true);//before higlighting, reset to no highlight so the past highlight is removed
+            NoHighlight(true);//before higlighting, reset to no highlight so the previous highlight is removed
             highlightThisLabelGrid();
             highlightNextColAndRow();
 
             OnCaseClick(this, c);
         }
 
-        public void noHighlight(bool yes)
+        public void NoHighlight(bool yes)
         {
             foreach (Control grid in this.Parent.Parent.Controls)
             {
@@ -117,8 +117,9 @@ namespace Sudoku_Multiplayer.Classes
 
         private void highlightThisLabelGrid()
         {
-            foreach (Label label in this.Parent.Controls)
+            foreach (Sudoku_Label_Nbr label in this.Parent.Controls)
             {
+                //find cells which have same row but different column OR different row but same column (--> Gets all cells on same row and same column)
                 if ((((int[])label.Tag)[0] == this.Coordinates[0] && ((int[])label.Tag)[1] != this.Coordinates[1]) || (((int[])label.Tag)[0] != this.Coordinates[0] && ((int[])label.Tag)[1] == this.Coordinates[1]))
                 {
                     if (label.BackColor != Color.DeepSkyBlue)
@@ -126,6 +127,7 @@ namespace Sudoku_Multiplayer.Classes
                         label.BackColor = Color.Teal;
                     }
                 }
+                //find the clicked cell
                 else if (((int[])label.Tag)[0] == this.Coordinates[0] && ((int[])label.Tag)[1] == this.Coordinates[1])
                 {
                     if (label.BackColor != Color.DeepSkyBlue)

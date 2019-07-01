@@ -31,6 +31,74 @@ namespace Sudoku_Multiplayer
             comboBox_Difficulty.SelectedIndex = 0;
         }
 
+        //getting my IP address
+        public static string GetLocalIPAddress()
+        {
+            var host = Dns.GetHostEntry(Dns.GetHostName());//has to ask who's the network big host
+            foreach (var ip in host.AddressList) //the pc has multiple ip addresses IPv6 or IPv4 following the focus : local or network stuff
+            {
+                if (ip.AddressFamily == AddressFamily.InterNetwork)
+                {
+                    return ip.ToString();
+                }
+            }
+            throw new Exception("No network adapters with an IPv4 address in the system!");
+        }
+
+        //in case of connection detected
+        private void server_Connection(object sender, commArgs e)
+        {
+            label_Status_CoToClient.ForeColor = Color.Black;
+            label_Status_CoToClient.Text = e.Info;
+            if (radioButtonHost.Checked && server.isConnected)
+            {
+                //When connexion is established with client:
+                panelHost.Enabled = false;
+                panel_Config.Enabled = true;
+                panel_Player.Enabled = true;
+                buttonReady.Enabled = true;
+                isHost = true;
+                //every client is listening when created
+                //for (int client = 0; client < server.ClientList.Count; client++)
+                //{
+                //    server.ClientList[client].ReceiveData();
+                //}
+            }
+            else
+            {
+                panelHost.Enabled = true;
+                panel_Config.Enabled = false;
+                panel_Player.Enabled = false;
+                buttonReady.Enabled = false;
+                isHost = true;
+
+                label_Status_CoToClient.ForeColor = Color.DarkRed;
+            }
+        }
+
+        private void client_Connection(object sender, commArgs e)
+        {
+            label_Status_CoToHost.ForeColor = Color.Black;
+            label_Status_CoToHost.Text = e.Info;
+            if (client.isConnected)
+            {
+                panelClient.Enabled = false;
+                panel_Player.Enabled = true;
+                buttonReady.Text = "En attente de l'hôte";
+                client.ReceiveData();
+            }
+            else
+            {
+                panelClient.Enabled = true;
+                panel_Player.Enabled = false;
+                buttonReady.Enabled = false;
+                label_Status_CoToHost.ForeColor = Color.DarkRed;
+                //connexion lost with server, mandatory to restart
+                radioButtonHost.Checked = true;
+                radioButtonHost_MouseDown(this, null);
+            }
+        }
+
         //selection mode
         private void radioButtonHost_MouseDown(object sender, MouseEventArgs e)
         {
@@ -59,7 +127,7 @@ namespace Sudoku_Multiplayer
             {
                 client = new Client();
                 client.Connection += client_Connection;
-                client.infoExchange += client_infoExchange;
+                client.InfoExchange += client_infoExchange;
             }
         }
 
@@ -120,85 +188,16 @@ namespace Sudoku_Multiplayer
             }
         }
 
-        //getting my IP address
-        public static string GetLocalIPAddress()
-        {
-            var host = Dns.GetHostEntry(Dns.GetHostName());//has to ask who's the network big host
-            foreach (var ip in host.AddressList) //the pc has multiple ip addresses IPv6 or IPv4 following the focus : local or network stuff
-            {
-                if (ip.AddressFamily == AddressFamily.InterNetwork)
-                {
-                    return ip.ToString();
-                }
-            }
-            throw new Exception("No network adapters with an IPv4 address in the system!");
-        }
-
-        //in case of connection detected to the server
-        private void server_Connection(object sender, commArgs e)
-        {
-            label_Status_CoToClient.ForeColor = Color.Black;
-            label_Status_CoToClient.Text = e.Info;
-            if (radioButtonHost.Checked && server.isConnected)
-            {
-                //When connexion is established with client:
-                panelHost.Enabled = false;
-                panel_Config.Enabled = true;
-                panel_Player.Enabled = true;
-                buttonReady.Enabled = true;
-                isHost = true;
-                //every client is listening when created
-                //for (int client = 0; client < server.ClientList.Count; client++)
-                //{
-                //    server.ClientList[client].ReceiveData();
-                //}
-            }
-            else
-            {
-                panelHost.Enabled = true;
-                panel_Config.Enabled = false;
-                panel_Player.Enabled = false;
-                buttonReady.Enabled = false;
-                isHost = true;
-
-                label_Status_CoToClient.ForeColor = Color.DarkRed;
-            }
-        }
-
-        //in case of connection from client to server
-        private void client_Connection(object sender, commArgs e)
-        {
-            label_Status_CoToHost.ForeColor = Color.Black;
-            label_Status_CoToHost.Text = e.Info;
-            if (client.isConnected)
-            {
-                panelClient.Enabled = false;
-                panel_Player.Enabled = true;
-                buttonReady.Text = "En attente de l'hôte";
-                client.ReceiveData();
-            }
-            else
-            {
-                panelClient.Enabled = true;
-                panel_Player.Enabled = false;
-                buttonReady.Enabled = false;
-                label_Status_CoToHost.ForeColor = Color.DarkRed;
-                //connexion lost with server, mandatory to restart
-                radioButtonHost.Checked = true;
-                radioButtonHost_MouseDown(this, null);
-            }
-        }
-
         //managing communication
         private void messageCommunication(commArgs e)
         {
-            if (((string)e.ObjectData).Split(',')[0] == "name")
+            if (((string)e.ObjectData).Split('§')[0] == "name")
             {
-                label_NameOtherPlayer.Text = ((string)e.ObjectData).Split(',')[1];
+                label_NameOtherPlayer.Text = ((string)e.ObjectData).Split('§')[1];
             }
-            else if (((string)e.ObjectData).Split(',')[0] == "msg")
+            else if (((string)e.ObjectData).Split('§')[0] == "msg")
             {
-                label_MsgReceived.Text = ((string)e.ObjectData).Split(',')[1];
+                label_MsgReceived.Text = ((string)e.ObjectData).Split('§')[1];
             }
         }
 
@@ -216,7 +215,7 @@ namespace Sudoku_Multiplayer
             {
                 client = new Client();
                 client.Connection += client_Connection;
-                client.infoExchange += client_infoExchange;
+                client.InfoExchange += client_infoExchange;
             }
         }
 
@@ -267,19 +266,19 @@ namespace Sudoku_Multiplayer
         {
             if (e.KeyData == Keys.Enter)
             {
-                string msgToSend = "name,";
+                string msgToSend = "name§";
                 msgToSend += textBox_NamePlayer.Text;
                 if (isHost)
                 {
                     //send to every clients
                     for (int client = 0; client < server.ClientList.Count; client++)
                     {
-                        server.ClientList[client].SendData(msgToSend, "name");
+                        server.ClientList[client].SendData(msgToSend);
                     }
                 }
                 else
                 {
-                    client.SendData(msgToSend, "name");
+                    client.SendData(msgToSend);
                 }
             }
         }
@@ -288,18 +287,20 @@ namespace Sudoku_Multiplayer
         {
             if (e.KeyData == Keys.Enter)
             {
-                string msgToSend = "msg,";
+                string msgToSend = "msg§";
                 msgToSend += textBox_Msg.Text;
                 if (isHost)
                 {
                     for (int client = 0; client < server.ClientList.Count; client++)
                     {
-                        server.ClientList[client].SendData(msgToSend, "msg");
+                        server.ClientList[client].SendData(msgToSend);
+                        label_Status_msg.ForeColor = Color.LightGreen;
+                        label_Status_msg.Text = "Message envoyé à " + label_NameOtherPlayer + " ! ";
                     }
                 }
                 else
                 {
-                    client.SendData(msgToSend, "msg");
+                    client.SendData(msgToSend);
                 }
             }
         }
@@ -311,7 +312,7 @@ namespace Sudoku_Multiplayer
             {
                 for (int client = 0; client < server.ClientList.Count; client++)
                 {
-                    server.ClientList[client].SendData("LaunchGame,", "LaunchGame");
+                    server.ClientList[client].SendData("LaunchGame,");
                 }
             }
             this.Hide();
@@ -328,7 +329,7 @@ namespace Sudoku_Multiplayer
                 infoToSend += comboBox_Difficulty.SelectedIndex.ToString();
                 for (int client = 0; client < server.ClientList.Count; client++)
                 {
-                    server.ClientList[client].SendData(infoToSend, "Difficulty");
+                    server.ClientList[client].SendData(infoToSend);
                 }
             }
         }
@@ -341,7 +342,7 @@ namespace Sudoku_Multiplayer
                 infoToSend += comboBox_GameMode.SelectedIndex.ToString();
                 for (int client = 0; client < server.ClientList.Count; client++)
                 {
-                    server.ClientList[client].SendData(infoToSend, "GameMode");
+                    server.ClientList[client].SendData(infoToSend);
                 }
             }
         }
