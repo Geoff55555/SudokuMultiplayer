@@ -390,73 +390,116 @@ namespace Sudoku_Multiplayer
                     clickedCaseTemp.NoHighlight(false);
                 }
                 //unlock new grid editor
-                buttonGenerate.Enabled = true;
-                buttonSaveGrid.Enabled = true;
-                buttonLoadGrid.Enabled = true;
-                buttonFill.Enabled = true;
-                buttonHide.Enabled = true;
+                panel_NewGameEditor.Enabled = true;
                 //to avoid any new highligh
                 gameIsOver = true;
             }
         }
 
         //Buttons
-        private void buttonFill_Click(object sender, EventArgs e)
+
+        //loaded party
+        private void buttonLoadFullGrid_AndHideNbrs_Click(object sender, EventArgs e)
         {
-            visualGrid.Fill(generatedGridNbrs);
+            //open dialog to chose the file of sudoku grid
+            OpenFileDialog windowToLoadFile = new OpenFileDialog();
+            windowToLoadFile.Filter = "Text files (*.txt)|*.txt";
+
+            if (windowToLoadFile.ShowDialog() == DialogResult.OK)
+            {
+                TextReader tr = new StreamReader(windowToLoadFile.FileName);
+
+                Console.WriteLine("Grid file is beeing loaded : ");
+                //read line of the file
+                for (int row = 0; row < 9; row++)
+                {
+                    for (int col = 0; col < 9; col++)
+                    {
+                        generatedGridNbrs.fullGrid[row, col] = int.Parse(tr.ReadLine());
+                        //display it to check
+                        Console.Write(generatedGridNbrs.fullGrid[row, col].ToString());
+                    }
+                    //new line in console
+                    Console.Write("\n");
+                }
+                //close the stream
+                tr.Close();
+            }
         }
 
-        private void buttonHide_Click(object sender, EventArgs e)
+        private void buttonSaveGrid_Click(object sender, EventArgs e)
         {
-            hiddenCount = visualGrid.HideRandom(Difficulty);
+            //open the dialog to save the file if necesseray
+            SaveFileDialog windowToSaveFile = new SaveFileDialog();
+            windowToSaveFile.Filter = "Text files (*.txt)|*.txt";
+
+            if (windowToSaveFile.ShowDialog() == DialogResult.OK)
+            {
+                TextWriter tw = new StreamWriter(windowToSaveFile.FileName);
+
+                Console.WriteLine("Grid file is beeing saved : ");
+                //write of text to the file
+                for (int row = 0; row < 9; row++)
+                {
+                    for (int col = 0; col < 9; col++)
+                    {
+                        tw.WriteLine(generatedGridNbrs.fullGrid[row, col]);
+                        Console.Write(generatedGridNbrs.fullGrid[row, col]);
+                    }
+                    Console.Write("\n");
+                }
+
+                //close the stream
+                tw.Close();
+            }
         }
 
-        private void buttonGenerate_Click(object sender, EventArgs e)
+        //rdm party
+        private void buttonGenerateRdm_Click(object sender, EventArgs e)
         {
             generatedGridNbrs = new Sudoku_Nbrs_Gen(true);
             generatedGridNbrs.ShowInConsole();
         }
 
-        private void buttonSaveGrid_Click(object sender, EventArgs e)
+        private void buttonFillAndHideRdm_Click(object sender, EventArgs e)
         {
-            TextWriter tw = new StreamWriter("saved_grid.txt");
-
-            //write of text to the file
-            for (int row = 0; row < 9; row++)
-            {
-                for (int col = 0; col < 9; col++)
-                {
-                    tw.WriteLine(generatedGridNbrs.fullGrid[row, col]);
-                }
-            }
-
-            //close the stream
-            tw.Close();
+            visualGrid.Fill(generatedGridNbrs);
+            hiddenCount = visualGrid.HideRandom(Difficulty);
         }
 
-        private void buttonLoadGrid_Click(object sender, EventArgs e)
+        //load party
+        private void radioButton_LoadParty_CheckedChanged(object sender, EventArgs e)
         {
-            TextReader tr = new StreamReader("saved_grid.txt");
-
-            //read line of the file
-            for (int row = 0; row < 9; row++)
-            {
-                for (int col = 0; col < 9; col++)
-                {
-                    generatedGridNbrs.fullGrid[row, col] = int.Parse(tr.ReadLine());
-                }
-            }
-
-            //close the stream
-            tr.Close();
+            panel_RdmParty.Enabled = false;
+            panel_LoadParty.Enabled = true;
         }
 
-        private void NeverFocusButton(object sender, EventArgs e)
+        private void radioButton_RdmParty_CheckedChanged(object sender, EventArgs e)
         {
-            visualGrid.Focus();
+            panel_RdmParty.Enabled = true;
+            panel_LoadParty.Enabled = false;
+        }
+        
+        //still to do
+        private void button_LoadNbrsToKeep_Click(object sender, EventArgs e)
+        {
+
         }
 
+        //-----------------------------------
+        //visual grid
+        private void buttonFill_Click(object sender, EventArgs e)
+        {
+            visualGrid.Fill(generatedGridNbrs);
+        }
+
+        //launch the game -- debug
         private void buttonGo_Click(object sender, EventArgs e)
+        {
+            launchTheGame_Debug();
+        }
+
+        private void launchTheGame_Debug()
         {
             //making sure the game is init
             gameIsOver = false;
@@ -520,5 +563,12 @@ namespace Sudoku_Multiplayer
             //casesToHide[8] = new int[] { 2, 3, 4 };
             //hiddenCount = visualGrid.KeepDetermined(casesToHide);
         }
+
+        //for pratical use
+        private void NeverFocusButton(object sender, EventArgs e)
+        {
+            visualGrid.Focus();
+        }
+
     }
 }
